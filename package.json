@@ -58,7 +58,7 @@
       }
     },
     "start:dev": {
-      "command": "node server/server.ts",
+      "command": "node server/server.ts & node server/app.js",
       "env": {
         "NODE_ENV": "development",
         "DEBUG": "app:*"
@@ -172,6 +172,7 @@
     "babel-polyfill": "^6.26.0",
     "browser-sync": "^2.26.3",
     "browser-sync-webpack-plugin": "^2.2.2",
+    "chance": "^1.0.18",
     "clean-webpack-plugin": "^1.0.0",
     "connect-history-api-fallback": "^1.5.0",
     "connected-react-router": "^6.3.2",
