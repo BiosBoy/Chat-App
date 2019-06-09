@@ -56,6 +56,7 @@
   box-shadow: 0 3px 8px #776262;
   outline: none;
   padding: 10px;
+  font-size: 12px;
 }
 
 #new-message::before {
@@ -154,7 +155,7 @@
   border: 2px solid white;
   border-radius: 5px;
   text-align: center;
-  padding: 10px 0 7px 0;
+  padding: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -168,9 +169,32 @@
   margin-left: 8px;
 }
 
-.messageTimestamp {
+.messageTopSection {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: row;
+  max-width: 250px;
   color: #fff;
-  font-size: 11px;
+}
+
+.messageBottomSection {
+  max-width: inherit;
+  padding-top: 5px;
+}
+
+.messageTimestamp {
+  font-size: 12px;
+}
+
+.authorName {
+  font: inherit;
+  font-weight: bold;
+  padding-right: 10px;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .textWrap {

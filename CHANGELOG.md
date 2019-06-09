@@ -1,6 +1,10 @@
 ## Chat-App
 
 
+# 2.6.0
+ * Added real users icons.
+ * Minor refoctoring.
+
 # 2.5.0
  * Added real message timestampes.
  * Improved actions structure.

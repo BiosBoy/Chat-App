@@ -10,8 +10,6 @@ function sendMessage(params) {
       author: username
     };
 
-    console.log(params, action, actionPayloadToServer);
-
     socket.send(JSON.stringify(actionPayloadToServer));
   };
 }

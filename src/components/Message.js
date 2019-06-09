@@ -14,10 +14,17 @@ const Message = props => {
 
   return (
     <div className='messageWrap'>
-      <span className='authorWrap'>{author}</span>
+      <span className='authorWrap'>
+        <svg width='100%' height='100%' data-jdenticon-value={author} />
+      </span>
       <div className='messageContainer'>
-        <span className='messageTimestamp'>{getTimestamp()}</span>
-        <span className='textWrap'>{message}</span>
+        <div className='messageTopSection'>
+          <span className='authorName'>{author}</span>
+          <span className='messageTimestamp'>{getTimestamp()}</span>
+        </div>
+        <div className='messageBottomSection'>
+          <span className='textWrap'>{message}</span>
+        </div>
       </div>
     </div>
   );
