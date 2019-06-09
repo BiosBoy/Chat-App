@@ -4,12 +4,13 @@ import reducers from '../reducers';
 import setupSocket from '../sockets';
 import handleNewMessage from '../sagas';
 import username from '../utils/name';
+import logger from '../utils/logger';
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   reducers,
-  applyMiddleware(sagaMiddleware)
+  applyMiddleware(sagaMiddleware, logger)
 );
 
 const socket = setupSocket(store.dispatch, username);

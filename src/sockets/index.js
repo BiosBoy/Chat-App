@@ -1,5 +1,5 @@
-import { ADD_USER, ADD_MESSAGE, USERS_LIST } from '../constants/actionsTypes';
-import { addUser, messageReceived, populateUsersList } from '../actions';
+import { ADD_USER, INITIAL_DATA, ADD_MESSAGE, USERS_LIST } from '../constants/actionsTypes';
+import { initialLoad, populateUsersList, messageReceived } from '../actions';
 
 const setupSocket = (dispatch, username) => {
   const socket = new WebSocket('ws://localhost:8989');
@@ -17,11 +17,12 @@ const setupSocket = (dispatch, username) => {
     const data = JSON.parse(event.data);
 
     switch (data.type) {
-      case ADD_USER:
-        dispatch(addUser(data.name));
+      case INITIAL_DATA:
+        dispatch(initialLoad(data));
         break;
       case ADD_MESSAGE:
-        dispatch(messageReceived(data.message, data.author));
+        delete data.type;
+        dispatch(messageReceived(data));
         break;
       case USERS_LIST:
         dispatch(populateUsersList(data.users));

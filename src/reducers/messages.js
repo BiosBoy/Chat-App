@@ -1,15 +1,26 @@
-import { ADD_MESSAGE, MESSAGE_RECEIVED } from '../constants/actionsTypes';
+import { ADD_MESSAGE, INITIAL_DATA, MESSAGE_RECEIVED } from '../constants/actionsTypes';
 
 const messages = (state = [], action) => {
   switch (action.type) {
+    case INITIAL_DATA:
+      return [
+        ...state,
+        ...action.messages
+      ];
     case ADD_MESSAGE:
-    case MESSAGE_RECEIVED:
       return [
         ...state,
         {
           message: action.message,
           author: action.author,
-          id: action.id
+          uuid: action.uuid
+        }
+      ];
+    case MESSAGE_RECEIVED:
+      return [
+        ...state,
+        {
+          ...action.message
         }
       ];
     default:
