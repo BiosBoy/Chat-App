@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 2.6.1
+ * Improved adaptive layout.
+
 # 2.6.0
  * Added real users icons.
  * Minor refoctoring.
