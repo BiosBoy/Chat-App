@@ -9,7 +9,8 @@ const mapDispatchToState = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  dispatchMessage: (message, uuid, uuidAuthor, author) => dispatch(addMessage(message, uuid, uuidAuthor, author))
+  // eslint-disable-next-line max-len
+  dispatchMessage: (message, uuid, uuidAuthor, author, timestamp) => dispatch(addMessage(message, uuid, uuidAuthor, author, timestamp))
 });
 
 export default connect(

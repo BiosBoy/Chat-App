@@ -1,6 +1,10 @@
 ## Chat-App
 
 
+# 2.5.0
+ * Added real message timestampes.
+ * Improved actions structure.
+
 # 2.4.0
  * Added explicit appear for current user.
 

@@ -20,12 +20,18 @@ class AddMessage extends React.PureComponent {
     };
   }
 
+  _getMessageTimestamp = () => {
+    const timestamp = Date.now();
+
+    return timestamp;
+  }
+
   _onKeyPressHandler = e => {
     const { value } = this.state;
     const { currentUser: { name, uuid: uuidAuthor }, dispatchMessage } = this.props;
 
     if (e.key === 'Enter') {
-      dispatchMessage(value, generateUUID(), uuidAuthor, name);
+      dispatchMessage(value, generateUUID(), uuidAuthor, name, this._getMessageTimestamp());
 
       this.setState({
         value: ''

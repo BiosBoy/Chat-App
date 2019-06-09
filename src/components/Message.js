@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Message = ({ message, author, timestamp }) => {
+const Message = props => {
+  const { message, author, timestamp } = props;
+
   const getTimestamp = () => {
-    const date = new Date();
+    const date = new Date(timestamp);
     const hours = date.getHours();
     const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
 
@@ -14,7 +16,7 @@ const Message = ({ message, author, timestamp }) => {
     <div className='messageWrap'>
       <span className='authorWrap'>{author}</span>
       <div className='messageContainer'>
-        <span className='messageTimestamp'>{timestamp || getTimestamp()}</span>
+        <span className='messageTimestamp'>{getTimestamp()}</span>
         <span className='textWrap'>{message}</span>
       </div>
     </div>
@@ -24,7 +26,7 @@ const Message = ({ message, author, timestamp }) => {
 Message.propTypes = {
   message: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
-  timestamp: PropTypes.string
+  timestamp: PropTypes.number.isRequired
 };
 
 export default Message;

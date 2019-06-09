@@ -93,13 +93,14 @@ const eventsHanlders = {
     debug('New user is just connected:', newUser);
   },
   [ADD_MESSAGE]: (payload, ws, userConnectionID) => {
-    const { message = '', uuid = null, author = '' } = payload;
+    const { message = '', timestamp = null, uuid = null, author = '' } = payload;
     const { updatedSubscribersMessageList } = broadcastNotificationHandlers;
     const { addNewMessageToStore } = storeTools;
 
     const newMessage = {
       message,
       uuid,
+      timestamp,
       uuidAuthor: userConnectionID,
       author
     };
