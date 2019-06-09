@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import SidebarComponent from '../components/Sidebar';
+import UsersListComponent from '../components/UsersList';
 
 const mapDispatchToState = state => ({
   users: state.users
@@ -8,4 +8,4 @@ const mapDispatchToState = state => ({
 export default connect(
   mapDispatchToState,
   null
-)(SidebarComponent);
+)(UsersListComponent);

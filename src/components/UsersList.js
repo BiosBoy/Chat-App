@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Sidebar = props => {
-  console.log(props);
+const UsersList = props => {
   const { users = [] } = props;
 
-  const getUsers = () => users.map((user, index) => <li key={user.id + index}>{user.name}</li>);
+  const getUsers = () => users.map(user => <li key={user.uuid}>{user.name}</li>);
 
   return (
     <aside i='sidebar' className='sidebar'>
@@ -15,13 +14,13 @@ const Sidebar = props => {
   );
 };
 
-Sidebar.propTypes = {
+UsersList.propTypes = {
   users: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      uuid: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired
     }).isRequired
   ).isRequired
 };
 
-export default Sidebar;
+export default UsersList;

@@ -1,6 +1,10 @@
 ## Chat-App
 
 
+# 2.2.0
+ * Added current users data on messega sending.
+ * Minor refactoring of Sidebar(UsersList).
+
 # 2.1.0
  * Added real ID's codes for messages and users present inside chat.
  * Improved reducers and store configs for better payload handling.
