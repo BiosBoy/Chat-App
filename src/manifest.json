@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Chat App",
+  "name": "Chat App by Sviatoslav Kuzhelev svyat770@gmail.com",
   "icons": [
     {
       "src": "favicon.ico",
