@@ -22,10 +22,10 @@ class AddMessage extends React.PureComponent {
 
   _onKeyPressHandler = e => {
     const { value } = this.state;
-    const { currentUser: { name }, dispatchMessage } = this.props;
+    const { currentUser: { name, uuid: uuidAuthor }, dispatchMessage } = this.props;
 
     if (e.key === 'Enter') {
-      dispatchMessage(value, generateUUID(), name);
+      dispatchMessage(value, generateUUID(), uuidAuthor, name);
 
       this.setState({
         value: ''

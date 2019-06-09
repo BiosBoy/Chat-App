@@ -6,10 +6,11 @@ export const initialLoad = ({ users, messages }) => ({
   messages
 });
 
-export const addMessage = (message, uuid, author) => ({
+export const addMessage = (message, uuid, uuidAuthor, author) => ({
   type: ADD_MESSAGE,
   uuid,
   message,
+  uuidAuthor,
   author
 });
 

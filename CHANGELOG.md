@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 2.4.0
+ * Added explicit appear for current user.
+
 # 2.3.1
  * Updated actions for a better stability and message list handling.
  * Fixed timestamp for Message component.

@@ -9,7 +9,7 @@ const mapDispatchToState = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  dispatchMessage: (message, uuid, author) => dispatch(addMessage(message, uuid, author))
+  dispatchMessage: (message, uuid, uuidAuthor, author) => dispatch(addMessage(message, uuid, uuidAuthor, author))
 });
 
 export default connect(

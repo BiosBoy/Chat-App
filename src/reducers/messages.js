@@ -13,7 +13,8 @@ const messages = (state = [], action) => {
         {
           message: action.message,
           author: action.author,
-          uuid: action.uuid
+          uuid: action.uuid,
+          uuidAuthor: action.uuidAuthor
         }
       ];
     case MESSAGE_RECEIVED:
