@@ -1,24 +1,26 @@
-import { ADD_MESSAGE, ADD_USER, MESSAGE_RECEIVED, USERS_LIST } from '../constants/actionsTypes';
+import { ADD_MESSAGE, INITIAL_DATA, ADD_USER, USERS_LIST, MESSAGE_RECEIVED } from '../constants/actionsTypes';
 
-const nextMessageId = 0;
-const nextUserId = 0;
+export const initialLoad = ({ users, messages }) => ({
+  type: INITIAL_DATA,
+  users,
+  messages
+});
 
-export const addMessage = (message, author) => ({
+export const addMessage = (message, uuid, author) => ({
   type: ADD_MESSAGE,
-  id: nextMessageId + 1,
+  uuid,
   message,
   author
 });
 
 export const addUser = name => ({
   type: ADD_USER,
-  id: nextUserId + 1,
   name
 });
 
-export const messageReceived = (message, author) => ({
+export const messageReceived = (message, uuid, author) => ({
   type: MESSAGE_RECEIVED,
-  id: nextMessageId + 1,
+  uuid,
   message,
   author
 });

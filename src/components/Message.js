@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 const Message = ({ message, author, timestamp }) => {
   const getTimestamp = () => {
     const date = new Date();
+    const hours = date.getHours();
+    const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
 
-    return `${date.getHours()}:${date.getMinutes()}`;
+    return `${hours}:${minutes}`;
   };
 
   return (

@@ -1,8 +1,13 @@
 ## Chat-App
 
 
+# 2.3.1
+ * Updated actions for a better stability and message list handling.
+ * Fixed timestamp for Message component.
+ * Minor improvements.
+
 # 2.2.0
- * Added current users data on messega sending.
+ * Added current users data on message sending.
  * Minor refactoring of Sidebar(UsersList).
 
 # 2.1.0

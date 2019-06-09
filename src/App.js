@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import './App.css';
-import Sidebar from './containers/Sidebar';
+import UsersList from './containers/UsersList';
 import MessagesList from './containers/MessagesList';
 import AddMessage from './containers/AddMessage';
 
@@ -10,7 +10,7 @@ class App extends PureComponent {
       <div className='mainWrap'>
         <div className='appTitle'>Real-Time Chat App v.0.0.1</div>
         <div id='container'>
-          <Sidebar />
+          <UsersList />
           <section id='main'>
             <MessagesList />
             <AddMessage />

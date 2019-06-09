@@ -1,9 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import generateUUID from '../utils/uuid';
+
 class AddMessage extends React.PureComponent {
   static propTypes = {
-    dispatchMessage: PropTypes.func.isRequired
+    dispatchMessage: PropTypes.func.isRequired,
+    currentUser: PropTypes.shape({
+      uuid: PropTypes.number,
+      name: PropTypes.string
+    }).isRequired
   }
 
   constructor(props) {
@@ -16,10 +22,10 @@ class AddMessage extends React.PureComponent {
 
   _onKeyPressHandler = e => {
     const { value } = this.state;
-    const { dispatchMessage } = this.props;
+    const { currentUser: { name }, dispatchMessage } = this.props;
 
     if (e.key === 'Enter') {
-      dispatchMessage(value, 'Me');
+      dispatchMessage(value, generateUUID(), name);
 
       this.setState({
         value: ''

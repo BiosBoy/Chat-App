@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import Message from './Message';
 
 const MessagesList = props => {
-  console.log(props, 'props');
   const { messages } = props;
 
-  const getMessages = () => messages.map(message => <Message key={message.id} {...message} />);
+  const getMessages = () => messages.map(message => <Message key={message.uuid} {...message} />);
 
   return (
     <section id='message-list'>
@@ -19,7 +18,7 @@ const MessagesList = props => {
 MessagesList.propTypes = {
   messages: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      uuid: PropTypes.number.isRequired,
       message: PropTypes.string.isRequired,
       author: PropTypes.string.isRequired
     }).isRequired
