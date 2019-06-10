@@ -167,6 +167,9 @@ wss.on('connection', ws => {
   });
 
   ws.on('error', event => {
-    debug('Some error is happen:', event);
+    // user is just disconected from its side.
+    if (event.code === 'ECONNRESET') return;
+
+    debug('Some error is happen:', event, 'Error Code: ', event.code);
   });
 });
