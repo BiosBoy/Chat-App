@@ -20,11 +20,11 @@ const storeTools = {
   addNewUserToStore: newUser => {
     users.push(newUser);
   },
-  deleteDisconnectedUser: userConnectionID => {
-    users.splice(0, users.length, ...users.filter(user => user.uuid !== userConnectionID));
-  },
   addNewMessageToStore: newMessage => {
     messages.push(newMessage);
+  },
+  deleteDisconnectedUser: userConnectionID => {
+    users.splice(0, users.length, ...users.filter(user => user.uuid !== userConnectionID));
   }
 };
 
@@ -95,11 +95,13 @@ const eventsHanlders = {
     };
 
     addNewUserToStore(newUser);
+    updatedSubscribersUserList(users, ws);
+
     addNewMessageToStore(newMessage);
+    updatedSubscribersMessageList(newMessage, ws);
+
     subscribeNewUser(users, ws);
 
-    updatedSubscribersUserList(users, ws);
-    updatedSubscribersMessageList(newMessage, ws);
     debug('New user is just connected:', newUser);
   },
   [ADD_MESSAGE]: (payload, ws, userConnectionID) => {
@@ -118,15 +120,29 @@ const eventsHanlders = {
 
     addNewMessageToStore(newMessage);
     updatedSubscribersMessageList(newMessage, ws);
+
     debug('New message is written:', newMessage, messages);
   },
   [REMOVE_USER]: (ws, userConnectionID) => {
-    const { updatedSubscribersUserList } = broadcastNotificationHandlers;
-    const { deleteDisconnectedUser } = storeTools;
+    const { updatedSubscribersUserList, updatedSubscribersMessageList } = broadcastNotificationHandlers;
+    const { deleteDisconnectedUser, addNewMessageToStore } = storeTools;
+
+    const leavedUser = users.find(user => user.uuid === userConnectionID);
+
+    const newMessage = {
+      layout: 'newUser',
+      message: `${leavedUser.name} was leave the chat!`,
+      uuid: generateUUID(),
+      timestamp: Date.now()
+    };
 
     deleteDisconnectedUser(userConnectionID);
     updatedSubscribersUserList(users, ws);
-    debug('Some user leave:', users.find(user => user.uuid === userConnectionID));
+
+    addNewMessageToStore(newMessage);
+    updatedSubscribersMessageList(newMessage, ws);
+
+    debug('Some user is leave the chat:', leavedUser);
   }
 };
 
@@ -148,5 +164,9 @@ wss.on('connection', ws => {
     const notifySubscribersOnLeave = eventsHanlders[REMOVE_USER];
 
     notifySubscribersOnLeave(ws, userConnectionID);
+  });
+
+  ws.on('error', event => {
+    debug('Some error is happen:', event);
   });
 });

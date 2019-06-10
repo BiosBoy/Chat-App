@@ -1,6 +1,10 @@
 ## Chat-App
 
 
+# 2.9.1
+ * Added Websockets notification once some user is leave the chat.
+ * Minor style improvements.
+
 # 2.8.0
  * Added timestampes for messages.
  * Added avatars for users in UsersList Component.

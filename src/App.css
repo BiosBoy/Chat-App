@@ -170,10 +170,6 @@
   margin: 10px 0;
 }
 
-.sidebarAuthorName {
-  font-size: 14px;
-}
-
 .authorWrap {
   width: 40px;
   height: 40px;
@@ -228,6 +224,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.sidebarAuthorName {
+  font-size: 14px;
 }
 
 .textWrap {
