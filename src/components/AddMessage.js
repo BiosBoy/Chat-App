@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import generateUUID from '../utils/uuid';
 
+const MESSAGE_TYPE = 'message';
+
 class AddMessage extends React.PureComponent {
   static propTypes = {
     dispatchMessage: PropTypes.func.isRequired,
@@ -31,7 +33,7 @@ class AddMessage extends React.PureComponent {
     const { currentUser: { name, uuid: uuidAuthor }, dispatchMessage } = this.props;
 
     if (e.key === 'Enter') {
-      dispatchMessage(value, generateUUID(), uuidAuthor, name, this._getMessageTimestamp());
+      dispatchMessage(MESSAGE_TYPE, value, generateUUID(), uuidAuthor, name, this._getMessageTimestamp());
 
       this.setState({
         value: ''

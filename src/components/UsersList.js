@@ -9,7 +9,12 @@ const UsersList = props => {
       const isCurrentUser = currentUser.uuid === user.uuid;
 
       return (
-        <li key={user.uuid}>{isCurrentUser ? `${user.name} (you)` : user.name}</li>
+        <div key={user.uuid} className='authorContainer'>
+          <span className='authorAvatar authorWrap'>
+            <svg width='100%' height='100%' data-jdenticon-value={user.name} />
+          </span>
+          <span className='authorName sidebarAuthorName'>{isCurrentUser ? `${user.name} (you)` : user.name}</span>
+        </div>
       );
     });
   };
@@ -17,7 +22,8 @@ const UsersList = props => {
   return (
     <aside i='sidebar' className='sidebar'>
       <span className='sectionTitle usersTitle'>Users Online</span>
-      <ul className='usersList'>{getUsers()}</ul>
+      <div className='usersList'>{getUsers()}</div>
+      <hr className='boxShadowBefore' />
     </aside>
   );
 };

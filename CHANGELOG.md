@@ -1,6 +1,10 @@
 ## Chat-App
 
 
+# 2.8.0
+ * Added timestampes for messages.
+ * Added avatars for users in UsersList Component.
+
 # 2.7.0
  * Added ability to inform users while someone new is connected.
 
