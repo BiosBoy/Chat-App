@@ -11,6 +11,7 @@ const messages = (state = [], action) => {
       return [
         ...state,
         {
+          layout: action.messageType,
           message: action.message,
           author: action.author,
           timestamp: action.timestamp,

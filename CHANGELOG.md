@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 2.7.0
+ * Added ability to inform users while someone new is connected.
+
 # 2.6.1
  * Improved adaptive layout.
 

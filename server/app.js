@@ -78,26 +78,37 @@ const webSocketEventsHandlers = {
 const eventsHanlders = {
   [ADD_USER]: (payload, ws, userConnectionID) => {
     const { name = '' } = payload;
-    const { updatedSubscribersUserList } = broadcastNotificationHandlers;
+    const { updatedSubscribersUserList, updatedSubscribersMessageList } = broadcastNotificationHandlers;
     const { subscribeNewUser } = webSocketEventsHandlers;
-    const { addNewUserToStore } = storeTools;
+    const { addNewUserToStore, addNewMessageToStore } = storeTools;
 
     const newUser = {
       name,
       uuid: userConnectionID
     };
 
+    const newMessage = {
+      layout: 'newUser',
+      message: `${name} is just connected to the chat!`,
+      uuid: generateUUID(),
+      timestamp: Date.now()
+    };
+
     addNewUserToStore(newUser);
+    addNewMessageToStore(newMessage);
     subscribeNewUser(users, ws);
+
     updatedSubscribersUserList(users, ws);
+    updatedSubscribersMessageList(newMessage, ws);
     debug('New user is just connected:', newUser);
   },
   [ADD_MESSAGE]: (payload, ws, userConnectionID) => {
-    const { message = '', timestamp = null, uuid = null, author = '' } = payload;
+    const { layout = 'message', message = '', timestamp = null, uuid = null, author = '' } = payload;
     const { updatedSubscribersMessageList } = broadcastNotificationHandlers;
     const { addNewMessageToStore } = storeTools;
 
     const newMessage = {
+      layout,
       message,
       uuid,
       timestamp,

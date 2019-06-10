@@ -58,6 +58,7 @@
   box-shadow: 0 3px 8px #776262;
   outline: none;
   padding: 10px;
+  margin: 0 7px;
   font-size: 12px;
 }
 
@@ -77,6 +78,7 @@
   display: block;
   max-height: 517px;
   padding: 10px;
+  position: relative;
 }
 
 .sidebar {
@@ -96,6 +98,7 @@
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   box-shadow: inset 0 0 16px #696464a3;
+  position: relative;
 }
 
 .sectionTitle {
@@ -104,7 +107,6 @@
   height: auto;
   display: block;
   padding: 10px;
-  box-shadow: 0 10px 5px -8px #7d7b7b;
 }
 
 .chatTitle {
@@ -130,16 +132,17 @@
   white-space: nowrap;
   overflow: hidden;
   user-select: none;
+  padding: 4px 0;
 }
 
 .messagesList {
-  height: calc(100% - 23px);
+  height: calc(100% - 18px);
   width: 100%;
-  padding-left: 10px;
+  padding: 0 10px;
   overflow: hidden;
-  max-height: 455px;
-  margin-top: 5px;
+  max-height: 480px;
   overflow-y: scroll;
+  position: relative;
 }
 
 .messageWrap {
@@ -149,6 +152,26 @@
   align-items: center;
   justify-content: flex-start;
   flex-direction: row;
+}
+
+.message:first-child {
+  margin-top: 10px;
+}
+
+.message:last-child {
+  margin-bottom: 10px;
+}
+
+.authorContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  margin: 10px 0;
+}
+
+.sidebarAuthorName {
+  font-size: 14px;
 }
 
 .authorWrap {
@@ -162,6 +185,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  background: #fff;
+}
+
+.authorAvatar {
+  width: 25px;
+  height: 25px;
+  margin-right: 8px;
 }
 
 .messageContainer {
@@ -204,4 +234,56 @@
   color: #5a5454;
   padding-top: 5px;
   font-size: 14px;
+}
+
+.newUserConnectedWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #fff;
+  font-size: 12px;
+  padding: 10px 0;
+}
+
+.newUserConnectedMessage {
+  position: relative;
+}
+
+.newUserConnectedMessage::before,
+.newUserConnectedMessage::after {
+  content: "";
+  width: 5vw;
+  height: 4px;
+  background: linear-gradient(90deg, transparent 0, #11111159);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.newUserConnectedMessage::before {
+  left: 0%;
+  transform: translateX(-110%) translateY(100%) skew(65deg, 0deg);
+}
+
+.newUserConnectedMessage::after {
+  right: 0%;
+  transform: scaleX(-1) translateX(-110%) translateY(100%) skew(65deg, 0deg);
+}
+
+.newUserConnectedTimestamp {
+  font-size: 9px;
+}
+
+.boxShadowBefore {
+  display: block;
+  content: "";
+  width: calc(100% - 10px);
+  height: 6px;
+  top: 32px;
+  left: 5px;
+  position: absolute;
+  box-shadow: 0 4px 5px -2px #2d2c2c;
+  background: transparent;
+  border: none;
 }
