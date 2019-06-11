@@ -1,7 +1,7 @@
 
 const debug = require('debug')('app:build:chat-server');
 const WebSocket = require('ws');
-const port = 443 || process.env.PORT;
+const port = 80 || process.env.PORT;
 const wss = new WebSocket.Server({ port });
 
 const generateUUID = require('../src/utils/uuid');
