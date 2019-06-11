@@ -37,6 +37,7 @@
     ]
   },
   "scripts": {
+    "start": "better-npm-run start:dev",
     "start:dev": "better-npm-run start:dev",
     "start:prod": "better-npm-run start:prod",
     "start:test": "better-npm-run start:test",
