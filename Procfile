@@ -1,2 +1,1 @@
-React: nodemon server/server.ts
-Server: nodemon server/app.js
+Server: node start:dev
