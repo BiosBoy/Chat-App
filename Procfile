@@ -1,1 +1,1 @@
-Server: node start:dev
+Server: npm start
