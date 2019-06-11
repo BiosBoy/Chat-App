@@ -2,7 +2,7 @@ import { ADD_USER, INITIAL_DATA, ADD_MESSAGE, USERS_LIST } from '../constants/ac
 import { initialLoad, populateUsersList, messageReceived } from '../actions';
 
 const setupSocket = (dispatch, username) => {
-  const socket = new WebSocket('ws://localhost:8989');
+  const socket = new WebSocket('ws://localhost:443');
 
   socket.onopen = () => {
     socket.send(

@@ -125,10 +125,10 @@ const optimization = {
     minimizer: [
       new UglifyJsPlugin({
         uglifyOptions: {
+          warnings: false,
           compress: {
             unused: true,
-            dead_code: true,
-            warnings: false
+            dead_code: true
           }
         },
         sourceMap: true
@@ -227,10 +227,16 @@ const createConfig = () => {
   // ------------------------------------
   // Entry Points
   // ------------------------------------
+  const appEntryPoint = ['babel-polyfill', path.resolve(__dirname, 'src/index.js')];
+
+  if (__DEV__) {
+    const HMRPath = 'webpack-hot-middleware/client?path=/__webpack_hmr';
+
+    appEntryPoint[1].concat(HMRPath);
+  }
+
   webpackConfig.entry = {
-    app: ['babel-polyfill', path.resolve(__dirname, 'src/index.js')].concat(
-      'webpack-hot-middleware/client?path=/__webpack_hmr'
-    )
+    app: appEntryPoint
   };
 
   // ------------------------------------

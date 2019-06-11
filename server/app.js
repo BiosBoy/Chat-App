@@ -1,7 +1,7 @@
 
 const debug = require('debug')('app:build:chat-server');
 const WebSocket = require('ws');
-const port = 8989 || process.env.PORT;
+const port = 443 || process.env.PORT;
 const wss = new WebSocket.Server({ port });
 
 const generateUUID = require('../src/utils/uuid');
@@ -145,6 +145,10 @@ const eventsHanlders = {
     debug('Some user is leave the chat:', leavedUser);
   }
 };
+
+wss.on('open', () => {
+  wss.send('something');
+});
 
 wss.on('connection', ws => {
   const { setConnectedUserID } = helpers;

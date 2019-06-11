@@ -65,7 +65,7 @@
       }
     },
     "start:prod": {
-      "command": "node server/server.ts",
+      "command": "node server/server.ts & node server/app.js",
       "env": {
         "NODE_ENV": "production",
         "DEBUG": "app:*"
