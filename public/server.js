@@ -9,7 +9,8 @@ const INDEX = path.join(__dirname, 'index.html');
 const generateUUID = require('../src/utils/uuid');
 
 const server = express()
-  .use((req, res) => res.sendFile(INDEX) )
+  .use(express.static('public'))
+  .get('/', (req, res) => res.sendFile(INDEX) )
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 const wss = new WebSocket.Server({ server });
