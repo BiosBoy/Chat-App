@@ -172,7 +172,7 @@ wss.on('connection', ws => {
   ws.on('close', () => {
     const notifySubscribersOnLeave = eventsHanlders[REMOVE_USER];
 
-    wss.send(`Disconected user: ${userConnectionID}`);
+    ws.send(`Disconected user: ${userConnectionID}`);
 
     notifySubscribersOnLeave(ws, userConnectionID);
   });
