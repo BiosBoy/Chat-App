@@ -59,7 +59,7 @@
       }
     },
     "start": {
-      "command": "node server/server.ts & node server/app.js",
+      "command": "node public/server.ts",
       "env": {
         "NODE_ENV": "development",
         "DEBUG": "app:*"
