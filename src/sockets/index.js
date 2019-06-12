@@ -32,6 +32,10 @@ const setupSocket = (dispatch, username) => {
     }
   };
 
+  socket.onclose = event => {
+    console.log('Disconected due to the unactivity:', event.data);
+  };
+
   return socket;
 };
 
