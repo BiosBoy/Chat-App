@@ -2,7 +2,7 @@ import { ADD_USER, INITIAL_DATA, ADD_MESSAGE, USERS_LIST } from '../constants/ac
 import { initialLoad, populateUsersList, messageReceived } from '../actions';
 
 const setupSocket = (dispatch, username) => {
-  const socket = new WebSocket(`wss://chat-app-121.herokuapp.com:${process.env.PORT || 80}`);
+  const socket = new WebSocket('wss://chat-app-121.herokuapp.com');
 
   socket.onopen = () => {
     socket.send(
