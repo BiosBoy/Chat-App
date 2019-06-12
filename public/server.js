@@ -2,11 +2,17 @@
 const debug = require('debug')('app:build:chat-server');
 const WebSocket = require('ws');
 const express = require('express');
+const path = require('path');
 
-const port = process.env.PORT || 80;
-const wss = new WebSocket.Server({ port });
-
+const PORT = process.env.PORT || 80;
+const INDEX = path.join(__dirname, 'index.html');
 const generateUUID = require('../src/utils/uuid');
+
+const server = express()
+  .use((req, res) => res.sendFile(INDEX) )
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+
+const wss = new WebSocket.Server({ server });
 
 const users = [];
 const messages = [];
@@ -16,7 +22,7 @@ const ADD_MESSAGE = 'ADD_MESSAGE';
 const REMOVE_USER = 'REMOVE_USER';
 const USERS_LIST = 'USERS_LIST';
 
-debug('Chat App Server is Started! Port: ', process.env.PORT || 80);
+debug('Chat App Server is Started! Port: ', PORT);
 
 const storeTools = {
   addNewUserToStore: newUser => {
@@ -180,17 +186,17 @@ wss.on('connection', ws => {
   });
 });
 
-const app = express();
+// const app = express();
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
-  res.setHeader('Cache-Control', 'no-cache');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader('Access-Control-Allow-Credentials', 'true');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
+//   res.setHeader('Cache-Control', 'no-cache');
+//   next();
+// });
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, './index.html'));
-})
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname, './index.html'));
+// })
