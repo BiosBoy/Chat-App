@@ -33,7 +33,7 @@ browserSync({
   ghostMode: {
     clicks: false,
     forms: false,
-    scroll: true
+    scroll: false
   },
   server: {
     baseDir: path.resolve(__dirname, '../src'),

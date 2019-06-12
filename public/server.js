@@ -1,6 +1,8 @@
 
 const debug = require('debug')('app:build:chat-server');
 const WebSocket = require('ws');
+const express = require('express');
+
 const port = process.env.PORT || 80;
 const wss = new WebSocket.Server({ port });
 
@@ -177,3 +179,18 @@ wss.on('connection', ws => {
     debug('Some error is happen:', event, 'Error Code: ', event.code);
   });
 });
+
+const app = express();
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
+  res.setHeader('Cache-Control', 'no-cache');
+  next();
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './index.html'));
+})

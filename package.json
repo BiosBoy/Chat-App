@@ -42,7 +42,7 @@
     "start:prod": "better-npm-run start:prod",
     "start:test": "better-npm-run start:test",
     "unitTest": "jest --config jest.config.js",
-    "clean": "rimraf dist",
+    "clean": "rimraf public",
     "push": "npm run lint && git push",
     "compile": "better-npm-run compile",
     "prettier": "prettier --single-quote --no-semi --print-width 120 --write '{src,tests}/**/*.{js,ts}'",

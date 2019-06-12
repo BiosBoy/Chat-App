@@ -253,7 +253,7 @@ const createConfig = () => {
   webpackConfig.output = {
     filename: '[name].[hash].js',
     chunkFilename: '[name].[hash].js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public'),
     publicPath: '/'
   };
 
