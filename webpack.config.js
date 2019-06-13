@@ -227,16 +227,12 @@ const createConfig = () => {
   // ------------------------------------
   // Entry Points
   // ------------------------------------
-  const appEntryPoint = ['babel-polyfill', path.resolve(__dirname, 'src/index.js')];
-
-  if (__DEV__) {
-    const HMRPath = 'webpack-hot-middleware/client?path=/__webpack_hmr';
-
-    appEntryPoint[1].concat(HMRPath);
-  }
+  const appEnterPrefixPlugins = ['babel-polyfill'];
+  const appPath = path.resolve(__dirname, 'src/index.js');
+  const appEntryPoint = [...appEnterPrefixPlugins, appPath];
 
   webpackConfig.entry = {
-    app: appEntryPoint
+    app: __DEV__ ? appEntryPoint.concat('webpack-hot-middleware/client?path=/__webpack_hmr') : appEntryPoint
   };
 
   // ------------------------------------

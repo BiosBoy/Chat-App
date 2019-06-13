@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 4.0.1
+ * Fixed HMR work in development mode.
+
 # 4.0.0
  * Massive v.4 Update!
  * Improved Public Server.
