@@ -1,5 +1,5 @@
-import { ADD_USER, INITIAL_DATA, ADD_MESSAGE, USERS_LIST } from '../constants/actionsTypes';
-import { initialLoad, populateUsersList, messageReceived } from '../actions';
+import { ADD_USER, INITIAL_DATA, ADD_MESSAGE, USERS_LIST } from '../../constants/actionsTypes';
+import { initialLoad, populateUsersList, messageReceived, userDisconected } from '../actions';
 
 const setupSocket = (dispatch, username) => {
   const socket = new WebSocket('wss://chat-app-121.herokuapp.com');
@@ -34,6 +34,7 @@ const setupSocket = (dispatch, username) => {
 
   socket.onclose = () => {
     console.log('Disconected due to the unactivity:');
+    dispatch(userDisconected());
   };
 
   return socket;

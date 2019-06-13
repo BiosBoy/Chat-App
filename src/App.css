@@ -6,6 +6,12 @@
   margin: 0;
 }
 
+#root {
+  position: relative;
+  top: 50vh;
+  transform: translateY(-50%);
+}
+
 .appTitle,
 .appCredits {
   text-align: center;
@@ -13,6 +19,7 @@
 }
 
 #container {
+  position: relative;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -262,12 +269,12 @@
 }
 
 .newUserConnectedMessage::before {
-  left: 0%;
+  left: -5px;
   transform: translateX(-110%) translateY(100%) skew(65deg, 0deg);
 }
 
 .newUserConnectedMessage::after {
-  right: 0%;
+  right: -5px;
   transform: scaleX(-1) translateX(-110%) translateY(100%) skew(65deg, 0deg);
 }
 
@@ -286,4 +293,81 @@
   box-shadow: 0 4px 5px -2px #2d2c2c;
   background: transparent;
   border: none;
+}
+
+.mainOverlay {
+  transition: -webkit-filter 2s ease-in-out;
+}
+
+.disconectedUserOverlay {
+  filter: blur(10px);
+  pointer-events: none;
+  cursor: default;
+  user-select: none;
+}
+
+.popUpContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  height: 100%;
+  max-height: 90px;
+  width: 100%;
+  max-width: 280px;
+  background: #fff;
+  border: 3px solid #d0a85d;
+  border-radius: 10px;
+  box-shadow: 0 0 13px #ababab;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 10px;
+  animation-name: popupAppear;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+.popUpContainer.error {
+  border-color: red;
+  color: red;
+}
+
+.errorText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  white-space: normal;
+  font-size: 13px;
+}
+
+@keyframes popupAppear {
+  0% {
+    transform: translateX(50%) translateY(-50%) scale(0);
+    opacity: 0;
+  }
+
+  15% {
+    transform: translateX(50%) translateY(-50%) scale(1);
+    opacity: .5;
+  }
+
+  35% {
+    transform: translateX(50%) translateY(-50%) scale(.5);
+    opacity: 1;
+  }
+
+  55% {
+    transform: translateX(50%) translateY(-50%) scale(1);
+  }
+
+  80% {
+    transform: translateX(50%) translateY(-50%) scale(.75);
+  }
+
+  100% {
+    transform: translateX(50%) translateY(-50%) scale(1);
+  }
 }

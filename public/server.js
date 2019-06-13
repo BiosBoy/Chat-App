@@ -10,8 +10,8 @@ const generateUUID = require('../src/utils/uuid');
 
 const server = express()
   .use(express.static('public'))
-  .get('/', (req, res) => res.sendFile(INDEX) )
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+  .get('/', (req, res) => res.sendFile(INDEX))
+  .listen(PORT);
 
 const wss = new WebSocket.Server({ server });
 
@@ -182,18 +182,3 @@ wss.on('connection', ws => {
     debug('Some error is happen:', event, 'Error Code: ', event.code);
   });
 });
-
-// const app = express();
-
-// app.use((req, res, next) => {
-//   res.setHeader('Access-Control-Allow-Origin', '*');
-//   res.setHeader('Access-Control-Allow-Credentials', 'true');
-//   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
-//   res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
-//   res.setHeader('Cache-Control', 'no-cache');
-//   next();
-// });
-
-// app.get('/', (req, res) => {
-//   res.sendFile(path.join(__dirname, './index.html'));
-// })

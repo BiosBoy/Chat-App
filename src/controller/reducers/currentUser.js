@@ -1,4 +1,4 @@
-import { INITIAL_DATA } from '../constants/actionsTypes';
+import { INITIAL_DATA, USER_DISCONECTED } from '../../constants/actionsTypes';
 
 const currentUser = (state = {}, action) => {
   switch (action.type) {
@@ -7,6 +7,11 @@ const currentUser = (state = {}, action) => {
         ...state,
         uuid: action.users[action.users.length - 1].uuid,
         name: action.users[action.users.length - 1].name
+      };
+    case USER_DISCONECTED:
+      return {
+        ...state,
+        isDisconnected: action.disconected
       };
     default:
       return state;

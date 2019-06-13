@@ -1,4 +1,4 @@
-import { INITIAL_DATA, ADD_USER, USERS_LIST } from '../constants/actionsTypes';
+import { INITIAL_DATA, ADD_USER, USERS_LIST } from '../../constants/actionsTypes';
 
 const users = (state = [], action) => {
   switch (action.type) {

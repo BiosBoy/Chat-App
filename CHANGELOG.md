@@ -1,6 +1,16 @@
 ## Chat-App
 
 
+# 4.0.0
+ * Massive v.4 Update!
+ * Improved Public Server.
+ * Added More clear naming for app in package.json.
+ * Added PopUp and Debug Components.
+ * Added styles for Debag and PopUp Components.
+ * Added reducer and action for new Debug Actions.
+ * Added initialState Redux state.
+ * Refactored app structure for a better fashion.
+
 # 3.0.0
  * Created first stabel production release.
  * Rolled up on Heroku server for the live access.

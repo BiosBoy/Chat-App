@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import getTimestamp from '../utils/getTime';
+import getTimestamp from '../../utils/getTime';
 
 class NewUserConnected extends React.PureComponent {
   static propTypes = {

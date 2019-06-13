@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import AddMessageComponent from '../components/AddMessage';
-import { addMessage } from '../actions';
+import { AddMessage as AddMessageComponent } from '../components';
+import { addMessage } from '../controller/actions';
 
 const mapDispatchToState = state => {
   return ({

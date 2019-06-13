@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import MessagesListComponent from '../components/MessagesList';
+import { MessagesList } from '../components';
 
 const mapDispatchToState = state => {
   return ({
@@ -7,4 +7,4 @@ const mapDispatchToState = state => {
   });
 };
 
-export default connect(mapDispatchToState, null)(MessagesListComponent);
+export default connect(mapDispatchToState, null)(MessagesList);

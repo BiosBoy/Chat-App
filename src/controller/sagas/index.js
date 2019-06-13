@@ -1,5 +1,5 @@
 import { takeEvery } from 'redux-saga/effects';
-import { ADD_MESSAGE } from '../constants/actionsTypes';
+import { ADD_MESSAGE } from '../../constants/actionsTypes';
 
 function sendMessage(params) {
   const { socket, username } = params;

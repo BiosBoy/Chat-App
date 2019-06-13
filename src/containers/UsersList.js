@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import UsersListComponent from '../components/UsersList';
+import { UsersList } from '../components';
 
 const mapDispatchToState = state => ({
   users: state.users,
@@ -9,4 +9,4 @@ const mapDispatchToState = state => ({
 export default connect(
   mapDispatchToState,
   null
-)(UsersListComponent);
+)(UsersList);

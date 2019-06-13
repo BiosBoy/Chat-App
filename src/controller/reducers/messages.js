@@ -1,4 +1,4 @@
-import { ADD_MESSAGE, INITIAL_DATA, MESSAGE_RECEIVED } from '../constants/actionsTypes';
+import { ADD_MESSAGE, INITIAL_DATA, MESSAGE_RECEIVED } from '../../constants/actionsTypes';
 
 const messages = (state = [], action) => {
   switch (action.type) {
