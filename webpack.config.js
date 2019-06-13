@@ -71,7 +71,7 @@ const rules = [
   {
     test: /.css$/,
     use: [
-      'style-loader',
+      __PROD__ ? MiniCssExtractPlugin.loader : 'style-loader',
       {
         loader: 'css-loader',
         options: {

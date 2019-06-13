@@ -1,6 +1,11 @@
 ## Chat-App
 
 
+# 3.0.0
+ * Created first stabel production release.
+ * Rolled up on Heroku server for the live access.
+ * Solved minor bugs inside webpack config.
+
 # 2.10.1
  * Update server config.
  * Improved webpack dev/prod scenarios.
