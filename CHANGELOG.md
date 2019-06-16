@@ -1,6 +1,23 @@
 ## Chat-App
 
 
+# 5.0.0
+ * Added new Spinner and Placeholder components.
+ * Added functional logic for usersList close/open and connection status layout in MessagesList Component.
+ * Added styles for new components, refactored ones and extra more.
+ * Added new constants.
+ * Added new components roots.
+ * Added button for onClick message sending in AddMessage Component.
+ * Added debug utils for connection handling.
+ * Upgraded sockets configuration, made it more stabel and predictable.
+ * Upgraded DebugInfo Component and its helpers for getting buttons and spinners work inside it.
+ * Upgraded, Expanded and Improved all present Actions and Reducers. Make them more clearly and stabel duing Debug messages and server errors.
+ * Improved initialStore to make it more predictable.
+ * Improved main layout for a better error hadling with connection statuses.
+ * Separate UsersList and User Component logics.
+ * Move NewUserConnected Component to own folder.
+ * Fixed getTime function for zero hours.
+
 # 4.0.1
  * Fixed HMR work in development mode.
 

@@ -106,6 +106,7 @@
   border-bottom-right-radius: 0;
   box-shadow: inset 0 0 16px #696464a3;
   position: relative;
+  left: 0%;
 }
 
 .sectionTitle {
@@ -296,14 +297,35 @@
 }
 
 .mainOverlay {
-  transition: -webkit-filter 2s ease-in-out;
-}
-
-.disconectedUserOverlay {
   filter: blur(10px);
   pointer-events: none;
   cursor: default;
   user-select: none;
+}
+
+.connectedUserOvelay,
+.disconnectedUserOverlay {
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+.connectedUserOvelay {
+  animation-name: blurOverlayConnect;
+  animation-duration: .5s;
+  pointer-events: all;
+  user-select: auto;
+}
+
+.disconnectedUserOverlay {
+  animation-name: blurOverlayDisconnect;
+  animation-duration: 2s;
+}
+
+.destroyBlurOverlay {
+  animation-name: disableBlurOverlay;
+  animation-duration: .5s;
+  pointer-events: all;
+  user-select: auto;
 }
 
 .popUpContainer {
@@ -314,7 +336,7 @@
   right: 50%;
   top: 50%;
   height: 100%;
-  max-height: 90px;
+  max-height: 115px;
   width: 100%;
   max-width: 280px;
   background: #fff;
@@ -323,7 +345,6 @@
   box-shadow: 0 0 13px #ababab;
   text-align: center;
   box-sizing: border-box;
-  padding: 10px;
   animation-name: popupAppear;
   animation-duration: 2s;
   animation-timing-function: ease-in-out;
@@ -335,12 +356,169 @@
   color: red;
 }
 
-.errorText {
+.popUpContainer.info {
+  border-color: green;
+  color: green;
+}
+
+.popUpContainer .debugText {
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-word;
   white-space: normal;
   font-size: 13px;
+}
+
+.debugContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.debugContainer.spinner {
+  padding-bottom: 0;
+}
+
+.loadingSpinner {
+  opacity: 1;
+}
+
+.loadingPlaceholder {
+  position: absolute;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: row;
+  margin: 20px 0;
+  left: 5px;
+}
+
+.placeholderText {
+  align-self: center;
+  color: #fff;
+}
+
+.debugButton {
+  font-size: 14px;
+  cursor: pointer;
+  display: block;
+  min-height: 26px;
+  min-width: 63px;
+  border: 1px solid red;
+  border-radius: 5px;
+  color: red;
+  text-decoration: none;
+  box-shadow: 0px 2px 5px #11111147;
+  padding: 3px 5px;
+  margin: 10px 5px 0 5px;
+  background: #fff;
+  transition: color .3s ease-in-out, background .3s ease-in-out;
+}
+
+.debugButton:hover {
+  background: red;
+  color: #fff;
+}
+
+.sendMessageButton {
+  display: block;
+  height: 50px;
+  background: green;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  width: 77px;
+  position: relative;
+  position: absolute;
+  right: 12px;
+  background: #d6c9b1;
+  transition: background .15s ease-in-out;
+  color: #fff;
+}
+
+.sendMessageButton::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 7px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background: #fff;
+  top: 0;
+  left: 0;
+}
+
+.sendMessageButtonActive {
+  background: #d0a85d;
+  cursor: pointer;
+}
+
+.topSectionMessages {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.asideButtonToggle {
+  background: transparent;
+  display: none;
+  outline: none;
+  margin: 0;
+  padding: 2px 5px;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  color: #fff;
+  transition: background .3s ease-in-out, color .3s ease-in-out;
+}
+
+.asideButtonToggleActive {
+  background: #fff;
+  color: #d0a85d;
+  border: 1px solid #d0a85d;
+}
+
+.debugButtonsWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.connectionStatus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  height: 22px;
+  width: auto;
+  position: relative;
+  color: #fff;
+  font-size: 10px;
+}
+
+.connectionStatusText {
+  white-space: nowrap;
+}
+
+.connectionStatusIcon {
+  width: 6px;
+  height: 6px;
+  position: relative;
+  top: .5px;
+  border-radius: 100%;
+  background: grey;
+  margin: 7px;
+}
+
+.connectionStatusIconСonnected {
+  background: #0b0;
+}
+
+.connectionStatusIconDisconnected {
+  background: red;
 }
 
 @keyframes popupAppear {
@@ -369,5 +547,60 @@
 
   100% {
     transform: translateX(50%) translateY(-50%) scale(1);
+  }
+}
+@keyframes blurOverlayConnect {
+  0% {
+    filter: blur(10px);
+  }
+
+  100% {
+    filter: blur(0);
+  }
+}
+@keyframes blurOverlayDisconnect {
+  0% {
+    filter: blur(0);
+  }
+
+  100% {
+    filter: blur(10px);
+  }
+}
+@keyframes disableBlurOverlay {
+  0% {
+    filter: blur(10px);
+  }
+
+  100% {
+    filter: blur(0);
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .sidebar {
+    position: absolute;
+    left: -100%;
+    transition: left 1s ease-in-out;
+    z-index: 1;
+    box-shadow: inset 0 0 16px rgba(105, 100, 100, .63922), 27px 0 15px -8px rgba(17, 17, 17, .25882);
+    max-width: calc(100% - 35%);
+  }
+
+  .usersListShow {
+    left: 0%;
+  }
+
+  #main {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+
+  .asideButtonToggle {
+    display: block;
+  }
+
+  .connectionStatusText {
+    display: none;
   }
 }
