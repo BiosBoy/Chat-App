@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import User from './User';
-import Placeholder from '../Placeholder';
+import Placeholder from '../LoadingPlaceholder';
 
 class UsersList extends React.PureComponent {
   static defaultProps = {

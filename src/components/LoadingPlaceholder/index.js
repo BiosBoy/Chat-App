@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Spinner from '../Spinner';
 
-class Placeholder extends React.PureComponent {
+class LoadingPlaceholder extends React.PureComponent {
   static propTypes = {
     text: PropTypes.string,
     width: PropTypes.string,
@@ -30,4 +30,4 @@ class Placeholder extends React.PureComponent {
   }
 }
 
-export default Placeholder;
+export default LoadingPlaceholder;

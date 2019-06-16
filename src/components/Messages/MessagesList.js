@@ -4,7 +4,8 @@ import classnames from 'classnames';
 
 import Message from './Message';
 import NewUserConnected from '../NewUserConnected';
-import Placeholder from '../Placeholder';
+import Placeholder from '../LoadingPlaceholder';
+import LiveMessageTyping from '../LiveMessageTyping';
 
 import {
   CONNECTED,
@@ -140,6 +141,7 @@ class MessagesList extends React.PureComponent {
       <section id='message-list'>
         <div className='topSectionMessages'>{this._renderTopSection()}</div>
         <div ref={this.ref} className='messagesList'>{this._renderMessages()}</div>
+        <div className='bottomSectionMessages'><LiveMessageTyping /></div>
         <hr className='boxShadowBefore' />
       </section>
     );

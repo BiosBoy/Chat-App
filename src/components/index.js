@@ -6,7 +6,8 @@ import NewUserConnected from './NewUserConnected';
 import PopUp from './PopUp';
 import DebugInfo from './DebugInfo';
 import Spinner from './Spinner';
-import Placeholder from './Placeholder';
+import LoadingPlaceholder from './LoadingPlaceholder';
+import LiveMessageTyping from './LiveMessageTyping';
 
 export {
   AddMessage,
@@ -17,5 +18,6 @@ export {
   PopUp,
   DebugInfo,
   Spinner,
-  Placeholder
+  LoadingPlaceholder,
+  LiveMessageTyping
 };
