@@ -1,4 +1,4 @@
-import { INITIAL_DATA, ADD_USER, USERS_LIST, USERS_LIST_TOGGLER } from '../../constants/actionsTypes';
+import { INITIAL_DATA, ADD_USER, NEW_USER_CONNECTED, USERS_LIST_TOGGLER } from '../../constants/actionsTypes';
 
 const users = (state = [], action) => {
   switch (action.type) {
@@ -21,7 +21,7 @@ const users = (state = [], action) => {
           }
         ]
       };
-    case USERS_LIST:
+    case NEW_USER_CONNECTED:
       return {
         ...state,
         list: [
