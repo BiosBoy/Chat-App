@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 5.1.0
+ * Added LiveTypingMessage Component.
+
 # 5.0.1
  * New build added.
 
