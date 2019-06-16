@@ -18,7 +18,7 @@ const store = createStore(
   applyMiddleware(sagaMiddleware, logger)
 );
 
-const socket = setupSocket(store.dispatch, username);
+const socket = setupSocket(store, username);
 
 sagaMiddleware.run(handleNewMessage, { socket, username });
 
