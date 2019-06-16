@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 5.0.1
+ * New build added.
+
 # 5.0.0
  * Added new Spinner and Placeholder components.
  * Added functional logic for usersList close/open and connection status layout in MessagesList Component.
