@@ -25,8 +25,7 @@ const users = (state = [], action) => {
       return {
         ...state,
         list: [
-          ...state.list,
-          action.users
+          ...action.users
         ]
       };
     case USERS_LIST_TOGGLER:
