@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import { UsersList } from '../components';
 
-const mapDispatchToState = state => ({
+const mapStateToProps = state => ({
   users: state.users,
   currentUser: state.currentUser
 });
 
 export default connect(
-  mapDispatchToState,
+  mapStateToProps,
   null
 )(UsersList);
