@@ -1,28 +1,45 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 import UsersList from '../containers/UsersList';
 import MessagesList from '../containers/MessagesList';
 import AddMessage from '../containers/AddMessage';
 
+import {
+  CONNECTED,
+  DISCONNECTED
+} from '../constants/connectionStatuses';
+
 import '../App.css';
 
 class AppLayout extends React.PureComponent {
   static propTypes = {
-    isDisconnected: PropTypes.bool
+    connectionStatus: PropTypes.string,
+    disableBlurOverlay: PropTypes.bool
   }
 
   static defaultProps = {
-    isDisconnected: false
+    connectionStatus: '',
+    disableBlurOverlay: false
+  }
+
+  _connectionLayoutChecker = () => {
+    const { connectionStatus, disableBlurOverlay } = this.props;
+
+    const connectionClassesLayout = classnames({
+      connectedUserOvelay: connectionStatus === CONNECTED,
+      disconnectedUserOverlay: connectionStatus === DISCONNECTED,
+      destroyBlurOverlay: disableBlurOverlay
+    });
+
+    return connectionClassesLayout;
   }
 
   render() {
-    const { isDisconnected } = this.props;
-    const isBluredLayout = isDisconnected ? 'disconectedUserOverlay' : '';
-
     return (
-      <div id='container' className={`mainOverlay ${isBluredLayout}`}>
+      <div id='container' className={`mainOverlay ${this._connectionLayoutChecker()}`}>
         <UsersList />
         <section id='main'>
           <MessagesList />
@@ -34,7 +51,8 @@ class AppLayout extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  isDisconnected: state.currentUser.isDisconnected
+  connectionStatus: state.currentUser.connectionStatus,
+  disableBlurOverlay: state.common.disableBlurOverlay
 });
 
 export default connect(mapStateToProps, null)(AppLayout);
