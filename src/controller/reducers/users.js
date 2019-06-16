@@ -1,22 +1,39 @@
-import { INITIAL_DATA, ADD_USER, USERS_LIST } from '../../constants/actionsTypes';
+import { INITIAL_DATA, ADD_USER, USERS_LIST, USERS_LIST_TOGGLER } from '../../constants/actionsTypes';
 
 const users = (state = [], action) => {
   switch (action.type) {
     case INITIAL_DATA:
-      return [
+      return {
         ...state,
-        ...action.users
-      ];
+        list: [
+          ...state.list,
+          ...action.users
+        ]
+      };
     case ADD_USER:
-      return [
+      return {
         ...state,
-        {
-          name: action.name,
-          uuid: action.uuid
-        }
-      ];
+        list: [
+          ...state.list,
+          {
+            name: action.name,
+            uuid: action.uuid
+          }
+        ]
+      };
     case USERS_LIST:
-      return action.users;
+      return {
+        ...state,
+        list: [
+          ...state.list,
+          action.users
+        ]
+      };
+    case USERS_LIST_TOGGLER:
+      return {
+        ...state,
+        mobileLayout: !state.mobileLayout
+      };
     default:
       return state;
   }
