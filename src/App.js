@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 
 import AppLayout from './layout';
-import { DebugInfo } from './components';
+import DebugInfo from './containers/DebugInfo';
 
 class App extends PureComponent {
   render() {
