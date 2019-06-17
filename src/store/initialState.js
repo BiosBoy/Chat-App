@@ -15,7 +15,8 @@ const initialState = {
   },
   messages: [],
   common: {
-    disableBlurOverlay: false
+    disableBlurOverlay: false,
+    typingUsers: []
   }
 };
 

@@ -1,7 +1,19 @@
-import { ADD_USER, INITIAL_DATA, ADD_MESSAGE, USERS_LIST, ERROR_RECEIVED } from '../../constants/actionsTypes';
-import { WSS_END_POINT } from '../../constants/sockets';
-import { initialLoad, populateUsersList, messageReceived, userDisconected, userInitializationStart, userInitializationFinish, errorReceived, showDebug, hideDebug } from '../actions';
+import {
+  initialLoad,
+  populateUsersList,
+  messageReceived,
+  userDisconected,
+  userInitializationStart,
+  userInitializationFinish,
+  errorReceived,
+  showDebug,
+  hideDebug,
+  liveTyping
+} from '../actions';
 import { postponeDebugTimers } from '../../utils/debug';
+
+import { ADD_USER, INITIAL_DATA, ADD_MESSAGE, USERS_LIST, ERROR_RECEIVED, SOMEONE_TYPING } from '../../constants/actionsTypes';
+import { WSS_END_POINT } from '../../constants/sockets';
 
 const websocketsHelpers = () => ({
   subscribeUser: (socket, payload) => socket.send(JSON.stringify(payload)),
@@ -38,6 +50,19 @@ const setupSocket = ({ getState, dispatch }, username) => {
         break;
       case USERS_LIST:
         dispatch(populateUsersList(data.users));
+        break;
+      case SOMEONE_TYPING:
+        delete data.type;
+
+        if (data.typingUsers.some(user => user.uuid === getState().currentUser.uuid)) {
+          data.typingUsers.splice(
+            0,
+            data.typingUsers.length,
+            ...data.typingUsers.filter(user => user.uuid !== getState().currentUser.uuid)
+          );
+        }
+
+        dispatch(liveTyping(data.typingUsers));
         break;
       case ERROR_RECEIVED:
         dispatch(errorReceived(data));

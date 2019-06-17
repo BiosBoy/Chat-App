@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 5.2.0
+ * Added LiveTyping functional on client-side.
+
 # 5.1.0
  * Added LiveTypingMessage Component.
 

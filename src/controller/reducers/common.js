@@ -1,4 +1,4 @@
-import { HIDE_DEBUG_MANUAL } from '../../constants/actionsTypes';
+import { HIDE_DEBUG_MANUAL, SOMEONE_TYPING } from '../../constants/actionsTypes';
 
 const common = (state = [], action) => {
   switch (action.type) {
@@ -6,6 +6,11 @@ const common = (state = [], action) => {
       return {
         ...state,
         disableBlurOverlay: action.disableBlur
+      };
+    case SOMEONE_TYPING:
+      return {
+        ...state,
+        typingUsers: action.typingUsers
       };
     default:
       return state;

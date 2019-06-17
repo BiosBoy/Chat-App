@@ -1,4 +1,4 @@
-import { ADD_MESSAGE, MESSAGE_RECEIVED } from '../../constants/actionsTypes';
+import { ADD_MESSAGE, MESSAGE_RECEIVED, SOMEONE_TYPING, USER_TYPING } from '../../constants/actionsTypes';
 
 const addMessage = (messageType, message, uuid, uuidAuthor, author, timestamp) => ({
   type: ADD_MESSAGE,
@@ -15,4 +15,14 @@ const messageReceived = message => ({
   message
 });
 
-export { addMessage, messageReceived };
+const liveTyping = payload => ({
+  type: SOMEONE_TYPING,
+  typingUsers: payload
+});
+
+const userTyping = payload => ({
+  type: USER_TYPING,
+  payload
+});
+
+export { addMessage, messageReceived, liveTyping, userTyping };

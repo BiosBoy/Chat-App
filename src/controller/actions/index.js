@@ -1,6 +1,6 @@
 import { initialLoad } from './common';
 import { addUser, populateUsersList, userInitializationStart, userInitializationFinish, userDisconected, usersToggler } from './users';
-import { addMessage, messageReceived } from './messages';
+import { addMessage, messageReceived, liveTyping, userTyping } from './messages';
 import { errorReceived, showDebug, hideDebug, hideDebugManual } from './debug';
 
 export {
@@ -16,5 +16,7 @@ export {
   showDebug,
   hideDebug,
   hideDebugManual,
-  usersToggler
+  usersToggler,
+  liveTyping,
+  userTyping
 };
