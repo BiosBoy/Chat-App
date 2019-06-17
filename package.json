@@ -136,7 +136,6 @@
     "connected-react-router": "^6.3.2",
     "css-loader": "^2.1.0",
     "cssnano": "^4.1.8",
-    "debounce-promise": "^3.1.2",
     "debug": "^4.1.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
