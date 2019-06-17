@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { AddMessage as AddMessageComponent } from '../components';
-import { addMessage } from '../controller/actions';
+import { addMessage, userTyping } from '../controller/actions';
 
 const mapDispatchToState = state => {
   return ({
@@ -10,7 +10,8 @@ const mapDispatchToState = state => {
 
 const mapDispatchToProps = dispatch => ({
   // eslint-disable-next-line max-len
-  dispatchMessage: (messageType, message, uuid, uuidAuthor, author, timestamp) => dispatch(addMessage(messageType, message, uuid, uuidAuthor, author, timestamp))
+  dispatchMessage: (messageType, message, uuid, uuidAuthor, author, timestamp) => dispatch(addMessage(messageType, message, uuid, uuidAuthor, author, timestamp)),
+  dispatchLiveTyping: payload => dispatch(userTyping(payload))
 });
 
 export default connect(

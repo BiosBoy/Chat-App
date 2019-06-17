@@ -15,11 +15,15 @@ class LiveMessageTyping extends React.PureComponent {
   }
 
   _getTypingUsers = () => {
-    const { typingUsers } = this.props;
+    const { typingUsers = [] } = this.props;
 
-    const typingUsersString = typingUsers.join(', ');
+    let typingUsersNames = '';
 
-    return typingUsersString;
+    typingUsers.forEach((user, index) => {
+      typingUsersNames += (index === typingUsers.length - 1) ? user.name : `${user.name}, `;
+    });
+
+    return typingUsersNames;
   }
 
   _renderTypingText = () => {
@@ -32,9 +36,9 @@ class LiveMessageTyping extends React.PureComponent {
   }
 
   render() {
-    const { isSomeoneTyping } = this.props;
+    const { typingUsers } = this.props;
 
-    if (!isSomeoneTyping) return null;
+    if (typingUsers.length === 0) return null;
 
     return (
       <div className='liveMessageWrap'>

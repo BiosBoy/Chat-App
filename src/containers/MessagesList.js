@@ -6,7 +6,8 @@ const mapDispatchToState = state => {
   return ({
     messages: state.messages,
     showUsersList: state.users.mobileLayout,
-    connectionStatus: state.currentUser.connectionStatus
+    connectionStatus: state.currentUser.connectionStatus,
+    typingUsers: state.common.typingUsers
   });
 };
 

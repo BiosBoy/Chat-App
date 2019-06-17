@@ -17,6 +17,7 @@ const USER_TOGGLER_TITLE = 'users';
 
 class MessagesList extends React.PureComponent {
   static propTypes = {
+    typingUsers: PropTypes.array,
     connectionStatus: PropTypes.string,
     showUsersList: PropTypes.bool,
     usersListToogle: PropTypes.func,
@@ -31,6 +32,7 @@ class MessagesList extends React.PureComponent {
   static defaultProps = {
     connectionStatus: '',
     showUsersList: true,
+    typingUsers: [],
     usersListToogle: () => {}
   }
 
@@ -137,11 +139,13 @@ class MessagesList extends React.PureComponent {
   }
 
   render() {
+    const { typingUsers } = this.props;
+
     return (
       <section id='message-list'>
         <div className='topSectionMessages'>{this._renderTopSection()}</div>
         <div ref={this.ref} className='messagesList'>{this._renderMessages()}</div>
-        <div className='bottomSectionMessages'><LiveMessageTyping /></div>
+        <div className='bottomSectionMessages'><LiveMessageTyping typingUsers={typingUsers} /></div>
         <hr className='boxShadowBefore' />
       </section>
     );

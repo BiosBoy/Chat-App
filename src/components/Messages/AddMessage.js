@@ -8,6 +8,7 @@ const MESSAGE_TYPE = 'message';
 
 class AddMessage extends React.PureComponent {
   static propTypes = {
+    dispatchLiveTyping: PropTypes.func.isRequired,
     dispatchMessage: PropTypes.func.isRequired,
     currentUser: PropTypes.shape({
       uuid: PropTypes.number,
@@ -39,6 +40,12 @@ class AddMessage extends React.PureComponent {
     this._resetStateValue();
   }
 
+  _setStateValue = e => {
+    this.setState({
+      value: e.target.value
+    });
+  }
+
   _resetStateValue = () => {
     this.setState({
       value: ''
@@ -56,9 +63,10 @@ class AddMessage extends React.PureComponent {
   }
 
   _onChangeHandler = e => {
-    this.setState({
-      value: e.target.value
-    });
+    const { currentUser: { name, uuid }, dispatchLiveTyping } = this.props;
+
+    dispatchLiveTyping({ author: name, uuid });
+    this._setStateValue(e);
   }
 
   render() {
