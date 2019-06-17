@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 5.3.2
+ * Refactored app.js server file due to liveTyping functional.
+
 # 5.3.1
  * Refactor saga.js file.
 

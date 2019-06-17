@@ -17,28 +17,56 @@ const wss = new WebSocket.Server({ server });
 
 const users = [];
 const messages = [];
+const typingUsers = [];
+
 const INITIAL_DATA = 'INITIAL_DATA';
 const ADD_USER = 'ADD_USER';
 const ADD_MESSAGE = 'ADD_MESSAGE';
 const REMOVE_USER = 'REMOVE_USER';
 const USERS_LIST = 'USERS_LIST';
+const SOMEONE_TYPING = 'SOMEONE_TYPING';
 
-debug('Chat App Server is Started! Port: ', PORT);
+debug('Chat App Server is Started! Port: ', process.env.PORT || 80);
 
 const storeTools = {
-  addNewUserToStore: newUser => {
+  addConnectedUser: newUser => {
     users.push(newUser);
-  },
-  addNewMessageToStore: newMessage => {
-    messages.push(newMessage);
   },
   deleteDisconnectedUser: userConnectionID => {
     users.splice(0, users.length, ...users.filter(user => user.uuid !== userConnectionID));
+  },
+  findCurrentUser: userConnectionID => users.find(user => user.uuid === userConnectionID),
+  addNewMessageToStore: newMessage => {
+    messages.push(newMessage);
+  },
+  pushTypingUser: newUser => {
+    if (typingUsers.some(user => user.uuid === newUser.uuid)) return;
+
+    typingUsers.push(newUser);
+  },
+  removeTypingUser: userConnectionID => {
+    typingUsers.splice(0, typingUsers.length, ...typingUsers.filter(user => user.uuid !== userConnectionID));
   }
 };
 
 const helpers = {
-  setConnectedUserID: () => generateUUID()
+  setConnectedUserID: () => generateUUID(),
+  debounce(functions, params) {
+    let timer = null;
+    const { common: { delay } } = params;
+
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+
+      timer = setTimeout(() => {
+        functions.forEach((func, index) => func.call(this, ...params[index]));
+
+        timer = null;
+      }, delay);
+    };
+  }
 };
 
 const broadcast = (payload, ws) => {
@@ -69,10 +97,19 @@ const broadcastNotificationHandlers = {
       },
       ws
     );
+  },
+  someoneTypingNofity: (payload = [], ws) => {
+    broadcast(
+      {
+        type: SOMEONE_TYPING,
+        typingUsers: payload
+      },
+      ws
+    );
   }
 };
 
-const webSocketEventsHandlers = {
+const currentConnectedUser = {
   subscribeNewUser: (usersList = [], ws) => {
     ws.send(
       JSON.stringify({
@@ -85,11 +122,11 @@ const webSocketEventsHandlers = {
 };
 
 const eventsHanlders = {
-  [ADD_USER]: (payload, ws, userConnectionID) => {
+  [ADD_USER]: ({ payload, ws, userConnectionID }) => {
     const { name = '' } = payload;
     const { updatedSubscribersUserList, updatedSubscribersMessageList } = broadcastNotificationHandlers;
-    const { subscribeNewUser } = webSocketEventsHandlers;
-    const { addNewUserToStore, addNewMessageToStore } = storeTools;
+    const { subscribeNewUser } = currentConnectedUser;
+    const { addConnectedUser, addNewMessageToStore } = storeTools;
 
     const newUser = {
       name,
@@ -103,7 +140,7 @@ const eventsHanlders = {
       timestamp: Date.now()
     };
 
-    addNewUserToStore(newUser);
+    addConnectedUser(newUser);
     updatedSubscribersUserList(users, ws);
 
     addNewMessageToStore(newMessage);
@@ -113,7 +150,7 @@ const eventsHanlders = {
 
     debug('New user is just connected:', newUser);
   },
-  [ADD_MESSAGE]: (payload, ws, userConnectionID) => {
+  [ADD_MESSAGE]: ({ payload, ws, userConnectionID }) => {
     const { layout = 'message', message = '', timestamp = null, uuid = null, author = '' } = payload;
     const { updatedSubscribersMessageList } = broadcastNotificationHandlers;
     const { addNewMessageToStore } = storeTools;
@@ -130,13 +167,13 @@ const eventsHanlders = {
     addNewMessageToStore(newMessage);
     updatedSubscribersMessageList(newMessage, ws);
 
-    debug('New message is written:', newMessage, messages);
+    debug('New message is written:', newMessage);
   },
-  [REMOVE_USER]: (ws, userConnectionID) => {
+  [REMOVE_USER]: ({ ws, userConnectionID }) => {
     const { updatedSubscribersUserList, updatedSubscribersMessageList } = broadcastNotificationHandlers;
-    const { deleteDisconnectedUser, addNewMessageToStore } = storeTools;
+    const { deleteDisconnectedUser, addNewMessageToStore, findCurrentUser } = storeTools;
 
-    const leavedUser = users.find(user => user.uuid === userConnectionID);
+    const leavedUser = findCurrentUser(userConnectionID);
 
     const newMessage = {
       layout: 'newUser',
@@ -152,12 +189,54 @@ const eventsHanlders = {
     updatedSubscribersMessageList(newMessage, ws);
 
     debug('Some user is leave the chat:', leavedUser);
+  },
+  [SOMEONE_TYPING]: ({ spliceTypingUser, ws, userConnectionID }) => {
+    const { someoneTypingNofity } = broadcastNotificationHandlers;
+    const { findCurrentUser, pushTypingUser } = storeTools;
+
+    const typingUser = findCurrentUser(userConnectionID);
+
+    // delete user from typingUser store after 3 sec of non-typing phase
+    spliceTypingUser();
+
+    if (typingUsers.some(user => user.uuid === userConnectionID)) return;
+
+    pushTypingUser(typingUser);
+    someoneTypingNofity(typingUsers, ws);
+
+    debug('Someone is Typing now:', userConnectionID, typingUser);
   }
 };
 
-wss.on('connection', ws => {
-  const { setConnectedUserID } = helpers;
+const core = ws => {
+  const { setConnectedUserID, debounce } = helpers;
+  const { someoneTypingNofity } = broadcastNotificationHandlers;
+  const { removeTypingUser } = storeTools;
+
   const userConnectionID = setConnectedUserID();
+
+  const typingUserDebounce = () => {
+    const invokeFunctions = [removeTypingUser, someoneTypingNofity];
+    const params = {
+      0: [userConnectionID],
+      1: [typingUsers, ws],
+      common: {
+        delay: 1000
+      }
+    };
+
+    return debounce(invokeFunctions, params);
+  };
+
+  return {
+    userConnectionID,
+    typingUserDebounce
+  };
+};
+
+wss.on('connection', ws => {
+  const { userConnectionID, typingUserDebounce } = core();
+  const spliceTypingUser = typingUserDebounce();
 
   ws.on('message', payload => {
     const { type, ...receivedPayload } = JSON.parse(payload);
@@ -166,13 +245,13 @@ wss.on('connection', ws => {
 
     const currentEvent = eventsHanlders[type];
 
-    currentEvent(receivedPayload, ws, userConnectionID);
+    currentEvent({ spliceTypingUser, payload: receivedPayload, ws, userConnectionID });
   });
 
   ws.on('close', () => {
     const notifySubscribersOnLeave = eventsHanlders[REMOVE_USER];
 
-    notifySubscribersOnLeave(ws, userConnectionID);
+    notifySubscribersOnLeave({ ws, userConnectionID });
   });
 
   ws.on('error', event => {
