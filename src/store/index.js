@@ -3,7 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 
 import reducers from '../controller/reducers';
 import setupSocket from '../controller/sockets';
-import handleNewMessage from '../controller/sagas';
+import rootSaga from '../controller/sagas';
 
 import username from '../utils/name';
 import logger from '../utils/logger';
@@ -20,7 +20,7 @@ const store = createStore(
 
 const socket = setupSocket(store, username);
 
-sagaMiddleware.run(handleNewMessage, { socket, username });
+sagaMiddleware.run(rootSaga, socket);
 
 export default store;
 

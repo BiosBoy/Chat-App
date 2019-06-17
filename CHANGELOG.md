@@ -1,6 +1,12 @@
 ## Chat-App
 
 
+# 5.3.1
+ * Refactor saga.js file.
+
+# 5.3.0
+ * Updated several client component to be fit for liveTyping functional.
+
 # 5.2.0
  * Added LiveTyping functional on client-side.
 
