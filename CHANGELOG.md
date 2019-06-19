@@ -1,6 +1,11 @@
 ## Chat-App
 
 
+# 6.3.2
+ * Fixed EsLint error in server get method args.
+ * Separated main server logic with local servers and public folder as well.
+ * Added sessions and coockie on the server and clint sides.
+
 # 5.3.2
  * Refactored app.js server file due to liveTyping functional.
 

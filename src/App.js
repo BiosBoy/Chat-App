@@ -4,6 +4,21 @@ import AppLayout from './layout';
 import DebugInfo from './containers/DebugInfo';
 
 class App extends PureComponent {
+  // componentDidMount() {
+  //   const fetchData = async() => {
+  //     const fetchCreds = await fetch('http://localhost:80', {
+  //       method: 'get',
+  //       credentials: 'include'
+  //     });
+
+  //     const responce = await fetchCreds.text();
+
+  //     console.log(responce, 'responce');
+  //   };
+
+  //   fetchData();
+  // }
+
   render() {
     return (
       <div className='mainWrap'>

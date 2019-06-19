@@ -11,6 +11,7 @@ import {
   liveTyping
 } from '../actions';
 import { postponeDebugTimers } from '../../utils/debug';
+import getCookie from '../../utils/getCookie';
 
 import { ADD_USER, INITIAL_DATA, ADD_MESSAGE, USERS_LIST, ERROR_RECEIVED, SOMEONE_TYPING } from '../../constants/actionsTypes';
 import { WSS_END_POINT } from '../../constants/sockets';
@@ -30,7 +31,7 @@ const setupSocket = ({ getState, dispatch }, username) => {
   socket.onopen = () => {
     const { subscribeUser } = websocketsHelpers();
 
-    subscribeUser(socket, { type: ADD_USER, name: username });
+    subscribeUser(socket, { type: ADD_USER, name: username, cookie: getCookie('cookieUUID') });
   };
 
   socket.onmessage = event => {

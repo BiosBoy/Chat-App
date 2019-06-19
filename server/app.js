@@ -1,10 +1,63 @@
 
 const debug = require('debug')('app:build:chat-server');
 const WebSocket = require('ws');
-const port = 80 || process.env.PORT;
-const wss = new WebSocket.Server({ port });
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const path = require('path');
+const session = require('express-session');
+const MemoryStore = require('memorystore')(session);
 
+const PORT = process.env.PORT || 80;
+const INDEX = path.join(__dirname, '../public/index.html');
 const generateUUID = require('../src/utils/uuid');
+
+const router = express.Router();
+
+// ----------------------
+// Server Configuration
+// ----------------------
+const server = express()
+  .use(express.static('../public', { index: false }))
+  .use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
+    res.setHeader('Cache-Control', 'public, max-age=31557600');
+    next();
+  })
+  .use(session({
+    secret: 'give-five',
+    resave: true,
+    saveUninitialized: true,
+    name: 'cookieUUID',
+    cookie: {
+      maxAge: 86400000,
+      httpOnly: false,
+      secure: false,
+      sameSite: false
+    },
+    store: new MemoryStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
+    })
+  }))
+  .use(cookieParser())
+  .use('/', router)
+  .listen(PORT);
+
+// ----------------------
+// Router Configuration
+// ----------------------
+// TODO: Need sto Integrate MongoDB in future to make session storage possible!
+router
+  .get('/', (req, res) => {
+    res.sendFile(INDEX);
+  });
+
+// ----------------------
+// WebSockets Configuration
+// ----------------------
+const wss = new WebSocket.Server({ server });
 
 const users = [];
 const messages = [];
@@ -57,6 +110,19 @@ const helpers = {
         timer = null;
       }, delay);
     };
+  },
+  checkNameExist: name => {
+    let sameNameFindCounter = 0;
+
+    users.forEach(user => {
+      if (user.name === name) {
+        sameNameFindCounter += 1;
+      }
+    });
+
+    const optimizedName = sameNameFindCounter > 0 ? `${name}_${sameNameFindCounter}` : name;
+
+    return optimizedName;
   }
 };
 
@@ -114,19 +180,44 @@ const currentConnectedUser = {
 
 const eventsHanlders = {
   [ADD_USER]: ({ payload, ws, userConnectionID }) => {
-    const { name = '' } = payload;
+    const { name = '', cookie = '' } = payload;
     const { updatedSubscribersUserList, updatedSubscribersMessageList } = broadcastNotificationHandlers;
     const { subscribeNewUser } = currentConnectedUser;
     const { addConnectedUser, addNewMessageToStore } = storeTools;
+    const { checkNameExist } = helpers;
+
+    // if (users.some(user => user.cookie === cookie)) {
+
+    //   const reconnectedUser = users.find(user => user.cookie === cookie);
+
+    //   const newMessage = {
+    //     layout: 'newUser',
+    //     message: `${reconnectedUser.name} is reconnected to the chat!`,
+    //     uuid: generateUUID(),
+    //     timestamp: Date.now()
+    //   };
+
+    //   updatedSubscribersUserList(users, ws);
+
+    //   addNewMessageToStore(newMessage);
+    //   updatedSubscribersMessageList(newMessage, ws);
+
+    //   subscribeNewUser(users, ws);
+
+    //   return;
+    // }
+
+    const newUserName = checkNameExist(name);
 
     const newUser = {
-      name,
-      uuid: userConnectionID
+      name: newUserName,
+      uuid: userConnectionID,
+      cookie
     };
 
     const newMessage = {
       layout: 'newUser',
-      message: `${name} is just connected to the chat!`,
+      message: `${newUserName} is just connected to the chat!`,
       uuid: generateUUID(),
       timestamp: Date.now()
     };
@@ -165,10 +256,11 @@ const eventsHanlders = {
     const { deleteDisconnectedUser, addNewMessageToStore, findCurrentUser } = storeTools;
 
     const leavedUser = findCurrentUser(userConnectionID);
+    // const leavedUser = userConnectionID => users.find(user => user.uuid === userConnectionID);
 
     const newMessage = {
       layout: 'newUser',
-      message: `${leavedUser.name} was leave the chat!`,
+      message: `${leavedUser} was leave the chat!`,
       uuid: generateUUID(),
       timestamp: Date.now()
     };

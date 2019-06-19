@@ -70,7 +70,7 @@
       "no-shadow": 1,
       "vars-on-top": 0,
       "consistent-return": 1,
-      "no-unused-vars": ["error", { "vars": "all", "args": "all", "ignoreRestSiblings": false, "argsIgnorePattern": "^nextProps|^nextState" }],
+      "no-unused-vars": ["error", { "vars": "all", "args": "all", "ignoreRestSiblings": false, "argsIgnorePattern": "req|res|next|^nextProps|^nextState" }],
       "no-cond-assign": [1, "always"],
       "default-case": 1,
       "no-use-before-define": 1,
