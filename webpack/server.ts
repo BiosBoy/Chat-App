@@ -1,6 +1,7 @@
 // import global vars for a whole app
 const globals = require('../globals');
 
+const debug = require('debug')('app:webpack:server');
 const path = require('path');
 const browserSync = require('browser-sync');
 const historyApiFallback = require('connect-history-api-fallback');
@@ -49,3 +50,5 @@ browserSync({
     'src/../*.html'
   ]
 });
+
+debug(`BrowserSync Server is started Succesfuly in '${__NODE_ENV__} Mode!'`);

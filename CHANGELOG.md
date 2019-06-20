@@ -1,7 +1,15 @@
 ## Chat-App
 
 
-# 6.3.2
+# 7.0.0
+ * Fully rewritten App server-side arhitecture.
+ * Updated debug messages on server-side console to make them more clearly.
+ * Separated global server file into independent pices/modules.
+ * Create fully workable model of SPA website served by express server.
+ * Webpack server moved to independent folder.
+ * Updated running scripta.
+
+# 6.0.0
  * Fixed EsLint error in server get method args.
  * Separated main server logic with local servers and public folder as well.
  * Added sessions and coockie on the server and clint sides.

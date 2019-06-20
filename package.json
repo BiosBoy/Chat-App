@@ -52,35 +52,35 @@
   },
   "betterScripts": {
     "compile": {
-      "command": "node server/compiler.ts",
+      "command": "node webpack/compiler.ts",
       "env": {
         "NODE_ENV": "production",
         "DEBUG": "app:*"
       }
     },
     "start": {
-      "command": "node public/server.js",
+      "command": "node server/index.js",
       "env": {
         "NODE_ENV": "development",
         "DEBUG": "app:*"
       }
     },
     "start:dev": {
-      "command": "node server/dev/server.ts & node server/app.js",
+      "command": "node webpack/server.ts & node server/index.js",
       "env": {
         "NODE_ENV": "development",
         "DEBUG": "app:*"
       }
     },
     "start:prod": {
-      "command": "node server/dev/server.ts & node server/app.js",
+      "command": "node webpack/server.ts & node server/index.js",
       "env": {
         "NODE_ENV": "production",
         "DEBUG": "app:*"
       }
     },
     "start:test": {
-      "command": "node server/dev/server.ts",
+      "command": "node webpack/server.ts",
       "env": {
         "NODE_ENV": "test",
         "DEBUG": "app:*"

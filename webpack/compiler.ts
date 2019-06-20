@@ -1,7 +1,7 @@
 // import global vars for a whole app
 require('../globals');
 
-const debug = require('debug')('app:build:webpack-compiler');
+const debug = require('debug')('app:webpack:compiler');
 const webpack = require('webpack');
 const webpackConfig = require('../webpack.config.js');
 
