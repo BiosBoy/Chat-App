@@ -7,6 +7,7 @@ const MemoryStore = require('memorystore')(session);
 
 const webSocketsServer = require('./websockets');
 const endpointsAPI = require('./endpointsAPI');
+const cors = require('./utils/cors');
 const { PORT, INDEX, STATIC } = require('./constants');
 
 // ----------------------
@@ -14,7 +15,7 @@ const { PORT, INDEX, STATIC } = require('./constants');
 // ----------------------
 const server = express()
   .use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', cors(req));
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');

@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 7.0.1
+ * Added CORS domains allowed list with function handler.
+
 # 7.0.0
  * Fully rewritten App server-side arhitecture.
  * Updated debug messages on server-side console to make them more clearly.
