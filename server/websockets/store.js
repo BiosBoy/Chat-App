@@ -7,14 +7,22 @@ const storeTools = {
   addConnectedUser: newUser => {
     users.push(newUser);
   },
-  deleteDisconnectedUser: userConnectionID => {
-    users.splice(0, users.length, ...users.filter(user => user.uuid !== userConnectionID));
+  deleteDisconnectedUser: cookie => {
+    users.splice(0, users.length, ...users.filter(user => user.cookie !== cookie));
   },
-  findCurrentUser: userConnectionID => users.find(user => user.uuid === userConnectionID),
-  updateUserUUID: ({ cookie, newConnectionID }) => {
+  decreaseConnection: leavedUser => {
+    leavedUser.connections -= 1;
+  },
+  destroyConnection: leavedUser => {
+    leavedUser.isConnected = false;
+  },
+  findCurrentUser: cookie => users.find(user => user.cookie === cookie),
+  updateReconnectedUserData: ({ cookie, newConnectionID }) => {
     const reconnectedUser = users.find(user => user.cookie === cookie);
 
     reconnectedUser.uuid = newConnectionID;
+    reconnectedUser.connections += 1;
+    reconnectedUser.isConnected = true;
 
     return reconnectedUser;
   },
@@ -22,12 +30,12 @@ const storeTools = {
     messages.push(newMessage);
   },
   pushTypingUser: newUser => {
-    if (typingUsers.some(user => user.uuid === newUser.uuid)) return;
+    if (typingUsers.some(user => user.cookie === newUser.cookie)) return;
 
     typingUsers.push(newUser);
   },
-  removeTypingUser: userConnectionID => {
-    typingUsers.splice(0, typingUsers.length, ...typingUsers.filter(user => user.uuid !== userConnectionID));
+  removeTypingUser: cookie => {
+    typingUsers.splice(0, typingUsers.length, ...typingUsers.filter(user => user.cookie !== cookie));
   }
 };
 

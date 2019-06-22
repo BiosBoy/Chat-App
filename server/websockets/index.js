@@ -14,11 +14,18 @@ const webSocketsServer = expressServerConfiguration => {
   const { broadcastNotificationHandlers } = notificationCenter;
 
   wss.on('connection', ws => {
-    const { userConnectionID, spliceRetiredTypingUser } = sessionDecorators(broadcastNotificationHandlers, ws);
+    let userCookie = null;
+
+    const {
+      userConnectionID,
+      spliceRetiredTypingUser
+    } = sessionDecorators({ broadcastNotificationHandlers, ws, cookie: userCookie });
     const eventProcessor = eventHandlers(notificationCenter);
 
     ws.on('message', payload => {
       const { type, ...receivedPayload } = JSON.parse(payload);
+
+      userCookie = receivedPayload.cookie || userCookie;
 
       if (!Object.hasOwnProperty.call(eventProcessor, type)) return;
 
@@ -27,6 +34,7 @@ const webSocketsServer = expressServerConfiguration => {
         ws,
         userConnectionID,
         payload: receivedPayload,
+        cookie: userCookie,
         spliceRetiredTypingUser
       };
 
@@ -36,7 +44,7 @@ const webSocketsServer = expressServerConfiguration => {
     ws.on('close', () => {
       const notifySubscribersOnLeave = eventProcessor[REMOVE_USER];
 
-      notifySubscribersOnLeave({ ws, userConnectionID });
+      notifySubscribersOnLeave({ ws, cookie: userCookie });
     });
 
     ws.on('error', event => {
