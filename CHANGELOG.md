@@ -2,9 +2,15 @@
 
 
 # 8.0.0
+ * Finnaly and fully integrated multy-tab chat surfing with recconecting functional.
+
+# 7.7.0
+ * Now users identifications goes via cookie data, not the user uuid on the client-side.
+
+# 7.6.0
  * Finnaly and fully integrated multy-tab chat surfing.
- * Reconnecting functional was also integrated.
- * Now users identifications goes via cookie data, not the user uuid.
+ * Reconnecting functional was integrated.
+ * Now users identifications goes via cookie data, not the user uuid on the back-end.
 
 # 7.5.0
  * Integrate cookie storage inside server side.

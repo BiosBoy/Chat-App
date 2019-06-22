@@ -1,5 +1,6 @@
 import { takeEvery, takeLatest } from 'redux-saga/effects';
 import { ADD_MESSAGE, USER_TYPING, SOMEONE_TYPING } from '../../constants/actionsTypes';
+import getCookie from '../../utils/getCookie';
 
 function sendMessage(socket) {
   return action => socket.send(JSON.stringify(action));
@@ -10,7 +11,8 @@ function sendTyping(socket) {
     const actionPayload = {
       type: SOMEONE_TYPING,
       name: action.payload.author,
-      uuid: action.payload.uuid
+      uuid: action.payload.uuid,
+      cookie: getCookie('cookieUUID')
     };
 
     socket.send(JSON.stringify(actionPayload));

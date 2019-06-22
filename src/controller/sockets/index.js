@@ -55,11 +55,11 @@ const setupSocket = ({ getState, dispatch }, username) => {
       case SOMEONE_TYPING:
         delete data.type;
 
-        if (data.typingUsers.some(user => user.uuid === getState().currentUser.uuid)) {
+        if (data.typingUsers.some(user => user.cookie === getState().currentUser.cookie)) {
           data.typingUsers.splice(
             0,
             data.typingUsers.length,
-            ...data.typingUsers.filter(user => user.uuid !== getState().currentUser.uuid)
+            ...data.typingUsers.filter(user => user.cookie !== getState().currentUser.cookie)
           );
         }
 
