@@ -1,28 +1,27 @@
 const { typingUsers, storeTools } = require('./store');
 const helpers = require('../utils');
 
-const sessionDecorators = (broadcastNotificationHandlers, ws) => {
-  const { generateUUID, debounce } = helpers;
+const sessionDecorators = ({ broadcastNotificationHandlers, ws }) => {
+  const { generateUUID, typingDebounce } = helpers;
   const { someoneTypingNofity } = broadcastNotificationHandlers;
   const { removeTypingUser } = storeTools;
 
-  const userConnectionID = generateUUID();
-
   const typingUserDebounce = () => {
-    const invokeFunctions = [removeTypingUser, someoneTypingNofity];
+    const invokeFunctions = {
+      removeTypingUser,
+      someoneTypingNofity
+    };
     const params = {
-      0: [userConnectionID],
-      1: [typingUsers, ws],
-      common: {
-        delay: 1000
-      }
+      typingUsers,
+      ws,
+      delay: 500
     };
 
-    return debounce(invokeFunctions, params);
+    return typingDebounce(invokeFunctions, params);
   };
 
   return {
-    userConnectionID,
+    userConnectionID: generateUUID(),
     spliceRetiredTypingUser: typingUserDebounce()
   };
 };

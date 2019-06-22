@@ -1,14 +1,17 @@
 const debounce = (functions, params) => {
   let timer = null;
-  const { common: { delay } } = params;
+  const { typingUsers, ws, delay } = params;
 
-  return () => {
+  return cookie => {
     if (timer) {
       clearTimeout(timer);
     }
 
     timer = setTimeout(() => {
-      functions.forEach((func, index) => func.call(this, ...params[index]));
+      const { removeTypingUser, someoneTypingNofity } = functions;
+
+      removeTypingUser(cookie);
+      someoneTypingNofity(typingUsers, ws);
 
       timer = null;
     }, delay);

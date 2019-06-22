@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 7.4.0
+ * Improve typing notification debouce bue to cookie integration.
+
 # 7.3.1
  * Increase users slide speed.
 
