@@ -18,6 +18,7 @@ const USER_TOGGLER_TITLE = 'users';
 class MessagesList extends React.PureComponent {
   static propTypes = {
     typingUsers: PropTypes.array,
+    currentUserName: PropTypes.string,
     connectionStatus: PropTypes.string,
     showUsersList: PropTypes.bool,
     usersListToogle: PropTypes.func,
@@ -30,6 +31,7 @@ class MessagesList extends React.PureComponent {
   };
 
   static defaultProps = {
+    currentUserName: '',
     connectionStatus: '',
     showUsersList: true,
     typingUsers: [],
@@ -122,6 +124,33 @@ class MessagesList extends React.PureComponent {
     );
   }
 
+  _getCurrentUserMessages = messages => {
+    const { currentUserName } = this.props;
+
+    if (!messages || messages.length === 0) {
+      return (
+        <Placeholder text='Trying to load message list...' width='40px' height='40px' />
+      );
+    }
+
+    const normalizedMessages = messages.map(message => {
+      const spitedMessage = message.message.split(' ');
+
+      if (message.layout === 'newUser' && spitedMessage[0] === currentUserName) {
+        spitedMessage[0] = 'You';
+
+        return {
+          ...message,
+          message: spitedMessage.join(' ')
+        };
+      }
+
+      return message;
+    });
+
+    return normalizedMessages;
+  }
+
   _renderMessages = () => {
     const { messages = [] } = this.props;
 
@@ -131,7 +160,9 @@ class MessagesList extends React.PureComponent {
       );
     }
 
-    return messages.map(message => {
+    const normalizedMessages = this._getCurrentUserMessages(messages);
+
+    return normalizedMessages.map(message => {
       const MessageToRender = this._messageTypes()[message.layout] || this._messageTypes().message;
 
       return MessageToRender(message);

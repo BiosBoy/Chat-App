@@ -1,7 +1,10 @@
 ## Chat-App
 
 
-# 8.0.1
+# 8.2.0
+ * Added current user alert in message list ("You" instead of the current user name).
+
+# 8.1.0
  * Added users sorting for better users list ordering in the browser.
 
 # 8.0.0
