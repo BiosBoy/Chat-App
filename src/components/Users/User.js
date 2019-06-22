@@ -10,7 +10,8 @@ class User extends React.PureComponent {
     isCurrentUser: PropTypes.bool,
     user: PropTypes.shape({
       uuid: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired,
+      isConnected: PropTypes.bool.isRequired
     }).isRequired
   }
 
@@ -18,7 +19,7 @@ class User extends React.PureComponent {
     const { user, isCurrentUser } = this.props;
 
     return (
-      <div key={user.uuid} className='authorContainer'>
+      <div key={user.uuid} className={`authorContainer${!user.isConnected ? ' authorDisconnected' : ''}`}>
         <span className='authorAvatar authorWrap'>
           <svg width='100%' height='100%' data-jdenticon-value={user.name} />
         </span>

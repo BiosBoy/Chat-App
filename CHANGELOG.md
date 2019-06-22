@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 8.0.1
+ * Added users sorting for better users list ordering in the browser.
+
 # 8.0.0
  * Finnaly and fully integrated multy-tab chat surfing with recconecting functional.
 

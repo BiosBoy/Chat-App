@@ -24,11 +24,23 @@ class UsersList extends React.PureComponent {
       list: PropTypes.arrayOf(
         PropTypes.shape({
           uuid: PropTypes.number.isRequired,
-          name: PropTypes.string.isRequired
+          name: PropTypes.string.isRequired,
+          cookie: PropTypes.string.isRequired,
+          isConnected: PropTypes.bool.isRequired
         })
       ).isRequired,
       mobileLayout: PropTypes.bool
     })
+  }
+
+  _sortUserByTimestamp = (sortA, sortB) => {
+    const { currentUser = {} } = this.props;
+
+    if (sortB.cookie === currentUser.cookie) {
+      return 1;
+    }
+
+    return sortA.timestamp - sortB.timestamp ? 1 : -1;
   }
 
   _renderUsers = () => {
@@ -40,13 +52,15 @@ class UsersList extends React.PureComponent {
       );
     }
 
-    return users.list.map(user => {
-      const isCurrentUser = currentUser.uuid === user.uuid;
+    return users.list
+      .sort(this._sortUserByTimestamp)
+      .map(user => {
+        const isCurrentUser = currentUser.cookie === user.cookie;
 
-      return (
-        <User key={user.uuid} user={user} isCurrentUser={isCurrentUser} />
-      );
-    });
+        return (
+          <User key={user.uuid} user={user} isCurrentUser={isCurrentUser} />
+        );
+      });
   };
 
   render() {
