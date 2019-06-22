@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 7.3.0
+ * Auto zoom fix while input clicked on touchscreen devices.
+
 # 7.2.0
  * Minor typo improvements.
 
