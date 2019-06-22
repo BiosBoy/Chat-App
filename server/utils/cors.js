@@ -4,7 +4,10 @@ const cors = req => {
     default: 'http://localhost'
   };
 
-  return hosts.origin.indexOf(req.headers.origin.toLowerCase()) > -1 ? req.headers.origin : hosts.default;
+  const requestedHost = req.headers && req.headers.origin && req.headers.origin.toLowerCase();
+  const hostAccepted = hosts.origin.includes(requestedHost);
+
+  return hostAccepted ? req.headers.origin : hosts.default;
 };
 
 module.exports = cors;

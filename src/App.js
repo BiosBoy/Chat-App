@@ -5,6 +5,7 @@ import DebugInfo from './containers/DebugInfo';
 
 class App extends PureComponent {
   componentDidMount() {
+    // getting cockies in dev mode. No need in this while production
     if (__DEV__) {
       const getCookie = async() => {
         await fetch('http://localhost:80/', {

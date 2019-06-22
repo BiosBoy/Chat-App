@@ -1,6 +1,10 @@
 ## Chat-App
 
 
+# 7.0.2
+ * Fixed CORS utils work.
+ * Added description for dev fetch request.
+
 # 7.0.1
  * Added CORS domains allowed list with function handler.
 
