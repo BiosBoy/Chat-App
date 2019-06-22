@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 7.2.0
+ * Minor typo improvements.
+
 # 7.1.0
  * Added session storage environment (one user reconnected it would have previously created data and creds).
  * Added new 2 store tools.

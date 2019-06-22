@@ -6,7 +6,7 @@ const session = require('express-session');
 const MemoryStore = require('memorystore')(session);
 
 const webSocketsServer = require('./websockets');
-const endpointsAPI = require('./endpointsAPI');
+const endpoints = require('./endpoints');
 const cors = require('./utils/cors');
 const { PORT, INDEX, STATIC } = require('./constants');
 
@@ -39,7 +39,7 @@ const server = express()
   }))
   .use(cookieParser())
   .use(express.static(STATIC))
-  .use(endpointsAPI)
+  .use(endpoints)
   .use('*', (req, res) => res.sendFile(INDEX))
   .listen(PORT);
 
