@@ -178,6 +178,10 @@
   margin: 10px 0;
 }
 
+.authorDisconnected {
+  opacity: .5;
+}
+
 .authorWrap {
   width: 40px;
   height: 40px;

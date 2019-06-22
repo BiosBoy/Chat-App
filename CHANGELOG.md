@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 7.3.1
+ * Increase users slide speed.
+
 # 7.3.0
  * Auto zoom fix while input clicked on touchscreen devices.
 
