@@ -23,17 +23,19 @@ const eventHandlers = notificationCenter => {
     userExit,
     addConnectedUser,
     addNewMessageToStore,
+    decreaseConnection,
+    destroyConnection,
     findCurrentUser,
-    updateUserUUID,
+    updateReconnectedUserData,
     // deleteDisconnectedUser,
     pushTypingUser
   } = storeTools;
 
   return {
-    [ADD_USER]: ({ payload, ws, userConnectionID }) => {
-      const { name = '', cookie = '' } = payload;
+    [ADD_USER]: ({ payload, ws, userConnectionID, cookie }) => {
+      const { name = '' } = payload;
 
-      const onConnectionEmmiter = message => {
+      const onConnectionEmmiter = ({ user, message }) => {
         const newMessage = {
           layout: 'newUser',
           message,
@@ -41,26 +43,29 @@ const eventHandlers = notificationCenter => {
           timestamp: Date.now()
         };
 
-        addNewMessageToStore(newMessage);
-        updatedSubscribersUserList(users, ws);
-        updatedSubscribersMessageList(newMessage, ws);
+        if (user.connections === 1) {
+          addNewMessageToStore(newMessage);
+          updatedSubscribersUserList(users, ws);
+          updatedSubscribersMessageList(newMessage, ws);
+        }
 
         subscribeUser({ payload: { users, messages }, ws });
       };
 
       const addNewUser = () => {
         const newUserName = getUserName(users, name);
+        const newUserData = { name: newUserName, uuid: userConnectionID, cookie, connections: 1, isConnected: true };
 
-        addConnectedUser({ name: newUserName, uuid: userConnectionID, cookie });
-        onConnectionEmmiter(`${newUserName} is just connected to the chat!`);
+        addConnectedUser(newUserData);
+        onConnectionEmmiter({ user: newUserData, message: `${newUserName} is just connected to the chat!` });
 
         debug('New user is just connected:', { newUserName, cookie });
       };
 
       const updateReconnectedUser = () => {
-        const updatedUser = updateUserUUID({ cookie, newConnectionID: userConnectionID });
+        const updatedUser = updateReconnectedUserData({ cookie, newConnectionID: userConnectionID });
 
-        onConnectionEmmiter(`${updatedUser.name} is reconnected to the chat!`);
+        onConnectionEmmiter({ user: updatedUser, message: `${updatedUser.name} is reconnected to the chat!` });
 
         debug(`${updatedUser.name} user is reconnected to the chat:`, updatedUser);
       };
@@ -90,8 +95,14 @@ const eventHandlers = notificationCenter => {
 
       debug('New message is written:', newMessage);
     },
-    [REMOVE_USER]: ({ ws, userConnectionID }) => {
-      const leavedUser = findCurrentUser(userConnectionID);
+    [REMOVE_USER]: ({ ws, cookie }) => {
+      const leavedUser = findCurrentUser(cookie);
+
+      decreaseConnection(leavedUser);
+
+      if (leavedUser.connections >= 1) {
+        return;
+      }
 
       const newMessage = {
         layout: 'newUser',
@@ -100,7 +111,8 @@ const eventHandlers = notificationCenter => {
         timestamp: Date.now()
       };
 
-      // deleteDisconnectedUser(userConnectionID);
+      // deleteDisconnectedUser(cookie);
+      destroyConnection(leavedUser);
       updatedSubscribersUserList(users, ws);
 
       addNewMessageToStore(newMessage);
@@ -108,18 +120,19 @@ const eventHandlers = notificationCenter => {
 
       debug('Some user is leave the chat:', leavedUser);
     },
-    [SOMEONE_TYPING]: ({ spliceRetiredTypingUser, ws, userConnectionID }) => {
-      const typingUser = findCurrentUser(userConnectionID);
+    [SOMEONE_TYPING]: ({ spliceRetiredTypingUser, ws, cookie }) => {
+      const typingUser = findCurrentUser(cookie);
 
       // delete user from typingUser store after 3 sec of non-typing phase
-      spliceRetiredTypingUser();
+      spliceRetiredTypingUser(cookie);
 
-      if (typingUsers.some(user => user.uuid === userConnectionID)) return;
+      // prevent if such user is already in
+      if (typingUsers.some(user => user.cookie === cookie)) return;
 
       pushTypingUser(typingUser);
       someoneTypingNofity(typingUsers, ws);
 
-      debug('Someone is Typing now:', userConnectionID, typingUser);
+      debug('Someone is Typing now:', typingUser);
     }
   };
 };

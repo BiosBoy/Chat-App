@@ -1,6 +1,15 @@
 ## Chat-App
 
 
+# 8.0.0
+ * Finnaly and fully integrated multy-tab chat surfing.
+ * Reconnecting functional was also integrated.
+ * Now users identifications goes via cookie data, not the user uuid.
+
+# 7.5.0
+ * Integrate cookie storage inside server side.
+ * Correspondently update store tools.
+
 # 7.4.0
  * Improve typing notification debouce bue to cookie integration.
 
@@ -35,7 +44,7 @@
 # 6.0.0
  * Fixed EsLint error in server get method args.
  * Separated main server logic with local servers and public folder as well.
- * Added sessions and coockie on the server and clint sides.
+ * Added sessions and cookie on the server and clint sides.
 
 # 5.3.2
  * Refactored app.js server file due to liveTyping functional.
