@@ -3,6 +3,7 @@ const messages = [];
 const typingUsers = [];
 
 const storeTools = {
+  userExit: cookie => users.some(user => user.cookie === cookie),
   addConnectedUser: newUser => {
     users.push(newUser);
   },
@@ -10,6 +11,13 @@ const storeTools = {
     users.splice(0, users.length, ...users.filter(user => user.uuid !== userConnectionID));
   },
   findCurrentUser: userConnectionID => users.find(user => user.uuid === userConnectionID),
+  updateUserUUID: ({ cookie, newConnectionID }) => {
+    const reconnectedUser = users.find(user => user.cookie === cookie);
+
+    reconnectedUser.uuid = newConnectionID;
+
+    return reconnectedUser;
+  },
   addNewMessageToStore: newMessage => {
     messages.push(newMessage);
   },

@@ -47,7 +47,7 @@ const broadcastNotifications = (WebSocket, wss) => {
   };
 
   const currentUserNotification = {
-    subscribeNewUser: ({ payload = {}, ws }) => {
+    subscribeUser: ({ payload = {}, ws }) => {
       ws.send(
         JSON.stringify({
           type: INITIAL_DATA,

@@ -12,18 +12,20 @@ const {
 
 const eventHandlers = notificationCenter => {
   const { currentUserNotification, broadcastNotificationHandlers } = notificationCenter;
-  const { subscribeNewUser } = currentUserNotification;
-  const { checkNameExist, generateUUID } = helpers;
+  const { subscribeUser } = currentUserNotification;
+  const { checkNameExist: getUserName, generateUUID } = helpers;
   const {
     updatedSubscribersUserList,
     updatedSubscribersMessageList,
     someoneTypingNofity
   } = broadcastNotificationHandlers;
   const {
+    userExit,
     addConnectedUser,
     addNewMessageToStore,
     findCurrentUser,
-    deleteDisconnectedUser,
+    updateUserUUID,
+    // deleteDisconnectedUser,
     pushTypingUser
   } = storeTools;
 
@@ -31,30 +33,45 @@ const eventHandlers = notificationCenter => {
     [ADD_USER]: ({ payload, ws, userConnectionID }) => {
       const { name = '', cookie = '' } = payload;
 
-      const newUserName = checkNameExist(users, name);
+      const onConnectionEmmiter = message => {
+        const newMessage = {
+          layout: 'newUser',
+          message,
+          uuid: generateUUID(),
+          timestamp: Date.now()
+        };
 
-      const newUser = {
-        name: newUserName,
-        uuid: userConnectionID,
-        cookie
+        addNewMessageToStore(newMessage);
+        updatedSubscribersUserList(users, ws);
+        updatedSubscribersMessageList(newMessage, ws);
+
+        subscribeUser({ payload: { users, messages }, ws });
       };
 
-      const newMessage = {
-        layout: 'newUser',
-        message: `${newUserName} is just connected to the chat!`,
-        uuid: generateUUID(),
-        timestamp: Date.now()
+      const addNewUser = () => {
+        const newUserName = getUserName(users, name);
+
+        addConnectedUser({ name: newUserName, uuid: userConnectionID, cookie });
+        onConnectionEmmiter(`${newUserName} is just connected to the chat!`);
+
+        debug('New user is just connected:', { newUserName, cookie });
       };
 
-      addConnectedUser(newUser);
-      updatedSubscribersUserList(users, ws);
+      const updateReconnectedUser = () => {
+        const updatedUser = updateUserUUID({ cookie, newConnectionID: userConnectionID });
 
-      addNewMessageToStore(newMessage);
-      updatedSubscribersMessageList(newMessage, ws);
+        onConnectionEmmiter(`${updatedUser.name} is reconnected to the chat!`);
 
-      subscribeNewUser({ payload: { users, messages }, ws });
+        debug(`${updatedUser.name} user is reconnected to the chat:`, updatedUser);
+      };
 
-      debug('New user is just connected:', newUser);
+      if (userExit(cookie)) {
+        updateReconnectedUser();
+
+        return;
+      }
+
+      addNewUser();
     },
     [ADD_MESSAGE]: ({ payload, ws, userConnectionID }) => {
       const { layout = 'message', message = '', timestamp = null, uuid = null, author = '' } = payload;
@@ -83,7 +100,7 @@ const eventHandlers = notificationCenter => {
         timestamp: Date.now()
       };
 
-      deleteDisconnectedUser(userConnectionID);
+      // deleteDisconnectedUser(userConnectionID);
       updatedSubscribersUserList(users, ws);
 
       addNewMessageToStore(newMessage);

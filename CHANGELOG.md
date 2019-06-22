@@ -1,6 +1,10 @@
 ## Chat-App
 
 
+# 7.1.0
+ * Added session storage environment (one user reconnected it would have previously created data and creds).
+ * Added new 2 store tools.
+
 # 7.0.2
  * Fixed CORS utils work.
  * Added description for dev fetch request.
