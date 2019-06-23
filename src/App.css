@@ -272,6 +272,11 @@
   position: relative;
 }
 
+.newUsercurrentUserMessage {
+  color: #e0d3ba;
+  text-shadow: 0 0 5px #8a8888;
+}
+
 .newUserConnectedMessage::before,
 .newUserConnectedMessage::after {
   content: "";
@@ -478,6 +483,7 @@
 }
 
 .asideButtonToggle {
+  line-height: 1;
   background: transparent;
   display: none;
   outline: none;

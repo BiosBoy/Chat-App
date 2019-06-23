@@ -22,6 +22,12 @@ class MessagesList extends React.PureComponent {
     typingUsers: []
   }
 
+  // eslint-disable-next-line react/sort-comp
+  _messageTypes = {
+    newUser: message => <MessageUser key={message.uuid} {...message} />,
+    message: message => <MessageRegular key={message.uuid} {...message} />
+  }
+
   constructor(props) {
     super(props);
 
@@ -55,11 +61,6 @@ class MessagesList extends React.PureComponent {
     currentRef.scrollTop = currentRef.scrollHeight;
   }
 
-  _messageTypes = () => ({
-    newUser: message => <MessageUser key={message.uuid} {...message} />,
-    message: message => <MessageRegular key={message.uuid} {...message} />
-  })
-
   _getCurrentUserMessages = messages => {
     const { currentUserName } = this.props;
 
@@ -71,8 +72,9 @@ class MessagesList extends React.PureComponent {
 
     const normalizedMessages = messages.map(message => {
       const spitedMessage = message.message.split(' ');
+      const isCurrentUserMessage = message.layout === 'newUser' && spitedMessage[0] === currentUserName;
 
-      if (message.layout === 'newUser' && spitedMessage[0] === currentUserName) {
+      if (isCurrentUserMessage) {
         // fixing system messages for current user
         spitedMessage[0] = 'You';
         spitedMessage[1] = spitedMessage[1] === 'is' ? 'are' : 'have';
@@ -80,6 +82,7 @@ class MessagesList extends React.PureComponent {
 
         return {
           ...message,
+          ...isCurrentUserMessage && { isCurrentUser: isCurrentUserMessage },
           message: spitedMessage.join(' ')
         };
       }
@@ -102,7 +105,7 @@ class MessagesList extends React.PureComponent {
     const normalizedMessages = this._getCurrentUserMessages(messages);
 
     return normalizedMessages.map(message => {
-      const MessageToRender = this._messageTypes()[message.layout] || this._messageTypes().message;
+      const MessageToRender = this._messageTypes[message.layout] || this._messageTypes.message;
 
       return MessageToRender(message);
     });
