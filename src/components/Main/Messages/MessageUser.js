@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import getTimestamp from '../../utils/getTime';
+import getTimestamp from '../../../utils/getTime';
 
-class NewUserConnected extends React.PureComponent {
+class MessageUser extends React.PureComponent {
   static propTypes = {
     uuid: PropTypes.number.isRequired,
     message: PropTypes.string.isRequired,
@@ -32,4 +32,4 @@ class NewUserConnected extends React.PureComponent {
   }
 }
 
-export default NewUserConnected;
+export default MessageUser;

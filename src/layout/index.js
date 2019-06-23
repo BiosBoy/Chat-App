@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-import UsersList from '../containers/UsersList';
-import MessagesList from '../containers/MessagesList';
-import AddMessage from '../containers/AddMessage';
+import Sidebar from '../containers/Sidebar';
+import Main from '../containers/Main';
 
 import {
   CONNECTED,
@@ -40,11 +39,8 @@ class AppLayout extends React.PureComponent {
   render() {
     return (
       <div id='container' className={`mainOverlay ${this._connectionLayoutChecker()}`}>
-        <UsersList />
-        <section id='main'>
-          <MessagesList />
-          <AddMessage />
-        </section>
+        <Sidebar />
+        <Main />
       </div>
     );
   }

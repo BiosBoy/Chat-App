@@ -79,12 +79,12 @@
   left: 0;
 }
 
-#message-list {
-  height: calc(100% - 75px);
+.middleSectionMain {
+  height: calc(100% - 112px);
   width: inherit;
   display: block;
   max-height: 517px;
-  padding: 10px;
+  /* padding: 10px; */
   position: relative;
 }
 
@@ -109,6 +109,16 @@
   left: 0%;
 }
 
+.sectionTitleWrap {
+  width: 100%;
+  height: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
 .sectionTitle {
   color: white;
   width: 100%;
@@ -126,7 +136,7 @@
   margin-top: 5px;
   overflow: hidden;
   overflow-y: scroll;
-  padding: 0 10px 0 20px;
+  padding: 0 20px;
 }
 
 .usersList li {
@@ -144,7 +154,7 @@
 }
 
 .messagesList {
-  height: calc(100% - 18px);
+  height: 100%;
   width: 100%;
   padding: 0 10px;
   overflow: hidden;
@@ -288,6 +298,7 @@
 }
 
 .boxShadowBefore {
+  z-index: 100;
   display: block;
   content: "";
   width: calc(100% - 10px);
@@ -460,7 +471,7 @@
   cursor: pointer;
 }
 
-.topSectionMessages {
+.topSectionMain {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -501,6 +512,7 @@
   position: relative;
   color: #fff;
   font-size: 10px;
+  padding-right: 5px;
 }
 
 .connectionStatusText {
@@ -531,12 +543,13 @@
   margin: 5px 7px;
   font-style: italic;
   font-size: 11px;
-}
-
-.bottomSectionMessages {
   position: absolute;
   right: 0;
-  bottom: 0%;
+  bottom: 0;
+}
+
+.bottomSectionMain {
+  opacity: 1;
 }
 
 .liveDots {
@@ -637,7 +650,7 @@
     max-width: calc(100% - 35%);
   }
 
-  .usersListShow {
+  .sidebarListShow {
     left: 0%;
   }
 

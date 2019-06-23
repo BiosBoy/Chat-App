@@ -1,23 +1,27 @@
-import AddMessage from './Messages/AddMessage';
-import Message from './Messages/Message';
-import MessagesList from './Messages/MessagesList';
-import UsersList from './Users/UsersList';
-import NewUserConnected from './NewUserConnected';
+import Sidebar from './Sidebar';
+import UsersList from './Sidebar/Users/UsersList';
+import Main from './Main';
+import AddMessage from './Main/Messages/AddMessage';
+import MessageUser from './Main/Messages/MessageUser';
+import MessageRegular from './Main/Messages/MessageRegular';
+import MessagesList from './Main/Messages/MessagesList';
+import LiveMessageTyping from './Main/LiveMessageTyping';
 import PopUp from './PopUp';
 import DebugInfo from './DebugInfo';
 import Spinner from './Spinner';
 import LoadingPlaceholder from './LoadingPlaceholder';
-import LiveMessageTyping from './LiveMessageTyping';
 
 export {
   AddMessage,
-  Message,
+  MessageRegular,
+  MessageUser,
   MessagesList,
-  NewUserConnected,
   UsersList,
   PopUp,
   DebugInfo,
   Spinner,
   LoadingPlaceholder,
-  LiveMessageTyping
+  LiveMessageTyping,
+  Sidebar,
+  Main
 };

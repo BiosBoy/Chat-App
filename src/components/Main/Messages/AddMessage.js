@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import generateUUID from '../../utils/uuid';
-import { CONNECTED } from '../../constants';
+import generateUUID from '../../../utils/uuid';
+import { CONNECTED } from '../../../constants';
 
 const MESSAGE_TYPE = 'message';
 

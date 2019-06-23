@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import User from './User';
-import Placeholder from '../LoadingPlaceholder';
+import Placeholder from '../../LoadingPlaceholder';
 
 class UsersList extends React.PureComponent {
   static defaultProps = {
@@ -10,9 +10,7 @@ class UsersList extends React.PureComponent {
       uuid: null,
       name: ''
     },
-    users: {
-      mobileLayout: false
-    }
+    users: []
   }
 
   static propTypes = {
@@ -28,8 +26,7 @@ class UsersList extends React.PureComponent {
           cookie: PropTypes.string.isRequired,
           isConnected: PropTypes.bool.isRequired
         })
-      ).isRequired,
-      mobileLayout: PropTypes.bool
+      ).isRequired
     })
   }
 
@@ -64,14 +61,8 @@ class UsersList extends React.PureComponent {
   };
 
   render() {
-    const { users: { mobileLayout } } = this.props;
-
     return (
-      <aside i='sidebar' className={`sidebar${mobileLayout ? ' usersListShow' : ''}`}>
-        <span className='sectionTitle usersTitle'>Users Online</span>
-        <div className='usersList'>{this._renderUsers()}</div>
-        <hr className='boxShadowBefore' />
-      </aside>
+      <div className='usersList'>{this._renderUsers()}</div>
     );
   }
 }
