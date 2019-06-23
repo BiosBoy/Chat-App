@@ -1,7 +1,11 @@
 ## Chat-App
 
 
-# 9.2.0
+# 9.2.2
+ * Fixed user system message layout.
+ * Fixed sidebar marginns/paddings.
+
+# 9.2.1
  * Minor style improvement for the user messages about connection status.
  * Fixed current user matching in reducers.
 

@@ -37,7 +37,7 @@ const eventHandlers = notificationCenter => {
 
       const onConnectionEmmiter = ({ user, message }) => {
         const newMessage = {
-          layout: 'newUser',
+          layout: 'user',
           message,
           uuid: generateUUID(),
           timestamp: Date.now()
@@ -105,7 +105,7 @@ const eventHandlers = notificationCenter => {
       }
 
       const newMessage = {
-        layout: 'newUser',
+        layout: 'user',
         message: `${leavedUser.name} was leave the chat!`,
         uuid: generateUUID(),
         timestamp: Date.now()
