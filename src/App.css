@@ -99,7 +99,7 @@
   max-height: 600px;
   list-style: none;
   background: #d4d4d4;
-  padding-bottom: 10px;
+  /* padding-bottom: 10px; */
   border: 4px solid #d0a85d;
   border-radius: 5px;
   border-top-right-radius: 0;
@@ -133,7 +133,7 @@
 
 .usersList {
   width: 100%;
-  margin-top: 5px;
+  /* margin-top: 5px; */
   overflow: hidden;
   overflow-y: scroll;
   padding: 0 20px;

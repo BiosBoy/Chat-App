@@ -24,7 +24,7 @@ class MessagesList extends React.PureComponent {
 
   // eslint-disable-next-line react/sort-comp
   _messageTypes = {
-    newUser: message => <MessageUser key={message.uuid} {...message} />,
+    user: message => <MessageUser key={message.uuid} {...message} />,
     message: message => <MessageRegular key={message.uuid} {...message} />
   }
 
@@ -72,7 +72,7 @@ class MessagesList extends React.PureComponent {
 
     const normalizedMessages = messages.map(message => {
       const spitedMessage = message.message.split(' ');
-      const isCurrentUserMessage = message.layout === 'newUser' && spitedMessage[0] === currentUserName;
+      const isCurrentUserMessage = message.layout === 'user' && spitedMessage[0] === currentUserName;
 
       if (isCurrentUserMessage) {
         // fixing system messages for current user
