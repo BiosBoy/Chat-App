@@ -1,6 +1,12 @@
 ## Chat-App
 
 
+# 9.1.0
+ * Improve client-side sockets structure.
+
+# 9.0.0
+ * Significally improve client-side app structure arhitecture.
+
 # 8.2.0
  * Added current user alert in message list ("You" instead of the current user name).
 

@@ -10,16 +10,12 @@ import {
   hideDebug,
   liveTyping
 } from '../actions';
+import websocketsHelpers from './helpers';
 import { postponeDebugTimers } from '../../utils/debug';
-import getCookie from '../../utils/getCookie';
+import normalizeTypingUsers from '../../utils/normalizeTypingUsers';
 
-import { ADD_USER, INITIAL_DATA, ADD_MESSAGE, USERS_LIST, ERROR_RECEIVED, SOMEONE_TYPING } from '../../constants/actionsTypes';
+import { INITIAL_DATA, ADD_MESSAGE, USERS_LIST, ERROR_RECEIVED, SOMEONE_TYPING } from '../../constants/actionsTypes';
 import { WSS_END_POINT } from '../../constants/sockets';
-
-const websocketsHelpers = () => ({
-  subscribeUser: (socket, payload) => socket.send(JSON.stringify(payload)),
-  dataParser: event => JSON.parse(event.data)
-});
 
 const setupSocket = ({ getState, dispatch }, username) => {
   const socket = new WebSocket(WSS_END_POINT);
@@ -31,7 +27,7 @@ const setupSocket = ({ getState, dispatch }, username) => {
   socket.onopen = () => {
     const { subscribeUser } = websocketsHelpers();
 
-    subscribeUser(socket, { type: ADD_USER, name: username, cookie: getCookie('cookieUUID') });
+    subscribeUser(socket, username);
   };
 
   socket.onmessage = event => {
@@ -54,15 +50,7 @@ const setupSocket = ({ getState, dispatch }, username) => {
         break;
       case SOMEONE_TYPING:
         delete data.type;
-
-        if (data.typingUsers.some(user => user.cookie === getState().currentUser.cookie)) {
-          data.typingUsers.splice(
-            0,
-            data.typingUsers.length,
-            ...data.typingUsers.filter(user => user.cookie !== getState().currentUser.cookie)
-          );
-        }
-
+        normalizeTypingUsers(data, getState);
         dispatch(liveTyping(data.typingUsers));
         break;
       case ERROR_RECEIVED:
