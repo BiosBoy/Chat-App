@@ -1,6 +1,10 @@
 ## Chat-App
 
 
+# 9.2.0
+ * Minor style improvement for the user messages about connection status.
+ * Fixed current user matching in reducers.
+
 # 9.1.0
  * Improve client-side sockets structure.
 
