@@ -1,8 +1,11 @@
 ## Chat-App
 
 
+# 9.2.4
+ * Added current users in the room layout.
+
 # 9.2.3
- * Add several additional hosts in cors.
+ * Added several additional hosts in cors.
 
 # 9.2.2
  * Fixed user system message layout.

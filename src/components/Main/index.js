@@ -9,8 +9,8 @@ import AddMessage from '../../containers/AddMessage';
 
 import { CONNECTED, DISCONNECTED } from '../../constants/connectionStatuses';
 
-const MESSAGE_TITLE = 'Chat Messages';
-const USER_TOGGLER_TITLE = 'users';
+const MESSAGE_TITLE = '#global';
+const USER_TOGGLER_TITLE = 'Users';
 
 class Main extends React.PureComponent {
   static propTypes = {
@@ -18,6 +18,7 @@ class Main extends React.PureComponent {
     currentUserName: PropTypes.string,
     connectionStatus: PropTypes.string,
     showUsersList: PropTypes.bool,
+    users: PropTypes.array,
     usersListToogle: PropTypes.func
   };
 
@@ -26,6 +27,7 @@ class Main extends React.PureComponent {
     connectionStatus: '',
     showUsersList: true,
     typingUsers: [],
+    users: [],
     usersListToogle: () => {}
   }
 
@@ -35,8 +37,18 @@ class Main extends React.PureComponent {
     usersListToogle();
   }
 
+  _getUsersCountInChat = () => {
+    const { users } = this.props;
+
+    return (
+      <span className='usersRoomCount'>
+        {`Users in chat: ${users.length} | `}
+      </span>
+    );
+  }
+
   _getUsersListToggle = () => {
-    const { showUsersList = false } = this.props;
+    const { users, showUsersList = false } = this.props;
 
     return (
       <button
@@ -44,7 +56,7 @@ class Main extends React.PureComponent {
         type='button'
         onClick={this._handleClick}
       >
-        {USER_TOGGLER_TITLE}
+        {`${USER_TOGGLER_TITLE}: ${users.length}`}
       </button>
     );
   }
@@ -65,22 +77,17 @@ class Main extends React.PureComponent {
     );
   }
 
-  _renderTopSection = () => {
-    return (
-      <SectionTitle title={MESSAGE_TITLE}>
-        {this._getUsersListToggle()}
-        {this._getConnectionStatus()}
-      </SectionTitle>
-    );
-  }
-
   render() {
     const { typingUsers } = this.props;
 
     return (
       <section id='main'>
         <div className='topSectionMain'>
-          {this._renderTopSection()}
+          <SectionTitle title={MESSAGE_TITLE}>
+            {this._getUsersCountInChat()}
+            {this._getUsersListToggle()}
+            {this._getConnectionStatus()}
+          </SectionTitle>
         </div>
         <div className='middleSectionMain'>
           <MessagesList />

@@ -4,6 +4,7 @@ import { usersToggler } from '../controller/actions';
 
 const mapDispatchToState = state => {
   return ({
+    users: state.users.list,
     showUsersList: state.users.mobileLayout,
     connectionStatus: state.currentUser.connectionStatus,
     typingUsers: state.common.typingUsers
