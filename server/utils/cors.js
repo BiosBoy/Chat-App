@@ -1,6 +1,6 @@
 const cors = req => {
   const hosts = {
-    origin: ['http://localhost, http://localhost:80', 'http://localhost:3000', 'chat-app-121.herokuapp.com'],
+    origin: ['http://localhost, http://localhost:80', 'http://localhost:3000', 'http://192.168.0.102', 'http://192.168.0.102:3000', 'chat-app-121.herokuapp.com'],
     default: 'http://localhost'
   };
 

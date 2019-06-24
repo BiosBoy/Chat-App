@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 9.2.3
+ * Add several additional hosts in cors.
+
 # 9.2.2
  * Fixed user system message layout.
  * Fixed sidebar marginns/paddings.
