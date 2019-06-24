@@ -21,10 +21,10 @@ class UsersList extends React.PureComponent {
     users: PropTypes.shape({
       list: PropTypes.arrayOf(
         PropTypes.shape({
-          uuid: PropTypes.number.isRequired,
-          name: PropTypes.string.isRequired,
-          cookie: PropTypes.string.isRequired,
-          isConnected: PropTypes.bool.isRequired
+          uuid: PropTypes.number,
+          name: PropTypes.string,
+          cookie: PropTypes.string,
+          isConnected: PropTypes.bool
         })
       ).isRequired
     })

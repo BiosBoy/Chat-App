@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 9.3.0
+ * Added multy-sections scrolling in the Sidebar area.
+
 # 9.2.4
  * Added current users in the room layout.
 
