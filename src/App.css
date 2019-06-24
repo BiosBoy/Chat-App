@@ -140,6 +140,8 @@
 
 #sidebar {
   overflow: hidden;
+  cursor: grab;
+  outline: none;
 }
 
 .sidebarSection {
@@ -602,6 +604,37 @@
   font-size: 10px;
   white-space: nowrap;
   padding-right: 4px;
+}
+
+.dotsWrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  margin: 5px;
+  display: block;
+  border-radius: 100%;
+  background: #fff;
+  opacity: .5;
+  transition: opacity .2s linear;
+}
+
+.activeArea {
+  opacity: 1;
+}
+
+#sidebar:active {
+  cursor: grabbing;
 }
 
 @keyframes popupAppear {

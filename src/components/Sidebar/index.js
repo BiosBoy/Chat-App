@@ -1,12 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import AreaIndicators from './AreaIndicators';
 import UsersList from '../../containers/UsersList';
 import SectionTitle from '../SectionTitle';
 
 const ZONES_TRANSLATE_SHIFT = {
-  rooms: 0,
-  users: -238
+  rooms: {
+    id: 2,
+    shift: -238
+  },
+  users: {
+    id: 1,
+    shift: 0
+  }
 };
 
 class Sidebar extends React.PureComponent {
@@ -59,11 +66,11 @@ class Sidebar extends React.PureComponent {
 
     if (currentMove - sliderTranlateXStart > 10) {
       this.setState({
-        currentArea: 'rooms'
+        currentArea: 'users'
       });
     } else if (currentMove - sliderTranlateXStart < -10) {
       this.setState({
-        currentArea: 'users'
+        currentArea: 'rooms'
       });
     }
   }
@@ -118,6 +125,8 @@ class Sidebar extends React.PureComponent {
     const { currentArea } = this.state;
     const { mobileLayout } = this.props;
 
+    const { shift, id } = ZONES_TRANSLATE_SHIFT[currentArea] || {};
+
     return (
       <aside
         id='sidebar'
@@ -136,12 +145,13 @@ class Sidebar extends React.PureComponent {
         className={`sidebar${mobileLayout ? ' sidebarListShow' : ''}`}
       >
         <div
-          style={{ transform: `translateX(${ZONES_TRANSLATE_SHIFT[currentArea]}px)` }}
+          style={{ transform: `translateX(${shift}px)` }}
           className='sidebarSectionsContainer'
         >
           {this._renderUsersSection()}
           {this._renderRoomsSection()}
         </div>
+        <AreaIndicators areas={2} activeArea={id} />
       </aside>
     );
   }

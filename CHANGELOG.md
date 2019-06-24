@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 9.4.0
+ * Added Sidebar slider dots indicator.
+
 # 9.3.0
  * Added multy-sections scrolling in the Sidebar area.
 
