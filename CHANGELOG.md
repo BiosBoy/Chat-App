@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 9.6.0
+ * Updated initial store and its tools to be multy-theard.
+
 # 9.5.1
  * Fixed UUID generation problem and its regeneration in the future reconnections on the back-end.
 
