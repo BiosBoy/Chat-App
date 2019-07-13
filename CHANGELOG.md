@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 9.5.0
+ * Improved broadcastNotifications logic to be fit for multy-thread chatting.
+
 # 9.4.0
  * Added Sidebar slider dots indicator.
 

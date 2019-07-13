@@ -2,17 +2,32 @@ const {
   INITIAL_DATA,
   ADD_MESSAGE,
   USERS_LIST,
-  SOMEONE_TYPING
+  SOMEONE_TYPING,
+  NEW_CHAT_CREATED
 } = require('./constants');
 
 const broadcastNotifications = (WebSocket, wss) => {
-  const broadcast = (payload, ws) => {
+  const startEmmiting = (client, payload, allowedClients) => {
+    const notifyPayload = (payload && JSON.stringify(payload)) || null;
+    const emitParticularClients = allowedClients.length > 0;
+
+    if (emitParticularClients && !allowedClients.includes(client.ID)) {
+      return;
+    }
+
+    client.send(notifyPayload);
+  };
+
+  const broadcast = (payload = {}, ws, allowOrigin = false, allowedClients = []) => {
     wss.clients.forEach(client => {
-      if (client.readyState !== WebSocket.OPEN || client === ws) return;
+      const isClientNotReady = client.readyState !== WebSocket.OPEN;
+      const isOriginRestricted = !allowOrigin && client === ws;
 
-      const notifyPayload = (payload && JSON.stringify(payload)) || null;
+      if (isClientNotReady || isOriginRestricted) {
+        return;
+      }
 
-      client.send(notifyPayload);
+      startEmmiting(client, payload, allowedClients);
     });
   };
 
@@ -26,10 +41,11 @@ const broadcastNotifications = (WebSocket, wss) => {
         ws
       );
     },
-    updatedSubscribersMessageList: (payload = {}, ws) => {
+    updatedSubscribersMessageList: (chats, payload = {}, ws) => {
       broadcast(
         {
           type: ADD_MESSAGE,
+          chats,
           ...payload
         },
         ws
@@ -42,6 +58,17 @@ const broadcastNotifications = (WebSocket, wss) => {
           typingUsers: payload
         },
         ws
+      );
+    },
+    newChatCreatedNofity: (payload = {}, ws) => {
+      broadcast(
+        {
+          type: NEW_CHAT_CREATED,
+          newChat: payload
+        },
+        ws,
+        true,
+        payload.allowedUsers
       );
     }
   };
