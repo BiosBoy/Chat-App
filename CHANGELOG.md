@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 9.9.0
+ * Updated UUIG session generation tool to be more predictable.
+
 # 9.8.0
  * Added message generation util.
 
