@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import UsersList from '../components/Sidebar/Users/UsersList';
+import Users from '../components/Sidebar/Users';
 
 const mapStateToProps = state => ({
   users: state.users,
@@ -9,4 +9,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   null
-)(UsersList);
+)(Users);

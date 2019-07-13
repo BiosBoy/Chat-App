@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import User from './User';
+import Unit from '../../../containers/Unit';
 import Placeholder from '../../LoadingPlaceholder';
 
 class UsersList extends React.PureComponent {
@@ -54,8 +54,15 @@ class UsersList extends React.PureComponent {
       .map(user => {
         const isCurrentUser = currentUser.cookie === user.cookie;
 
+        const configuration = {
+          name: user.name,
+          uuid: user.uuid,
+          ID: user.uuid,
+          isConnected: user.isConnected
+        };
+
         return (
-          <User key={user.uuid} user={user} isCurrentUser={isCurrentUser} />
+          <Unit key={user.uuid} type='direct' configuration={configuration} isCurrentUser={isCurrentUser} currentUser={currentUser} />
         );
       });
   };

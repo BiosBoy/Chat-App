@@ -13,7 +13,7 @@ import {
 
 import '../App.css';
 
-class AppLayout extends React.PureComponent {
+class AppLayout extends React.Component {
   static propTypes = {
     connectionStatus: PropTypes.string,
     disableBlurOverlay: PropTypes.bool

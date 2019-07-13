@@ -13,10 +13,18 @@ const initialState = {
     list: [],
     mobileLayout: false
   },
-  messages: [],
   common: {
     disableBlurOverlay: false,
     typingUsers: []
+  },
+  chats: {
+    direct: [],
+    rooms: []
+  },
+  currentChat: {
+    title: 'global',
+    chatType: 'rooms',
+    chatID: 'global'
   }
 };
 

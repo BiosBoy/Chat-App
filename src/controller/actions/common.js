@@ -1,9 +1,10 @@
 import { INITIAL_DATA } from '../../constants/actionsTypes';
 
-const initialLoad = ({ users, messages }) => ({
+const initialLoad = ({ chats, users, typingUsers }) => ({
   type: INITIAL_DATA,
+  chats,
   users,
-  messages
+  typingUsers
 });
 
 export { initialLoad };

@@ -5,7 +5,7 @@ import MessageRegular from './MessageRegular';
 import MessageUser from './MessageUser';
 import Placeholder from '../../LoadingPlaceholder';
 
-class MessagesList extends React.PureComponent {
+class MessagesList extends React.Component {
   static propTypes = {
     typingUsers: PropTypes.array,
     currentUserName: PropTypes.string,

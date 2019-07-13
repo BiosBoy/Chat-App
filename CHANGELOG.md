@@ -1,5 +1,8 @@
 ## Chat-App
 
+# 10.0.0
+ * New Major update!
+ * Fully add support for the multy-channel chatting on the client-side.
 
 # 9.9.0
  * Updated UUIG session generation tool to be more predictable.

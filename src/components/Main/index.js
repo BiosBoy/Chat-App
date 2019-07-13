@@ -3,19 +3,22 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import SectionTitle from '../SectionTitle';
-import MessagesList from '../../containers/MessagesList';
+import Chat from '../../containers/Chat';
 import LiveMessageTyping from './LiveMessageTyping';
 import AddMessage from '../../containers/AddMessage';
 
 import { CONNECTED, DISCONNECTED } from '../../constants/connectionStatuses';
 
-const MESSAGE_TITLE = '#global';
-const USER_TOGGLER_TITLE = 'Users';
+const USER_TOGGLER_TITLE = 'Sidebar';
 
-class Main extends React.PureComponent {
+class Main extends React.Component {
   static propTypes = {
     typingUsers: PropTypes.array,
-    currentUserName: PropTypes.string,
+    currentChat: PropTypes.shape({
+      title: PropTypes.string,
+      chatType: PropTypes.string,
+      chatID: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    }),
     connectionStatus: PropTypes.string,
     showUsersList: PropTypes.bool,
     users: PropTypes.array,
@@ -23,7 +26,11 @@ class Main extends React.PureComponent {
   };
 
   static defaultProps = {
-    currentUserName: '',
+    currentChat: {
+      title: 'global',
+      chatType: 'global',
+      chatID: 'global'
+    },
     connectionStatus: '',
     showUsersList: true,
     typingUsers: [],
@@ -47,8 +54,8 @@ class Main extends React.PureComponent {
     );
   }
 
-  _getUsersListToggle = () => {
-    const { users, showUsersList = false } = this.props;
+  _getSidebarToggle = () => {
+    const { showUsersList = false } = this.props;
 
     return (
       <button
@@ -56,7 +63,7 @@ class Main extends React.PureComponent {
         type='button'
         onClick={this._handleClick}
       >
-        {`${USER_TOGGLER_TITLE}: ${users.length}`}
+        {USER_TOGGLER_TITLE}
       </button>
     );
   }
@@ -78,20 +85,20 @@ class Main extends React.PureComponent {
   }
 
   render() {
-    const { typingUsers } = this.props;
+    const { currentChat, typingUsers } = this.props;
 
     return (
       <section id='main'>
         <div className='topSectionMain'>
-          <SectionTitle title={MESSAGE_TITLE}>
+          <SectionTitle title={`#${currentChat.title}`}>
+            {this._getSidebarToggle()}
             {this._getUsersCountInChat()}
-            {this._getUsersListToggle()}
             {this._getConnectionStatus()}
           </SectionTitle>
         </div>
         <div className='middleSectionMain'>
-          <MessagesList />
-          <LiveMessageTyping typingUsers={typingUsers} />
+          <Chat />
+          <LiveMessageTyping currentChat={currentChat} typingUsers={typingUsers} />
         </div>
         <div className='bottomSectionMain'>
           <AddMessage />

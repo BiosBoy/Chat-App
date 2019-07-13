@@ -8,13 +8,14 @@ import {
   errorReceived,
   showDebug,
   hideDebug,
-  liveTyping
+  liveTyping,
+  chatCreated
 } from '../actions';
 import websocketsHelpers from './helpers';
 import { postponeDebugTimers } from '../../utils/debug';
 import normalizeTypingUsers from '../../utils/normalizeTypingUsers';
 
-import { INITIAL_DATA, ADD_MESSAGE, USERS_LIST, ERROR_RECEIVED, SOMEONE_TYPING } from '../../constants/actionsTypes';
+import { INITIAL_DATA, ADD_MESSAGE, USERS_LIST, ERROR_RECEIVED, SOMEONE_TYPING, NEW_CHAT_CREATED } from '../../constants/actionsTypes';
 import { WSS_END_POINT } from '../../constants/sockets';
 
 const setupSocket = ({ getState, dispatch }, username) => {
@@ -47,6 +48,10 @@ const setupSocket = ({ getState, dispatch }, username) => {
         break;
       case USERS_LIST:
         dispatch(populateUsersList(data.users));
+        break;
+      case NEW_CHAT_CREATED:
+        console.log(data, 'data');
+        dispatch(chatCreated(data));
         break;
       case SOMEONE_TYPING:
         delete data.type;

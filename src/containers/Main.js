@@ -7,6 +7,7 @@ const mapDispatchToState = state => {
     users: state.users.list,
     showUsersList: state.users.mobileLayout,
     connectionStatus: state.currentUser.connectionStatus,
+    currentChat: state.currentChat,
     typingUsers: state.common.typingUsers
   });
 };

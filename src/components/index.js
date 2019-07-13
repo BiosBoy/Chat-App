@@ -1,6 +1,6 @@
 import Sidebar from './Sidebar';
-import UsersList from './Sidebar/Users/UsersList';
-import User from './Sidebar/Users/User';
+import Users from './Sidebar/Users';
+import Unit from './Sidebar/Unit';
 import AreaIndicators from './Sidebar/AreaIndicators';
 import Main from './Main';
 import AddMessage from './Main/Messages/AddMessage';
@@ -18,8 +18,8 @@ export {
   MessageRegular,
   MessageUser,
   MessagesList,
-  UsersList,
-  User,
+  Users,
+  Unit,
   PopUp,
   DebugInfo,
   Spinner,

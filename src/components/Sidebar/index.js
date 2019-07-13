@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import AreaIndicators from './AreaIndicators';
-import UsersList from '../../containers/UsersList';
+import Users from '../../containers/Users';
+import Rooms from '../../containers/Rooms';
 import SectionTitle from '../SectionTitle';
 
 const ZONES_TRANSLATE_SHIFT = {
@@ -76,6 +77,9 @@ class Sidebar extends React.PureComponent {
   }
 
   _handleDown = e => {
+    // e.preventDefault();
+    // e.stopPropagation();
+
     this.setState({
       sliderTranlateXStart: this._getMouseCoord(e)
     });
@@ -107,7 +111,7 @@ class Sidebar extends React.PureComponent {
     return (
       <div className='sidebarSection usersSection'>
         {this._renderTitle('Users')}
-        <UsersList />
+        <Users />
       </div>
     );
   }
@@ -116,7 +120,7 @@ class Sidebar extends React.PureComponent {
     return (
       <div className='sidebarSection roomsSection'>
         {this._renderTitle('Rooms')}
-        <UsersList />
+        <Rooms />
       </div>
     );
   }

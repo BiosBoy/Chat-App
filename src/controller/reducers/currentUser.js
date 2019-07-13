@@ -1,14 +1,12 @@
 import { INITIAL_DATA, USER_DISCONECTED, USER_INTIALIZATION_START, USER_INTIALIZATION_FINISH } from '../../constants/actionsTypes';
 import getCookie from '../../utils/getCookie';
 
-const currentCookie = getCookie('cookieUUID');
-
 const currentUser = (state = {}, action) => {
   switch (action.type) {
     case INITIAL_DATA:
       return {
         ...state,
-        ...action.users.find(user => user.cookie === currentCookie)
+        ...action.users.find(user => user.cookie === getCookie('cookieUUID'))
       };
     case USER_INTIALIZATION_START:
       return {

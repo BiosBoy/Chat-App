@@ -1,7 +1,8 @@
 import { ADD_MESSAGE, MESSAGE_RECEIVED, SOMEONE_TYPING, USER_TYPING } from '../../constants/actionsTypes';
 
-const addMessage = (messageType, message, uuid, uuidAuthor, author, timestamp) => ({
+const addMessage = ({ chat, messageType, message, uuid, uuidAuthor, author, timestamp }) => ({
   type: ADD_MESSAGE,
+  chat,
   messageType,
   uuid,
   message,
@@ -10,8 +11,9 @@ const addMessage = (messageType, message, uuid, uuidAuthor, author, timestamp) =
   timestamp
 });
 
-const messageReceived = message => ({
+const messageReceived = ({ chats, ...message }) => ({
   type: MESSAGE_RECEIVED,
+  chats,
   message
 });
 

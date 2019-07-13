@@ -4,13 +4,14 @@ import { addMessage, userTyping } from '../controller/actions';
 
 const mapDispatchToState = state => {
   return ({
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    currentChat: state.currentChat
   });
 };
 
 const mapDispatchToProps = dispatch => ({
   // eslint-disable-next-line max-len
-  dispatchMessage: (messageType, message, uuid, uuidAuthor, author, timestamp) => dispatch(addMessage(messageType, message, uuid, uuidAuthor, author, timestamp)),
+  dispatchMessage: payload => dispatch(addMessage(payload)),
   dispatchLiveTyping: payload => dispatch(userTyping(payload))
 });
 

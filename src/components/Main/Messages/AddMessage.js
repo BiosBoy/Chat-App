@@ -10,6 +10,7 @@ class AddMessage extends React.PureComponent {
   static propTypes = {
     dispatchLiveTyping: PropTypes.func.isRequired,
     dispatchMessage: PropTypes.func.isRequired,
+    currentChat: PropTypes.object.isRequired,
     currentUser: PropTypes.shape({
       uuid: PropTypes.number,
       name: PropTypes.string
@@ -32,11 +33,26 @@ class AddMessage extends React.PureComponent {
 
   _handleSendMessage = () => {
     const { value } = this.state;
-    const { currentUser: { name, uuid: uuidAuthor, connectionStatus }, dispatchMessage } = this.props;
+    const {
+      currentChat: { chatType, chatID },
+      currentUser: { name, uuid: uuidAuthor, connectionStatus }, dispatchMessage
+    } = this.props;
 
     if (!value || value.length === 0 || connectionStatus !== CONNECTED) return;
 
-    dispatchMessage(MESSAGE_TYPE, value, generateUUID(), uuidAuthor, name, this._getMessageTimestamp());
+    dispatchMessage({
+      chat: {
+        type: chatType,
+        ID: chatID
+      },
+      messageType: MESSAGE_TYPE,
+      message: value,
+      uuid: generateUUID(),
+      uuidAuthor,
+      author: name,
+      timestamp: this._getMessageTimestamp()
+    });
+
     this._resetStateValue();
   }
 
@@ -63,9 +79,9 @@ class AddMessage extends React.PureComponent {
   }
 
   _onChangeHandler = e => {
-    const { currentUser: { name, uuid }, dispatchLiveTyping } = this.props;
+    const { currentChat, currentUser: { name, uuid }, dispatchLiveTyping } = this.props;
 
-    dispatchLiveTyping({ author: name, uuid });
+    dispatchLiveTyping({ chat: currentChat, author: name, uuid });
     this._setStateValue(e);
   }
 
