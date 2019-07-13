@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 9.8.0
+ * Added message generation util.
+
 # 9.7.0
  * Upgrade eventHandler to be multy-thread.
 

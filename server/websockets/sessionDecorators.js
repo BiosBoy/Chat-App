@@ -4,7 +4,18 @@ const helpers = require('../utils');
 const sessionDecorators = ({ broadcastNotificationHandlers, ws }) => {
   const { generateUUID, typingDebounce } = helpers;
   const { someoneTypingNofity } = broadcastNotificationHandlers;
-  const { removeTypingUser } = storeTools;
+  const { removeTypingUser, findCurrentUser } = storeTools;
+  const createUUID = generateUUID();
+
+  const getUUID = () => cookie => {
+    const userAlreadyPresent = findCurrentUser(cookie);
+
+    const recognizedUUID = userAlreadyPresent && userAlreadyPresent.uuid || createUUID;
+
+    ws.ID = recognizedUUID;
+
+    return recognizedUUID;
+  };
 
   const typingUserDebounce = () => {
     const invokeFunctions = {
@@ -21,7 +32,7 @@ const sessionDecorators = ({ broadcastNotificationHandlers, ws }) => {
   };
 
   return {
-    userConnectionID: generateUUID(),
+    userConnectionID: getUUID(),
     spliceRetiredTypingUser: typingUserDebounce()
   };
 };
