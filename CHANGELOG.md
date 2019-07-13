@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 9.7.0
+ * Upgrade eventHandler to be multy-thread.
+
 # 9.6.0
  * Updated initial store and its tools to be multy-theard.
 
