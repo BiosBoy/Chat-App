@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 9.5.1
+ * Fixed UUID generation problem and its regeneration in the future reconnections on the back-end.
+
 # 9.5.0
  * Improved broadcastNotifications logic to be fit for multy-thread chatting.
 

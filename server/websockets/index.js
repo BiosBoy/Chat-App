@@ -19,7 +19,7 @@ const webSocketsServer = expressServerConfiguration => {
     const {
       userConnectionID,
       spliceRetiredTypingUser
-    } = sessionDecorators({ broadcastNotificationHandlers, ws, cookie: userCookie });
+    } = sessionDecorators({ broadcastNotificationHandlers, ws });
     const eventProcessor = eventHandlers(notificationCenter);
 
     ws.on('message', payload => {
@@ -32,7 +32,7 @@ const webSocketsServer = expressServerConfiguration => {
       const currentEvent = eventProcessor[type];
       const eventCoreData = {
         ws,
-        userConnectionID,
+        userConnectionID: userConnectionID(userCookie),
         payload: receivedPayload,
         cookie: userCookie,
         spliceRetiredTypingUser
