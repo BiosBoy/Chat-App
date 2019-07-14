@@ -49,7 +49,8 @@ class Main extends React.Component {
 
     return (
       <span className='usersRoomCount'>
-        {`Users in chat: ${users.length} | `}
+        <i className='usersRoomCountIcon' />
+        {`${users.length} | `}
       </span>
     );
   }
@@ -78,7 +79,7 @@ class Main extends React.Component {
 
     return (
       <span className='connectionStatus'>
-        <span className='connectionStatusText'>Connection status: </span>
+        <i className='connectionStatusIconMain' />
         <i className={`connectionStatusIcon ${connectionStatusesClasses}`} />
       </span>
     );

@@ -66,13 +66,9 @@ class Sidebar extends React.PureComponent {
     }
 
     if (currentMove - sliderTranlateXStart > 10) {
-      this.setState({
-        currentArea: 'users'
-      });
+      this._setCurrentArea('users');
     } else if (currentMove - sliderTranlateXStart < -10) {
-      this.setState({
-        currentArea: 'rooms'
-      });
+      this._setCurrentArea('rooms');
     }
   }
 
@@ -96,6 +92,14 @@ class Sidebar extends React.PureComponent {
     this.ref.current.removeEventListener('mousemove', this._handleMove);
     this.ref.current.removeEventListener('touchmove', this._handleMove);
   }
+
+  _setCurrentArea = area => {
+    this.setState({
+      currentArea: area
+    });
+  }
+
+  _handleSetCurrentArea = area => this._setCurrentArea(area)
 
   _handleContexMenu = e => e.preventDefault()
 
@@ -155,7 +159,7 @@ class Sidebar extends React.PureComponent {
           {this._renderUsersSection()}
           {this._renderRoomsSection()}
         </div>
-        <AreaIndicators areas={2} activeArea={id} />
+        <AreaIndicators areas={2} activeArea={id} setActiveArea={this._handleSetCurrentArea} />
       </aside>
     );
   }

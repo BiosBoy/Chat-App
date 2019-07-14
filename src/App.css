@@ -574,10 +574,10 @@
   width: 6px;
   height: 6px;
   position: relative;
-  top: .5px;
+  /* top: .5px; */
   border-radius: 100%;
   background: grey;
-  margin: 7px;
+  margin: 6px;
 }
 
 .connectionStatusIconСonnected {
@@ -615,11 +615,28 @@
 }
 
 .usersRoomCount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #fff;
   font-size: 10px;
   white-space: nowrap;
   padding: 0 4px;
   padding-left: 7px;
+}
+
+.usersRoomCountIcon {
+  display: block;
+  width: 20px;
+  height: 17px;
+  background: url('/assets/main_users.svg');
+}
+
+.connectionStatusIconMain {
+  display: block;
+  width: 10px;
+  height: 10px;
+  background: url('/assets/connection_status.svg');
 }
 
 .dotsWrap {
@@ -635,14 +652,31 @@
 }
 
 .dot {
-  width: 6px;
-  height: 6px;
+  width: 21px;
+  height: 17px;
   margin: 5px;
   display: block;
-  border-radius: 100%;
-  background: #fff;
+  /* border-radius: 100%; */
+  background: transparent;
+  color: #fff;
+  border: none;
   opacity: .5;
-  transition: opacity .2s linear;
+  transition: all .2s linear;
+  cursor: pointer;
+}
+
+.dot:hover {
+  /* width: 10px;
+  height: 10px;
+  margin: 3px; */
+}
+
+.dotAreaRooms {
+  /* background: url('/assets/sidebar_rooms.svg'); */
+}
+
+.dotAreaUsers {
+  /* background: url('/assets/sidebar_users.svg'); */
 }
 
 .activeArea {
@@ -759,7 +793,7 @@
     display: block;
     position: relative;
   }
-
+/*
   .asideButtonToggle::after {
     content: "";
     width: 1.5px;
@@ -770,7 +804,7 @@
     right: -5px;
     top: 50%;
     transform: translateY(-50%);
-  }
+  } */
 
   .connectionStatusText {
     display: none;

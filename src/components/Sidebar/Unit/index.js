@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 class Unit extends React.PureComponent {
   static defaultProps = {
@@ -35,29 +36,22 @@ class Unit extends React.PureComponent {
   }
 
   _directChat = (config, chatID) => {
-    const { currentUser, createNewDirectChat, type, chats } = this.props;
+    const { currentUser, createNewDirectChat, chats } = this.props;
 
-    if (type === 'direct') {
-      const directChatID = `${currentUser.uuid + chatID}`;
+    const directChatID = `${currentUser.uuid + chatID}`;
 
-      config.currentUserID = currentUser.uuid;
-      config.chatID = directChatID;
-      config.allowedUsers = [currentUser.uuid, chatID];
+    config.currentUserID = currentUser.uuid;
+    config.chatID = directChatID;
+    config.allowedUsers = [currentUser.uuid, chatID];
 
-      const chatIsNotBeingCreted = !chats.direct.some(channel => channel.ID === directChatID);
+    const chatIsNotBeingCreted = !chats.direct.some(channel => channel.ID === directChatID);
 
-      if (chatIsNotBeingCreted) {
-        createNewDirectChat(config);
-      }
+    if (chatIsNotBeingCreted) {
+      createNewDirectChat(config);
     }
   }
 
-  _selectChat = (coordsFinish, e) => {
-    const { coordsStart } = this.state;
-    const isCoordsSame = JSON.stringify(coordsStart) === JSON.stringify(coordsFinish);
-
-    if (!isCoordsSame) return;
-
+  _selectChat = e => {
     const { configuration, chatSelected, type } = this.props;
     const { dataset: { id: chatID, title } } = e.currentTarget;
 
@@ -89,18 +83,27 @@ class Unit extends React.PureComponent {
   }
 
   _handleUp = e => {
+    const { coordsStart } = this.state;
     const coordsFinish = {
       X: e.clientX,
       Y: e.clientY
     };
 
-    this._selectChat(coordsFinish, e);
+    const isCoordsSame = JSON.stringify(coordsStart) === JSON.stringify(coordsFinish);
+
+    if (!isCoordsSame) return;
+
+    this._selectChat(e);
   }
 
   render() {
-    const { currentChat, configuration: { name, ID, uuid, isConnected }, isCurrentUser } = this.props;
+    const { currentChat, configuration: { name, uuid, isConnected }, isCurrentUser } = this.props;
 
-    // console.log(ID, currentChat.chatID, 'uuid');
+    const classNames = classnames({
+      authorContainer: true,
+      authorDisconnected: !isConnected,
+      chatSelected: name === currentChat.title
+    });
 
     return (
       <button
@@ -110,7 +113,7 @@ class Unit extends React.PureComponent {
         data-title={name}
         onMouseDown={this._handleDown}
         onMouseUp={this._handleUp}
-        className={`authorContainer${!isConnected ? ' authorDisconnected' : ''}${ID === currentChat.chatID ? ' chatSelected' : ''}`}
+        className={classNames}
       >
         <span className='authorAvatar authorWrap'>
           <svg width='100%' height='100%' data-jdenticon-value={name} />

@@ -1,5 +1,10 @@
 ## Chat-App
 
+
+# 10.1.0
+ * Added onClick sidebar menu swipe.
+ * Added new SVG icons.
+
 # 10.0.0
  * New Major update!
  * Fully add support for the multy-channel chatting on the client-side.

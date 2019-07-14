@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux';
+// import { responsiveStateReducer } from 'redux-responsive';
+
 import users from './users';
 import currentUser from './currentUser';
 import debug from './debug';
@@ -13,6 +15,7 @@ const chat = combineReducers({
   common,
   chats,
   currentChat
+  // browser: responsiveStateReducer
 });
 
 export default chat;

@@ -1,4 +1,5 @@
 import { createStore, applyMiddleware } from 'redux';
+// import { responsiveStoreEnhancer } from 'redux-responsive';
 import createSagaMiddleware from 'redux-saga';
 
 import reducers from '../controller/reducers';
@@ -15,6 +16,10 @@ const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   reducers,
   initialState,
+  // compose(
+  //   responsiveStoreEnhancer,
+  //   applyMiddleware(sagaMiddleware, logger)
+  // )
   applyMiddleware(sagaMiddleware, logger)
 );
 
