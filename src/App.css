@@ -629,14 +629,14 @@
   display: block;
   width: 20px;
   height: 17px;
-  background: url('/assets/main_users.svg');
+  background: url('../assets/main_users.svg');
 }
 
 .connectionStatusIconMain {
   display: block;
   width: 10px;
   height: 10px;
-  background: url('/assets/connection_status.svg');
+  background: url('../assets/connection_status.svg');
 }
 
 .dotsWrap {
