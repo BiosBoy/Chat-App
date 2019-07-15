@@ -1,6 +1,10 @@
 ## Chat-App
 
 
+# 10.2.0
+ * Added onClick sidebar menu close functionality.
+ * Fixed title shadow glitch in mobile mode.
+
 # 10.1.0
  * Added onClick sidebar menu swipe.
  * Added new SVG icons.

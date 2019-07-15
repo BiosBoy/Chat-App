@@ -143,6 +143,7 @@
   user-select: none;
   cursor: grab;
   outline: none;
+  z-index: 101;
 }
 
 .sidebarSection {
@@ -781,7 +782,6 @@
 
   .sidebarListShow {
     left: 0%;
-    z-index: 101;
   }
 
   #main {

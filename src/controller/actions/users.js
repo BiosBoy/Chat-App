@@ -1,4 +1,12 @@
-import { ADD_USER, USER_DISCONECTED, USER_INTIALIZATION_START, USER_INTIALIZATION_FINISH, NEW_USER_CONNECTED, USERS_LIST_TOGGLER } from '../../constants/actionsTypes';
+import {
+  ADD_USER,
+  USER_DISCONECTED,
+  USER_INTIALIZATION_START,
+  USER_INTIALIZATION_FINISH,
+  NEW_USER_CONNECTED,
+  USERS_LIST_TOGGLER,
+  HIDE_SIDEBAR
+} from '../../constants/actionsTypes';
 import { CONNECTED, IN_PROGRESS, DISCONNECTED } from '../../constants/connectionStatuses';
 
 const addUser = name => ({
@@ -33,4 +41,17 @@ const usersToggler = () => ({
   type: USERS_LIST_TOGGLER
 });
 
-export { addUser, populateUsersList, userInitializationStart, userInitializationFinish, userDisconected, usersToggler };
+const hideSidebar = () => ({
+  type: HIDE_SIDEBAR,
+  status: false
+});
+
+export {
+  addUser,
+  populateUsersList,
+  userInitializationStart,
+  userInitializationFinish,
+  userDisconected,
+  usersToggler,
+  hideSidebar
+};

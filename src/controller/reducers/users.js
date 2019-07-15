@@ -1,4 +1,4 @@
-import { INITIAL_DATA, ADD_USER, NEW_USER_CONNECTED, USERS_LIST_TOGGLER } from '../../constants/actionsTypes';
+import { INITIAL_DATA, ADD_USER, NEW_USER_CONNECTED, USERS_LIST_TOGGLER, HIDE_SIDEBAR } from '../../constants/actionsTypes';
 
 const users = (state = [], action) => {
   switch (action.type) {
@@ -32,6 +32,11 @@ const users = (state = [], action) => {
       return {
         ...state,
         mobileLayout: !state.mobileLayout
+      };
+    case HIDE_SIDEBAR:
+      return {
+        ...state,
+        mobileLayout: action.status
       };
     default:
       return state;

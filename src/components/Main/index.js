@@ -22,7 +22,9 @@ class Main extends React.Component {
     connectionStatus: PropTypes.string,
     showUsersList: PropTypes.bool,
     users: PropTypes.array,
-    usersListToogle: PropTypes.func
+    mobileLayout: PropTypes.bool,
+    usersListToogle: PropTypes.func,
+    hideSidebar: PropTypes.func
   };
 
   static defaultProps = {
@@ -35,7 +37,15 @@ class Main extends React.Component {
     showUsersList: true,
     typingUsers: [],
     users: [],
-    usersListToogle: () => {}
+    mobileLayout: false,
+    usersListToogle: () => {},
+    hideSidebar: () => {}
+  }
+
+  _handleHideSidebarClick = () => {
+    const { mobileLayout, hideSidebar } = this.props;
+
+    mobileLayout && hideSidebar();
   }
 
   _handleClick = () => {
@@ -89,7 +99,7 @@ class Main extends React.Component {
     const { currentChat, typingUsers } = this.props;
 
     return (
-      <section id='main'>
+      <section role='button' onKeyDown={undefined} id='main' onClick={this._handleHideSidebarClick}>
         <div className='topSectionMain'>
           <SectionTitle title={`#${currentChat.title}`}>
             {this._getSidebarToggle()}
