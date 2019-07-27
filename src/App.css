@@ -1,9 +1,9 @@
 
 * {
-  font-family: Arial, sans-serif;
   box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
 #root {
@@ -14,148 +14,151 @@
 
 .appTitle,
 .appCredits {
-  text-align: center;
   padding: 27px;
+  text-align: center;
 }
 
 #container {
   position: relative;
   display: flex;
+  flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
-  flex-direction: row;
+  margin: 50px auto;
   max-width: 1400px;
   max-height: 600px;
   height: 100vh;
-  margin: 50px auto;
 }
 
 #main {
   display: block;
-  height: inherit;
-  width: 100%;
   max-width: 1150px;
   max-height: inherit;
-  background: #ababab;
+  width: 100%;
+  height: inherit;
   border: 4px solid #d0a85d;
   border-radius: 5px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   box-shadow: inset 0 0 16px #696464a3;
+  background: #ababab;
 }
 
 #new-message {
-  width: 100%;
-  padding: 5px;
-  margin-left: 0;
-  border-top: 1px solid #9c8f8f;
-  height: 75px;
   position: relative;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 0;
+  padding: 5px;
+  width: 100%;
+  height: 75px;
+  overflow: hidden;
+  border-top: 1px solid #9c8f8f;
 }
 
 #new-message input {
+  margin: 0 7px;
+  padding: 10px;
   width: 100%;
   height: 50px;
   border: 0 solid #a2a0a0;
   border-radius: 5px;
   box-shadow: 0 3px 8px #776262;
-  outline: none;
-  padding: 10px;
-  margin: 0 7px;
   font-size: 12px;
+  outline: none;
 }
 
 #new-message::before {
   content: '';
-  width: 100%;
-  height: 10%;
   position: absolute;
-  box-shadow: inset -1px 3px 3px #7d7b7b;
   top: -1px;
   left: 0;
+  width: 100%;
+  height: 10%;
+  box-shadow: inset -1px 3px 3px #7d7b7b;
 }
 
 .middleSectionMain {
-  height: calc(100% - 112px);
-  width: inherit;
-  display: block;
-  max-height: 517px;
+
   /* padding: 10px; */
   position: relative;
+  display: block;
+  max-height: 517px;
+  width: inherit;
+  height: calc(100% - 112px);
 }
 
 .sidebar {
+  position: relative;
+  left: 0%;
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  flex-direction: column;
-  width: 100em;
-  height: inherit;
   max-width: 250px;
   max-height: 600px;
-  list-style: none;
-  background: #d4d4d4;
+  width: 100em;
+  height: inherit;
+
   /* padding-bottom: 10px; */
   border: 4px solid #d0a85d;
   border-radius: 5px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   box-shadow: inset 0 0 16px #696464a3;
-  position: relative;
-  left: 0%;
+  background: #d4d4d4;
+  list-style: none;
 }
 
 .titleSidebar {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  flex-direction: row;
   width: 100%;
 }
 
 .sectionTitleWrap {
-  width: 100%;
-  height: auto;
   position: relative;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  flex-direction: row;
+  width: 100%;
+  height: auto;
 }
 
 .sidebarSectionsContainer {
-  width: auto;
   display: flex;
+  flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
-  flex-direction: row;
+  width: auto;
   width: auto;
   transform: translateX(0);
   transition: all .3s ease-in-out;
 }
 
 #sidebar {
+  z-index: 101;
   overflow: hidden;
   user-select: none;
   cursor: grab;
   outline: none;
-  z-index: 101;
 }
 
 .sidebarSection {
+  position: relative;
   width: 238px;
 }
 
 .sectionTitle {
-  color: white;
-  width: 100%;
-  height: auto;
   display: block;
   padding: 10px;
+  width: 100%;
+  height: auto;
+  color: white;
 }
 
 .chatTitle {
@@ -163,46 +166,47 @@
 }
 
 .usersList {
+  padding: 0 20px;
+  max-height: 554px;
   width: 100%;
   height: 100%;
-  max-height: 554px;
+
   /* margin-top: 5px; */
   overflow: hidden;
   overflow-y: scroll;
-  padding: 0 20px;
 }
 
 .usersList li {
-  list-style: none;
   padding: 0 0 3px 0;
-  color: #5a5454;
-  max-width: 212px;
-  text-overflow: ellipsis;
-  word-break: normal;
-  letter-spacing: normal;
-  white-space: nowrap;
-  overflow: hidden;
-  user-select: none;
   padding: 4px 0;
+  max-width: 212px;
+  overflow: hidden;
+  color: #5a5454;
+  letter-spacing: normal;
+  list-style: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: normal;
+  user-select: none;
 }
 
 .messagesList {
-  height: 100%;
-  width: 100%;
-  padding: 0 10px;
-  overflow: hidden;
-  max-height: 480px;
-  overflow-y: scroll;
   position: relative;
+  padding: 0 10px;
+  max-height: 480px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 .messageWrap {
-  width: 100%;
-  height: 50px;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  flex-direction: row;
+  width: 100%;
+  height: 50px;
 }
 
 .message:first-child {
@@ -215,17 +219,17 @@
 
 .authorContainer {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  flex-direction: row;
   margin: 10px 0;
   padding: 5px;
-  border-radius: 3px;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  background: transparent;
   width: 100%;
+  border: none;
+  border-radius: 3px;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
   transition: background .1s linear;
 }
 
@@ -238,45 +242,45 @@
 }
 
 .authorWrap {
+  display: block;
+  padding: 0;
   width: 40px;
   height: 40px;
-  display: block;
+  overflow: hidden;
   border: 2px solid white;
   border-radius: 5px;
+  background: #fff;
   text-align: center;
-  padding: 0;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  background: #fff;
 }
 
 .authorAvatar {
+  margin-right: 8px;
   width: 25px;
   height: 25px;
-  margin-right: 8px;
 }
 
 .messageContainer {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  flex-direction: column;
   margin-left: 8px;
 }
 
 .messageTopSection {
   display: flex;
+  flex-direction: row;
   align-items: flex-start;
   justify-content: center;
-  flex-direction: row;
   max-width: 250px;
   color: #fff;
 }
 
 .messageBottomSection {
-  max-width: inherit;
   padding-top: 5px;
+  max-width: inherit;
 }
 
 .messageTimestamp {
@@ -284,11 +288,11 @@
 }
 
 .authorName {
-  font: inherit;
-  font-weight: bold;
   padding-right: 10px;
-  font-size: 12px;
   overflow: hidden;
+  font: inherit;
+  font-size: 12px;
+  font-weight: bold;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -298,19 +302,19 @@
 }
 
 .textWrap {
-  color: #5a5454;
   padding-top: 5px;
+  color: #5a5454;
   font-size: 14px;
 }
 
 .newUserConnectedWrap {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  padding: 10px 0;
   color: #fff;
   font-size: 12px;
-  padding: 10px 0;
 }
 
 .newUserConnectedMessage {
@@ -327,12 +331,12 @@
 .newUserConnectedMessage::before,
 .newUserConnectedMessage::after {
   content: "";
-  width: 5vw;
-  height: 4px;
-  background: linear-gradient(90deg, transparent 0, #11111159);
   position: absolute;
   top: 0;
   bottom: 0;
+  width: 5vw;
+  height: 4px;
+  background: linear-gradient(90deg, transparent 0, #11111159);
 }
 
 .newUserConnectedMessage::before {
@@ -350,17 +354,17 @@
 }
 
 .boxShadowBefore {
-  z-index: 100;
-  display: block;
   content: "";
-  width: calc(100% - 10px);
-  height: 6px;
+  position: absolute;
   top: 32px;
   left: 5px;
-  position: absolute;
+  z-index: 100;
+  display: block;
+  width: calc(100% - 10px);
+  height: 6px;
+  border: none;
   box-shadow: 0 4px 5px -2px #2d2c2c;
   background: transparent;
-  border: none;
 }
 
 .mainOverlay {
@@ -396,22 +400,22 @@
 }
 
 .popUpContainer {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  right: 50%;
-  top: 50%;
-  height: 100%;
+  max-width: 280px;
   max-height: 115px;
   width: 100%;
-  max-width: 280px;
-  background: #fff;
+  height: 100%;
   border: 3px solid #d0a85d;
   border-radius: 10px;
   box-shadow: 0 0 13px #ababab;
+  background: #fff;
   text-align: center;
-  box-sizing: border-box;
   animation-name: popupAppear;
   animation-duration: 2s;
   animation-timing-function: ease-in-out;
@@ -430,18 +434,18 @@
 
 .popUpContainer .debugText {
   overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-word;
-  white-space: normal;
   font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .debugContainer {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
   padding: 10px;
 }
 
@@ -455,12 +459,12 @@
 
 .loadingPlaceholder {
   position: absolute;
+  left: 5px;
   display: flex;
+  flex-direction: row;
   align-content: center;
   justify-content: center;
-  flex-direction: row;
   margin: 20px 0;
-  left: 5px;
 }
 
 .placeholderText {
@@ -469,19 +473,19 @@
 }
 
 .debugButton {
-  font-size: 14px;
-  cursor: pointer;
   display: block;
-  min-height: 26px;
+  margin: 10px 5px 0 5px;
+  padding: 3px 5px;
   min-width: 63px;
+  min-height: 26px;
   border: 1px solid red;
   border-radius: 5px;
-  color: red;
-  text-decoration: none;
-  box-shadow: 0px 2px 5px #11111147;
-  padding: 3px 5px;
-  margin: 10px 5px 0 5px;
+  box-shadow: 0 2px 5px #11111147;
   background: #fff;
+  color: red;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
   transition: color .3s ease-in-out, background .3s ease-in-out;
 }
 
@@ -491,31 +495,31 @@
 }
 
 .sendMessageButton {
-  display: block;
-  height: 50px;
-  background: green;
-  outline: none;
-  border: none;
-  border-radius: 5px;
-  width: 77px;
   position: relative;
   position: absolute;
   right: 12px;
+  display: block;
+  width: 77px;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  background: green;
   background: #d6c9b1;
-  transition: background .15s ease-in-out;
   color: #fff;
+  outline: none;
+  transition: background .15s ease-in-out;
 }
 
 .sendMessageButton::before {
   content: '';
   position: absolute;
-  height: 100%;
+  top: 0;
+  left: 0;
   width: 7px;
+  height: 100%;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   background: #fff;
-  top: 0;
-  left: 0;
 }
 
 .sendMessageButtonActive {
@@ -530,43 +534,43 @@
 }
 
 .asideButtonToggle {
-  line-height: 1;
-  background: transparent;
   display: none;
-  outline: none;
   margin: 0;
   padding: 2px 5px;
   border: 1px solid #fff;
   border-radius: 5px;
+  background: transparent;
   color: #fff;
+  line-height: 1;
   white-space: nowrap;
+  outline: none;
   transition: background .3s ease-in-out, color .3s ease-in-out;
 }
 
 .asideButtonToggleActive {
+  border: 1px solid #d0a85d;
   background: #fff;
   color: #d0a85d;
-  border: 1px solid #d0a85d;
 }
 
 .debugButtonsWrap {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  flex-direction: row;
 }
 
 .connectionStatus {
+  position: relative;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  flex-direction: row;
-  height: 22px;
+  padding: 0 8px;
   width: auto;
-  position: relative;
+  height: 22px;
   color: #fff;
   font-size: 10px;
-  padding-right: 5px;
 }
 
 .connectionStatusText {
@@ -574,13 +578,14 @@
 }
 
 .connectionStatusIcon {
+  position: relative;
+  margin: 6px;
   width: 6px;
   height: 6px;
-  position: relative;
+
   /* top: .5px; */
   border-radius: 100%;
   background: grey;
-  margin: 6px;
 }
 
 .connectionStatusIconСonnected {
@@ -592,14 +597,14 @@
 }
 
 .liveMessageWrap {
-  color: #fff;
-  padding: 5px;
-  margin: 5px 7px;
-  font-style: italic;
-  font-size: 11px;
   position: absolute;
   right: 0;
   bottom: 0;
+  margin: 5px 7px;
+  padding: 5px;
+  color: #fff;
+  font-size: 11px;
+  font-style: italic;
 }
 
 .bottomSectionMain {
@@ -607,9 +612,9 @@
 }
 
 .liveDots {
+  display: inline-block;
   width: 7px;
   height: auto;
-  display: inline-block;
 }
 
 .liveDots::after {
@@ -621,11 +626,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 7px;
   color: #fff;
   font-size: 10px;
   white-space: nowrap;
-  padding: 0 4px;
-  padding-left: 7px;
 }
 
 .usersRoomCountIcon {
@@ -637,48 +641,52 @@
 
 .connectionStatusIconMain {
   display: block;
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 13px;
   background: url('../assets/connection_status.svg');
 }
 
 .dotsWrap {
   position: absolute;
+  right: 0;
   bottom: 0;
   left: 0;
-  right: 0;
-  margin: 20px 0;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  flex-direction: row;
+  margin: 20px 0;
 }
 
 .dot {
+  display: block;
+  margin: 5px;
   width: 21px;
   height: 17px;
-  margin: 5px;
-  display: block;
+  border: none;
+
   /* border-radius: 100%; */
   background: transparent;
   color: #fff;
-  border: none;
   opacity: .5;
   transition: all .2s linear;
   cursor: pointer;
 }
 
 .dot:hover {
+
   /* width: 10px;
   height: 10px;
   margin: 3px; */
 }
 
 .dotAreaRooms {
+
   /* background: url('/assets/sidebar_rooms.svg'); */
 }
 
 .dotAreaUsers {
+
   /* background: url('/assets/sidebar_users.svg'); */
 }
 
@@ -688,11 +696,37 @@
 
 .chatSelected,
 .chatSelected:hover {
-  background: hsla(0, 0%, 100%, 0.63);
+  background: hsla(0, 0%, 100%, .63);
 }
 
 #sidebar:active {
   cursor: grabbing;
+}
+
+.statusesWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  color: #fff;
+}
+
+.usersRoomFavorite {
+  margin: 0 7px;
+  width: 20px;
+  height: 16px;
+}
+
+.usersRoomFavoriteButton {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
 }
 
 @keyframes popupAppear {
@@ -779,6 +813,7 @@
     transition: left .5s ease-in-out;
     z-index: 1;
     box-shadow: inset 0 0 16px rgba(105, 100, 100, .63922), 27px 0 15px -8px rgba(17, 17, 17, .25882);
+
     /* max-width: calc(100% - 35%); */
   }
 
@@ -792,10 +827,11 @@
   }
 
   .asideButtonToggle {
-    display: block;
     position: relative;
+    display: block;
   }
-/*
+
+  /*
   .asideButtonToggle::after {
     content: "";
     width: 1.5px;
@@ -811,6 +847,7 @@
   .connectionStatusText {
     display: none;
   }
+
   /*
   .usersRoomCount {
     display: none;

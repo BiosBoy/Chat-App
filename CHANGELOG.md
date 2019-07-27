@@ -1,6 +1,11 @@
 ## Chat-App
 
 
+# 10.7.0
+ * Added 2 new svg icons.
+ * Improved react bundles core.
+ * Improved css logic.
+
 # 10.6.0
  * Main statuses were separated in ther own module.
 
