@@ -13,14 +13,16 @@ const store = {
       {
         ID: 'global',
         uuid: 1,
-        type: 'public',
+        type: 'rooms',
+        security: 'public',
         allowedUsers: [],
         messages: []
       },
       {
         ID: 'flood',
-        type: 'public',
         uuid: 2,
+        type: 'rooms',
+        security: 'public',
         allowedUsers: [],
         messages: []
       }
@@ -33,7 +35,7 @@ const storeTools = {
   addConnectedUser: newUser => {
     store.users.push(newUser);
     store.chats.rooms.forEach(channel => {
-      channel.type === 'public' && channel.allowedUsers.push(newUser.uuid);
+      channel.security === 'public' && channel.allowedUsers.push(newUser.uuid);
     });
   },
   deleteDisconnectedUser: cookie => {
@@ -54,9 +56,9 @@ const storeTools = {
 
     return reconnectedUser;
   },
-  createNewChat: ({ type, allowedUsers, ID, messages }) => {
+  createNewChat: ({ type, allowedUsers, ID, uuid, messages }) => {
     const chatToAddNewChannel = store.chats[type];
-    const newChannel = { ID, allowedUsers, messages };
+    const newChannel = { ID, type, uuid, allowedUsers, messages };
 
     chatToAddNewChannel.push(newChannel);
   },
@@ -89,6 +91,25 @@ const storeTools = {
   },
   removeTypingUser: cookie => {
     store.typingUsers.splice(0, store.typingUsers.length, ...store.typingUsers.filter(user => user.cookie !== cookie));
+  },
+  addChatToUserFavorites: ({ currentUser, favoriteChat }) => {
+    const isAlreadyFavorite = currentUser.favoriteChats.find(
+      chat => chat.ID === favoriteChat.ID && chat.type === favoriteChat.type
+    );
+
+    if (isAlreadyFavorite) {
+      currentUser.favoriteChats.splice(
+        0,
+        currentUser.favoriteChats.length,
+        ...currentUser.favoriteChats.filter(chat => {
+          return chat.ID !== isAlreadyFavorite.ID || chat.type !== isAlreadyFavorite.type;
+        })
+      );
+
+      return;
+    }
+
+    currentUser.favoriteChats.push(favoriteChat);
   }
 };
 

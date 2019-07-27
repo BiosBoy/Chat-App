@@ -3,7 +3,8 @@ const {
   ADD_MESSAGE,
   USERS_LIST,
   SOMEONE_TYPING,
-  NEW_CHAT_CREATED
+  NEW_CHAT_CREATED,
+  FAVORITE_CHANNEL_SETTED
 } = require('./constants');
 
 const broadcastNotifications = (WebSocket, wss) => {
@@ -65,6 +66,17 @@ const broadcastNotifications = (WebSocket, wss) => {
         {
           type: NEW_CHAT_CREATED,
           newChat: payload
+        },
+        ws,
+        true,
+        payload.allowedUsers
+      );
+    },
+    notifyUserAboutFavoriteAdded: (payload = {}, ws) => {
+      broadcast(
+        {
+          type: FAVORITE_CHANNEL_SETTED,
+          favoriteChats: payload
         },
         ws,
         true,

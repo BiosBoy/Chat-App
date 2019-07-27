@@ -3,23 +3,18 @@ const debug = require('debug')('app:chat-server');
 const { store, storeTools } = require('./store');
 const helpers = require('../utils');
 
-const {
-  ADD_USER,
-  ADD_MESSAGE,
-  REMOVE_USER,
-  SOMEONE_TYPING,
-  CREATE_NEW_CHAT
-} = require('./constants');
+const { ADD_USER, ADD_MESSAGE, REMOVE_USER, SOMEONE_TYPING, CREATE_NEW_CHAT, SET_FAVORITE } = require('./constants');
 
 const eventHandlers = notificationCenter => {
   const { currentUserNotification, broadcastNotificationHandlers } = notificationCenter;
   const { subscribeUser } = currentUserNotification;
-  const { checkNameExist: getUserName, newMessage: generateNewMessage } = helpers;
+  const { checkNameExist: getUserName, newMessage: generateNewMessage, generateUUID } = helpers;
   const {
     updatedSubscribersUserList,
     updatedSubscribersMessageList,
     newChatCreatedNofity,
-    someoneTypingNofity
+    someoneTypingNofity,
+    notifyUserAboutFavoriteAdded
   } = broadcastNotificationHandlers;
   const {
     userAlredyExist,
@@ -31,7 +26,8 @@ const eventHandlers = notificationCenter => {
     findCurrentUser,
     updateReconnectedUserData,
     pushTypingUser,
-    createNewChat
+    createNewChat,
+    addChatToUserFavorites
   } = storeTools;
 
   return {
@@ -54,7 +50,16 @@ const eventHandlers = notificationCenter => {
           updatedSubscribersMessageList(chatsToInsertMessage, message, ws);
         }
 
-        subscribeUser({ payload: store, ws });
+        subscribeUser({
+          payload: {
+            ...store,
+            chats: {
+              direct: [...store.chats.direct.filter(channel => channel.allowedUsers.includes(user.uuid))],
+              rooms: store.chats.rooms
+            }
+          },
+          ws
+        });
       };
 
       const addNewUser = () => {
@@ -63,21 +68,39 @@ const eventHandlers = notificationCenter => {
           name: newUserName,
           uuid: userConnectionID,
           cookie,
+          favoriteChats: [],
           connections: 1,
           isConnected: true
         };
 
         addConnectedUser(newUserData);
-        createNewChat({ type: 'direct', ID: `${userConnectionID + userConnectionID}`, allowedUsers: [userConnectionID], messages: [generateNewMessage({ type: 'user', message: `Hi, ${newUserName}! This is your personal chat! You can store here any what you want! :)` })] });
+        createNewChat({
+          type: 'direct',
+          ID: `${userConnectionID + userConnectionID}`,
+          uuid: generateUUID(),
+          allowedUsers: [userConnectionID],
+          messages: [
+            generateNewMessage({
+              type: 'user',
+              message: `Hi, ${newUserName}! This is your personal chat! You can store here any what you want! :)`
+            })
+          ]
+        });
 
-        onConnectionEmmiter({ user: newUserData, message: generateNewMessage({ type: 'user', message: `${newUserName} is just connected to the chat!` }) });
+        onConnectionEmmiter({
+          user: newUserData,
+          message: generateNewMessage({ type: 'user', message: `${newUserName} is just connected to the chat!` })
+        });
         debug('New user is just connected:', { name: newUserName, cookie });
       };
 
       const updateReconnectedUser = () => {
         const updatedUser = updateReconnectedUserData({ cookie });
 
-        onConnectionEmmiter({ user: updatedUser, message: generateNewMessage({ type: 'user', message: `${updatedUser.name} is reconnected to the chat!` }) });
+        onConnectionEmmiter({
+          user: updatedUser,
+          message: generateNewMessage({ type: 'user', message: `${updatedUser.name} is reconnected to the chat!` })
+        });
 
         debug(`${updatedUser.name} user is reconnected to the chat:`, updatedUser);
       };
@@ -155,22 +178,31 @@ const eventHandlers = notificationCenter => {
       }
 
       const currentUser = store.users.find(user => user.uuid === payload.currentUserID);
-      const userToChat = store.users.find(user => user.uuid === payload.uuid);
+      const userToChatWith = store.users.find(user => user.uuid === payload.uuid);
+
       const newChatData = {
         type: payload.chatType,
         ID: payload.chatID,
+        uuid: generateUUID(),
         allowedUsers: payload.allowedUsers,
         messages: [
           generateNewMessage({
             type: 'user',
-            message: `Hi, ${currentUser.name}! This is the very beginning chat history with ${userToChat.name}! :)`
+            message: `Hi, ${currentUser.name}! This is the very beginning chat history with ${userToChatWith.name}! :)`
           })
         ]
       };
 
       createNewChat(newChatData);
       newChatCreatedNofity(newChatData);
-      debug('New Chat has been created:', currentUser.name, userToChat.name);
+      debug('New Chat has been created:', currentUser.name, userToChatWith.name);
+    },
+    [SET_FAVORITE]: ({ payload: { payload } }) => {
+      const currentUser = store.users.find(user => user.uuid === payload.userID);
+
+      addChatToUserFavorites({ currentUser, favoriteChat: payload.chat });
+      notifyUserAboutFavoriteAdded(currentUser.favoriteChats);
+      debug(`User ${currentUser.name} is add a favorite channel: ${payload.chat.ID}`);
     }
   };
 };

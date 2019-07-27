@@ -1,6 +1,10 @@
 ## Chat-App
 
 
+# 11.0.0
+ * Added ability to do Favorite chats selection (back-end).
+ * Fixed wrong chats sending (where all privat direct chats send to all subscribers).
+
 # 10.7.0
  * Added 2 new svg icons.
  * Improved react bundles core.
