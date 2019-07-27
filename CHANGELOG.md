@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 10.6.0
+ * Main statuses were separated in ther own module.
+
 # 10.5.0
  * Added new scroll area in the Sidebar (favorite).
 

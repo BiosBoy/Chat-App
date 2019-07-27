@@ -1,15 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 
+import Statuses from '../../containers/Statuses';
 import SectionTitle from '../SectionTitle';
 import Chat from '../../containers/Chat';
 import LiveMessageTyping from './LiveMessageTyping';
 import AddMessage from '../../containers/AddMessage';
-
-import { CONNECTED, DISCONNECTED } from '../../constants/connectionStatuses';
-
-const USER_TOGGLER_TITLE = 'Sidebar';
 
 class Main extends React.Component {
   static propTypes = {
@@ -20,12 +16,10 @@ class Main extends React.Component {
       chatID: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     }),
     connectionStatus: PropTypes.string,
-    showUsersList: PropTypes.bool,
+    showSidebar: PropTypes.bool,
     users: PropTypes.array,
-    mobileLayout: PropTypes.bool,
-    usersListToogle: PropTypes.func,
     hideSidebar: PropTypes.func
-  };
+  }
 
   static defaultProps = {
     currentChat: {
@@ -34,24 +28,20 @@ class Main extends React.Component {
       chatID: 'global'
     },
     connectionStatus: '',
-    showUsersList: true,
     typingUsers: [],
     users: [],
-    mobileLayout: false,
-    usersListToogle: () => {},
+    showSidebar: false,
     hideSidebar: () => {}
   }
 
-  _handleHideSidebarClick = () => {
-    const { mobileLayout, hideSidebar } = this.props;
+  _hideSidebar = () => {
+    const { showSidebar, hideSidebar } = this.props;
 
-    mobileLayout && hideSidebar();
+    showSidebar && hideSidebar();
   }
 
   _handleClick = () => {
-    const { usersListToogle } = this.props;
-
-    usersListToogle();
+    this._hideSidebar();
   }
 
   _getUsersCountInChat = () => {
@@ -65,46 +55,14 @@ class Main extends React.Component {
     );
   }
 
-  _getSidebarToggle = () => {
-    const { showUsersList = false } = this.props;
-
-    return (
-      <button
-        className={`asideButtonToggle${showUsersList ? ' asideButtonToggleActive' : ''}`}
-        type='button'
-        onClick={this._handleClick}
-      >
-        {USER_TOGGLER_TITLE}
-      </button>
-    );
-  }
-
-  _getConnectionStatus = () => {
-    const { connectionStatus } = this.props;
-
-    const connectionStatusesClasses = classnames({
-      connectionStatusIconСonnected: connectionStatus === CONNECTED,
-      connectionStatusIconDisconnected: connectionStatus === DISCONNECTED
-    });
-
-    return (
-      <span className='connectionStatus'>
-        <i className='connectionStatusIconMain' />
-        <i className={`connectionStatusIcon ${connectionStatusesClasses}`} />
-      </span>
-    );
-  }
-
   render() {
     const { currentChat, typingUsers } = this.props;
 
     return (
-      <section role='button' onKeyDown={undefined} id='main' onClick={this._handleHideSidebarClick}>
+      <section role='button' onKeyDown={undefined} id='main' onClick={this._handleClick}>
         <div className='topSectionMain'>
           <SectionTitle title={`#${currentChat.title}`}>
-            {this._getSidebarToggle()}
-            {this._getUsersCountInChat()}
-            {this._getConnectionStatus()}
+            <Statuses />
           </SectionTitle>
         </div>
         <div className='middleSectionMain'>
