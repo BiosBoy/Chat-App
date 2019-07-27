@@ -1,12 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import AreaIndicators from './AreaIndicators';
 import Users from '../../containers/Users';
 import Rooms from '../../containers/Rooms';
+import Favorites from './Favorites';
 import SectionTitle from '../SectionTitle';
 
 const ZONES_TRANSLATE_SHIFT = {
+  favorites: {
+    id: 3,
+    shift: -476
+  },
   rooms: {
     id: 2,
     shift: -238
@@ -19,22 +25,31 @@ const ZONES_TRANSLATE_SHIFT = {
 
 class Sidebar extends React.PureComponent {
   static defaultProps = {
-    mobileLayout: false
+    showSidebar: false
   }
 
   static propTypes = {
-    mobileLayout: PropTypes.bool
+    showSidebar: PropTypes.bool
   }
 
   constructor(props) {
     super(props);
 
     this.state = {
-      currentArea: '',
+      currentArea: 'users',
       sliderTranlateXStart: null
     };
 
     this.ref = React.createRef();
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  componentDidUpdate(prevProps, prevState) {
+    const { currentArea } = this.state;
+
+    if (prevState.currentArea !== currentArea) {
+      this._removeMoveEvents();
+    }
   }
 
   componentWillUnmount() {
@@ -54,7 +69,7 @@ class Sidebar extends React.PureComponent {
     const moveForwardDangerZone = currentMove - sliderTranlateXStart < 3;
 
     return moveBackDangerZone && moveForwardDangerZone;
-  };
+  }
 
   _handleMove = e => {
     const { sliderTranlateXStart } = this.state;
@@ -65,37 +80,63 @@ class Sidebar extends React.PureComponent {
       return;
     }
 
-    if (currentMove - sliderTranlateXStart > 10) {
-      this._setCurrentArea('users');
-    } else if (currentMove - sliderTranlateXStart < -10) {
-      this._setCurrentArea('rooms');
+    this._getCurrentArea(currentMove);
+  }
+
+  _getCurrentArea = currentMove => {
+    const { sliderTranlateXStart, currentArea } = this.state;
+
+    const moveForward = areaName => {
+      if (currentMove - sliderTranlateXStart < -10) {
+        this._setCurrentArea(areaName);
+      }
+    };
+
+    const moveBack = areaName => {
+      if (currentMove - sliderTranlateXStart > 10) {
+        this._setCurrentArea(areaName);
+      }
+    };
+
+    if (currentArea === 'users') {
+      moveForward('rooms');
+    } else if (currentArea === 'rooms') {
+      moveForward('favorites');
+      moveBack('users');
+    } else if (currentArea === 'favorites') {
+      moveBack('rooms');
     }
   }
 
-  _handleDown = e => {
-    // e.preventDefault();
-    // e.stopPropagation();
-
-    this.setState({
-      sliderTranlateXStart: this._getMouseCoord(e)
-    });
-
+  _addMoveEvents = () => {
     this.ref.current.addEventListener('mousemove', this._handleMove);
     this.ref.current.addEventListener('touchmove', this._handleMove);
   }
 
-  _handleUp = () => {
-    this.setState({
-      sliderTranlateXStart: null
-    });
-
+  _removeMoveEvents = () => {
     this.ref.current.removeEventListener('mousemove', this._handleMove);
     this.ref.current.removeEventListener('touchmove', this._handleMove);
+  }
+
+  _handleDown = e => {
+    this._setStartCoords(e);
+    this._addMoveEvents();
+  }
+
+  _handleUp = () => {
+    this._setStartCoords();
+    this._removeMoveEvents();
   }
 
   _setCurrentArea = area => {
     this.setState({
       currentArea: area
+    });
+  }
+
+  _setStartCoords = e => {
+    this.setState({
+      sliderTranlateXStart: e ? this._getMouseCoord(e) : null
     });
   }
 
@@ -111,29 +152,24 @@ class Sidebar extends React.PureComponent {
     );
   }
 
-  _renderUsersSection = () => {
+  _renderSection = ({ className, title, section }) => {
     return (
-      <div className='sidebarSection usersSection'>
-        {this._renderTitle('Users')}
-        <Users />
-      </div>
-    );
-  }
-
-  _renderRoomsSection = () => {
-    return (
-      <div className='sidebarSection roomsSection'>
-        {this._renderTitle('Rooms')}
-        <Rooms />
+      <div className={`sidebarSection ${className}`}>
+        {this._renderTitle(title)}
+        {section}
       </div>
     );
   }
 
   render() {
     const { currentArea } = this.state;
-    const { mobileLayout } = this.props;
+    const { showSidebar } = this.props;
 
     const { shift, id } = ZONES_TRANSLATE_SHIFT[currentArea] || {};
+    const classNames = classnames({
+      sidebar: true,
+      sidebarListShow: showSidebar
+    });
 
     return (
       <aside
@@ -150,16 +186,30 @@ class Sidebar extends React.PureComponent {
         onMouseUp={this._handleUp}
         onMouseLeave={this._handleUp}
         onContextMenu={this._handleContexMenu}
-        className={`sidebar${mobileLayout ? ' sidebarListShow' : ''}`}
+        className={classNames}
       >
-        <div
-          style={{ transform: `translateX(${shift}px)` }}
-          className='sidebarSectionsContainer'
-        >
-          {this._renderUsersSection()}
-          {this._renderRoomsSection()}
+        <div style={{ transform: `translateX(${shift}px)` }} className='sidebarSectionsContainer'>
+          {this._renderSection({
+            className: 'usersSection',
+            title: 'Users',
+            section: <Users />
+          })}
+          {this._renderSection({
+            className: 'roomsSection',
+            title: 'Rooms',
+            section: <Rooms />
+          })}
+          {this._renderSection({
+            className: 'favoritesSection',
+            title: 'Favorites',
+            section: <Favorites />
+          })}
         </div>
-        <AreaIndicators areas={2} activeArea={id} setActiveArea={this._handleSetCurrentArea} />
+        <AreaIndicators
+          areas={Object.keys(ZONES_TRANSLATE_SHIFT).length}
+          activeArea={id}
+          setActiveArea={this._handleSetCurrentArea}
+        />
       </aside>
     );
   }

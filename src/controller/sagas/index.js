@@ -1,8 +1,12 @@
 import { takeEvery, takeLatest } from 'redux-saga/effects';
-import { ADD_MESSAGE, USER_TYPING, SOMEONE_TYPING, CREATE_NEW_CHAT } from '../../constants/actionsTypes';
+import { ADD_MESSAGE, USER_TYPING, SOMEONE_TYPING, CREATE_NEW_CHAT, SET_FAVORITE } from '../../constants/actionsTypes';
 import getCookie from '../../utils/getCookie';
 
 function sendMessage(socket) {
+  return action => socket.send(JSON.stringify(action));
+}
+
+function sendFavorite(socket) {
   return action => socket.send(JSON.stringify(action));
 }
 
@@ -35,6 +39,7 @@ function* rootSaga(socket) {
   yield takeEvery(ADD_MESSAGE, sendMessage(socket));
   yield takeLatest(USER_TYPING, sendTyping(socket));
   yield takeLatest(CREATE_NEW_CHAT, createNewDiretChat(socket));
+  yield takeLatest(SET_FAVORITE, sendFavorite(socket));
 }
 
 export default rootSaga;
