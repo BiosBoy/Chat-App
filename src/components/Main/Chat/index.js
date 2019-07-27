@@ -22,15 +22,11 @@ class Chat extends React.Component {
   _getCurrentChatMessages = () => {
     const { chats, currentChat: { chatType, chatID } } = this.props;
 
-    // console.log(chats[chatType], 'chats[chatType]');
-
     const chatToRender = chats[chatType] && chats[chatType].find(channel => {
-      console.log(channel.ID === chatID, 'channel.ID === chatID');
+      // console.log(channel, chatID, 'channel, chatID');
 
       return channel.ID === chatID || false;
     });
-
-    // console.log(chatToRender, 'chatToRender');
 
     return chatToRender || [];
   }

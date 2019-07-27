@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 11.1.0
+ * Added ability to do Favorite chats selection (client-end).
+
 # 11.0.0
  * Added ability to do Favorite chats selection (back-end).
  * Fixed wrong chats sending (where all privat direct chats send to all subscribers).

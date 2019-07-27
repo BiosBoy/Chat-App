@@ -7,28 +7,58 @@ import Placeholder from '../../LoadingPlaceholder';
 
 class Favorites extends React.PureComponent {
   static propTypes = {
+    directs: PropTypes.array,
     rooms: PropTypes.array,
-    users: PropTypes.array
+    users: PropTypes.array,
+    favorites: PropTypes.array,
+    currentUser: PropTypes.object
   }
 
   static defaultProps = {
+    directs: [],
     rooms: [],
-    users: []
+    users: [],
+    favorites: [],
+    currentUser: {}
   }
 
   _findFavorite = () => {
-    const { rooms, users } = this.props;
-    const favorites = [];
+    const { directs, rooms, users, favorites, currentUser } = this.props;
+    const favoritesList = [];
 
-    rooms.concat(users).forEach(channel => {
-      if (!channel.isFavorute) {
-        return;
-      }
+    if (!favorites) {
+      return null;
+    }
 
-      favorites.push(channel);
-    });
+    const channelsIterator = ({ channels, type }) => {
+      channels.forEach(channel => {
+        favorites.forEach(favoriteChannel => {
+          if ((favoriteChannel.ID !== channel.ID) || (favoriteChannel.type !== channel.type)) {
+            return;
+          }
 
-    return favorites;
+          const config = {
+            ...channel,
+            channelType: type
+          };
+
+          if (type === 'direct') {
+            const realID = Number(channel.ID) - Number(currentUser.uuid);
+            const userName = users.find(user => user.uuid === realID);
+
+            config.name = userName.name;
+            config.uuid = realID;
+          }
+
+          favoritesList.push(config);
+        });
+      });
+    };
+
+    channelsIterator({ channels: rooms, type: 'rooms' });
+    channelsIterator({ channels: directs, type: 'direct' });
+
+    return favoritesList;
   }
 
   _renderRooms = () => {
@@ -42,13 +72,13 @@ class Favorites extends React.PureComponent {
 
     return favorites.map(channel => {
       const configuration = {
-        name: channel.ID,
+        name: channel.name || channel.ID,
         uuid: channel.uuid,
-        ID: channel.ID,
+        ID: Number(channel.name && channel.uuid) || channel.ID,
         isConnected: true
       };
 
-      return <Unit type='rooms' key={channel.uuid} configuration={configuration} />;
+      return <Unit key={channel.uuid} type={channel.channelType} configuration={configuration} />;
     });
   }
 

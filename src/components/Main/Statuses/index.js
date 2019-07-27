@@ -25,6 +25,10 @@ class Statuses extends React.Component {
     sidebarToggler: PropTypes.func,
     setFavorite: PropTypes.func,
     isFavorite: PropTypes.bool,
+    userFavoriteChats: PropTypes.array,
+    currentUserID: PropTypes.number,
+    currentChatID: PropTypes.string,
+    currentChatType: PropTypes.string,
     users: PropTypes.array
   }
 
@@ -33,6 +37,10 @@ class Statuses extends React.Component {
     connectionStatus: 'disconnected',
     sidebarToggler: () => {},
     setFavorite: () => {},
+    userFavoriteChats: [],
+    currentUserID: null,
+    currentChatID: null,
+    currentChatType: null,
     isFavorite: false,
     users: []
   }
@@ -44,11 +52,9 @@ class Statuses extends React.Component {
   }
 
   _handleFavoriteClick = () => {
-    const { setFavorite } = this.props;
+    const { setFavorite, currentUserID, currentChatID, currentChatType } = this.props;
 
-    console.log('favorite_click!');
-
-    setFavorite();
+    setFavorite({ userID: currentUserID, chat: { ID: currentChatID, type: currentChatType } });
   }
 
   _getSidebarToggle = () => {
@@ -66,10 +72,14 @@ class Statuses extends React.Component {
   }
 
   _getFavoriteButton = () => {
-    const { isFavorite } = this.props;
+    const { userFavoriteChats, currentChatID, currentChatType } = this.props;
     const { thin, full } = HEARTS;
 
-    const currentHeart = isFavorite ? full : thin;
+    const checkIsFavoriteChat = () => (
+      userFavoriteChats.find(chat => (chat.ID === currentChatID) && (chat.type === currentChatType))
+    );
+
+    const currentHeart = checkIsFavoriteChat() ? full : thin;
 
     return (
       <span className='usersRoomFavorite'>

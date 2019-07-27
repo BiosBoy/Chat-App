@@ -4,6 +4,10 @@ import { sidebarToggler, setFavorite } from '../controller/actions';
 
 const mapStateToProps = state => ({
   isFavorite: state.currentChat.isFavorite,
+  currentUserID: state.currentUser.uuid,
+  currentChatID: state.currentChat.chatID,
+  currentChatType: state.currentChat.chatType,
+  userFavoriteChats: state.currentUser.favoriteChats,
   showSidebar: state.common.showSidebar,
   connectionStatus: state.currentUser.connectionStatus,
   users: state.users.list

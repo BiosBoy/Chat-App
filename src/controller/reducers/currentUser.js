@@ -1,4 +1,4 @@
-import { INITIAL_DATA, USER_DISCONECTED, USER_INTIALIZATION_START, USER_INTIALIZATION_FINISH } from '../../constants/actionsTypes';
+import { INITIAL_DATA, USER_DISCONECTED, USER_INTIALIZATION_START, USER_INTIALIZATION_FINISH, FAVORIVE_CHANNEL_ADDED } from '../../constants/actionsTypes';
 import getCookie from '../../utils/getCookie';
 
 const currentUser = (state = {}, action) => {
@@ -22,6 +22,11 @@ const currentUser = (state = {}, action) => {
       return {
         ...state,
         connectionStatus: action.status
+      };
+    case FAVORIVE_CHANNEL_ADDED:
+      return {
+        ...state,
+        favoriteChats: action.favoriteChats
       };
     default:
       return state;

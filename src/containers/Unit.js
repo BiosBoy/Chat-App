@@ -3,6 +3,7 @@ import Unit from '../components/Sidebar/Unit';
 import { chatSelected, createNewDirectChat } from '../controller/actions';
 
 const mapStateToProps = state => ({
+  currentUser: state.currentUser,
   currentChat: state.currentChat,
   chats: state.chats
 });

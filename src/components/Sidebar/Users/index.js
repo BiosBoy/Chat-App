@@ -62,7 +62,7 @@ class UsersList extends React.PureComponent {
         };
 
         return (
-          <Unit key={user.uuid} type='direct' configuration={configuration} isCurrentUser={isCurrentUser} currentUser={currentUser} />
+          <Unit key={user.uuid} type='direct' configuration={configuration} isCurrentUser={isCurrentUser} />
         );
       });
   };

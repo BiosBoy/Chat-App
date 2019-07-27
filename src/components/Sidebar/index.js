@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import AreaIndicators from './AreaIndicators';
 import Users from '../../containers/Users';
 import Rooms from '../../containers/Rooms';
-import Favorites from './Favorites';
+import Favorites from '../../containers/Favorites';
 import SectionTitle from '../SectionTitle';
 
 const ZONES_TRANSLATE_SHIFT = {

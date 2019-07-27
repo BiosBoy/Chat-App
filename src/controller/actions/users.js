@@ -3,7 +3,8 @@ import {
   USER_DISCONECTED,
   USER_INTIALIZATION_START,
   USER_INTIALIZATION_FINISH,
-  NEW_USER_CONNECTED
+  NEW_USER_CONNECTED,
+  FAVORIVE_CHANNEL_ADDED
 } from '../../constants/actionsTypes';
 import { CONNECTED, IN_PROGRESS, DISCONNECTED } from '../../constants/connectionStatuses';
 
@@ -35,4 +36,16 @@ const userDisconected = () => ({
   errorType: 'userDisconnected'
 });
 
-export { addUser, populateUsersList, userInitializationStart, userInitializationFinish, userDisconected };
+const favoriteChatAdded = favoriteChats => ({
+  type: FAVORIVE_CHANNEL_ADDED,
+  favoriteChats
+});
+
+export {
+  addUser,
+  populateUsersList,
+  userInitializationStart,
+  userInitializationFinish,
+  userDisconected,
+  favoriteChatAdded
+};

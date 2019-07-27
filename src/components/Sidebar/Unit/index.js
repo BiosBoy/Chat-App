@@ -58,7 +58,7 @@ class Unit extends React.PureComponent {
     const config = {
       chatType: type,
       title,
-      chatID: configuration.ID,
+      chatID: (configuration.ID).toString(),
       uuid: configuration.uuid,
       userID: chatID
     };
