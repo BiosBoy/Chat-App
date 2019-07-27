@@ -1,21 +1,23 @@
 import { connect } from 'react-redux';
 import { Main } from '../components';
-import { usersToggler, hideSidebar } from '../controller/actions';
+import { sidebarToggler, hideSidebar } from '../controller/actions';
 
 const mapDispatchToState = state => {
-  return ({
+  return {
     users: state.users.list,
-    mobileLayout: state.users.mobileLayout,
-    showUsersList: state.users.mobileLayout,
+    showSidebar: state.common.showSidebar,
     connectionStatus: state.currentUser.connectionStatus,
     currentChat: state.currentChat,
     typingUsers: state.common.typingUsers
-  });
+  };
 };
 
 const mapDispatchStateToProps = dispatch => ({
-  usersListToogle: () => dispatch(usersToggler()),
+  sidebarToggler: () => dispatch(sidebarToggler()),
   hideSidebar: () => dispatch(hideSidebar())
 });
 
-export default connect(mapDispatchToState, mapDispatchStateToProps)(Main);
+export default connect(
+  mapDispatchToState,
+  mapDispatchStateToProps
+)(Main);

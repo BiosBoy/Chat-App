@@ -1,14 +1,11 @@
-import { INITIAL_DATA, ADD_USER, NEW_USER_CONNECTED, USERS_LIST_TOGGLER, HIDE_SIDEBAR } from '../../constants/actionsTypes';
+import { INITIAL_DATA, ADD_USER, NEW_USER_CONNECTED } from '../../constants/actionsTypes';
 
 const users = (state = [], action) => {
   switch (action.type) {
     case INITIAL_DATA:
       return {
         ...state,
-        list: [
-          ...state.list,
-          ...action.users
-        ]
+        list: [...state.list, ...action.users]
       };
     case ADD_USER:
       return {
@@ -24,19 +21,7 @@ const users = (state = [], action) => {
     case NEW_USER_CONNECTED:
       return {
         ...state,
-        list: [
-          ...action.users
-        ]
-      };
-    case USERS_LIST_TOGGLER:
-      return {
-        ...state,
-        mobileLayout: !state.mobileLayout
-      };
-    case HIDE_SIDEBAR:
-      return {
-        ...state,
-        mobileLayout: action.status
+        list: [...action.users]
       };
     default:
       return state;

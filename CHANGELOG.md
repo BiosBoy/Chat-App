@@ -1,6 +1,10 @@
 ## Chat-App
 
 
+# 10.4.0
+ * Sidebar toggle logic is moved to the right actin/reducer module.
+ * Added favorite reducer.
+
 # 10.3.0
  * Fixed scrollbar in the sidebar section.
 

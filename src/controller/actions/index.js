@@ -1,8 +1,8 @@
-import { initialLoad } from './common';
-import { addUser, populateUsersList, userInitializationStart, userInitializationFinish, userDisconected, usersToggler, hideSidebar } from './users';
+import { initialLoad, sidebarToggler, hideSidebar } from './common';
+import { addUser, populateUsersList, userInitializationStart, userInitializationFinish, userDisconected } from './users';
 import { addMessage, messageReceived, liveTyping, userTyping } from './messages';
 import { errorReceived, showDebug, hideDebug, hideDebugManual } from './debug';
-import { selectChat, chatSelected, createNewDirectChat, chatCreated } from './chats';
+import { selectChat, chatSelected, createNewDirectChat, chatCreated, setFavorite } from './chats';
 
 export {
   initialLoad,
@@ -17,12 +17,13 @@ export {
   showDebug,
   hideDebug,
   hideDebugManual,
-  usersToggler,
+  sidebarToggler,
   hideSidebar,
   liveTyping,
   userTyping,
   selectChat,
   chatSelected,
   createNewDirectChat,
-  chatCreated
+  chatCreated,
+  setFavorite
 };

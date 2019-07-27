@@ -1,4 +1,4 @@
-import { HIDE_DEBUG_MANUAL, SOMEONE_TYPING } from '../../constants/actionsTypes';
+import { HIDE_DEBUG_MANUAL, SOMEONE_TYPING, SIDEBAR_TOGGLER, HIDE_SIDEBAR } from '../../constants/actionsTypes';
 
 const common = (state = [], action) => {
   switch (action.type) {
@@ -11,6 +11,16 @@ const common = (state = [], action) => {
       return {
         ...state,
         typingUsers: action.typingUsers
+      };
+    case SIDEBAR_TOGGLER:
+      return {
+        ...state,
+        showSidebar: !state.showSidebar
+      };
+    case HIDE_SIDEBAR:
+      return {
+        ...state,
+        showSidebar: action.status
       };
     default:
       return state;

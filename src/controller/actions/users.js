@@ -3,9 +3,7 @@ import {
   USER_DISCONECTED,
   USER_INTIALIZATION_START,
   USER_INTIALIZATION_FINISH,
-  NEW_USER_CONNECTED,
-  USERS_LIST_TOGGLER,
-  HIDE_SIDEBAR
+  NEW_USER_CONNECTED
 } from '../../constants/actionsTypes';
 import { CONNECTED, IN_PROGRESS, DISCONNECTED } from '../../constants/connectionStatuses';
 
@@ -37,21 +35,4 @@ const userDisconected = () => ({
   errorType: 'userDisconnected'
 });
 
-const usersToggler = () => ({
-  type: USERS_LIST_TOGGLER
-});
-
-const hideSidebar = () => ({
-  type: HIDE_SIDEBAR,
-  status: false
-});
-
-export {
-  addUser,
-  populateUsersList,
-  userInitializationStart,
-  userInitializationFinish,
-  userDisconected,
-  usersToggler,
-  hideSidebar
-};
+export { addUser, populateUsersList, userInitializationStart, userInitializationFinish, userDisconected };

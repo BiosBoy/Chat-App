@@ -1,5 +1,5 @@
 import { SELECT_CURRENT_CHAT, NEW_CHAT_CREATED, CHAT_SELECTED } from '../../constants';
-import { CREATE_NEW_CHAT } from '../../constants/actionsTypes';
+import { CREATE_NEW_CHAT, SET_FAVORITE } from '../../constants/actionsTypes';
 
 const selectChat = payload => ({
   type: SELECT_CURRENT_CHAT,
@@ -21,9 +21,9 @@ const chatSelected = payload => ({
   payload
 });
 
-export {
-  selectChat,
-  chatSelected,
-  createNewDirectChat,
-  chatCreated
-};
+const setFavorite = payload => ({
+  type: SET_FAVORITE,
+  payload
+});
+
+export { selectChat, chatSelected, createNewDirectChat, chatCreated, setFavorite };

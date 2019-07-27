@@ -10,10 +10,10 @@ const initialState = {
     showDebug: false
   },
   users: {
-    list: [],
-    mobileLayout: false
+    list: []
   },
   common: {
+    showSidebar: false,
     disableBlurOverlay: false,
     typingUsers: []
   },
