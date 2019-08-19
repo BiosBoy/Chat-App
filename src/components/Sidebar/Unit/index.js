@@ -8,8 +8,10 @@ class Unit extends React.PureComponent {
     isCurrentUser: false,
     currentUser: {},
     chats: [],
+    unreadedMessages: [],
     createNewDirectChat: () => {},
-    chatSelected: () => {}
+    chatSelected: () => {},
+    unreadedMessagesRead: () => {}
   }
 
   static propTypes = {
@@ -20,11 +22,20 @@ class Unit extends React.PureComponent {
     chatSelected: PropTypes.func,
     type: PropTypes.string.isRequired,
     currentChat: PropTypes.object,
+    unreadedMessages: PropTypes.arrayOf(
+      PropTypes.shape({
+        ID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        type: PropTypes.string,
+        unreadedCount: PropTypes.number
+      })
+    ),
     configuration: PropTypes.shape({
+      ID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       uuid: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
       isConnected: PropTypes.bool.isRequired
-    }).isRequired
+    }).isRequired,
+    unreadedMessagesRead: PropTypes.func
   }
 
   constructor(props) {
@@ -35,10 +46,16 @@ class Unit extends React.PureComponent {
     };
   }
 
+  _createDirectChatID = () => {
+    const { currentUser, configuration } = this.props;
+
+    return `${currentUser.uuid + configuration.uuid}`;
+  }
+
   _directChat = (config, chatID) => {
     const { currentUser, createNewDirectChat, chats } = this.props;
 
-    const directChatID = `${currentUser.uuid + chatID}`;
+    const directChatID = this._createDirectChatID();
 
     config.currentUserID = currentUser.uuid;
     config.chatID = directChatID;
@@ -96,6 +113,31 @@ class Unit extends React.PureComponent {
     this._selectChat(e);
   }
 
+  _unreadedMessagesFlag = () => {
+    const { unreadedMessages, configuration: { ID: currentChatID }, type } = this.props;
+
+    if (!currentChatID || !unreadedMessages || unreadedMessages.length <= 0) {
+      return null;
+    }
+
+    const isChatHasUnreadedMessages = unreadedMessages.find(unreadedChat => {
+      if (type === 'rooms') {
+        return String(unreadedChat.ID) === String(currentChatID);
+      }
+      return String(unreadedChat.ID) === String(this._createDirectChatID());
+    });
+
+    if (!isChatHasUnreadedMessages || isChatHasUnreadedMessages.length === 0) {
+      return null;
+    }
+
+    return (
+      <span className='unrededMessageWrap'>
+        {isChatHasUnreadedMessages.unreadedCount}
+      </span>
+    );
+  }
+
   render() {
     const { currentChat, configuration: { name, uuid, isConnected }, isCurrentUser } = this.props;
 
@@ -119,6 +161,7 @@ class Unit extends React.PureComponent {
           <svg width='100%' height='100%' data-jdenticon-value={name} />
         </span>
         <span className='authorName sidebarAuthorName'>{isCurrentUser ? `${name} (you)` : name}</span>
+        {this._unreadedMessagesFlag()}
       </button>
     );
   }

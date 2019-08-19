@@ -15,6 +15,7 @@ const initialState = {
   common: {
     showSidebar: false,
     disableBlurOverlay: false,
+    unreadedMessages: [],
     typingUsers: []
   },
   chats: {

@@ -1,4 +1,4 @@
-import { initialLoad, sidebarToggler, hideSidebar } from './common';
+import { initialLoad, sidebarToggler, hideSidebar, unreadedMessages } from './common';
 import { addUser, populateUsersList, userInitializationStart, userInitializationFinish, userDisconected, favoriteChatAdded } from './users';
 import { addMessage, messageReceived, liveTyping, userTyping } from './messages';
 import { errorReceived, showDebug, hideDebug, hideDebugManual } from './debug';
@@ -26,5 +26,6 @@ export {
   createNewDirectChat,
   chatCreated,
   setFavorite,
-  favoriteChatAdded
+  favoriteChatAdded,
+  unreadedMessages
 };

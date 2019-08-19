@@ -729,6 +729,13 @@
   cursor: pointer;
 }
 
+.unrededMessageWrap {
+  color: #fff;
+  background: #d0a85d;
+  padding: 3px 12px;
+  border-radius: 11px;
+}
+
 @keyframes popupAppear {
   0% {
     transform: translateX(50%) translateY(-50%) scale(0);

@@ -1,6 +1,9 @@
 ## Chat-App
 
 
+# 11.2.0
+ * Added unreaded messages flag appear next to the chat name.
+
 # 11.1.0
  * Added ability to do Favorite chats selection (client-end).
 

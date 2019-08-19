@@ -10,7 +10,8 @@ import {
   hideDebug,
   liveTyping,
   chatCreated,
-  favoriteChatAdded
+  favoriteChatAdded,
+  unreadedMessages
 } from '../actions';
 import websocketsHelpers from './helpers';
 import { postponeDebugTimers } from '../../utils/debug';
@@ -45,6 +46,19 @@ const setupSocket = ({ getState, dispatch }, username) => {
         break;
       case ADD_MESSAGE:
         delete data.type;
+        // eslint-disable-next-line no-case-declarations
+        const { currentChat } = getState();
+        // regular message can be only one per receiving
+        // eslint-disable-next-line no-case-declarations
+        const currentMessageChat = data.chats[0];
+        // looking for the messages in chats rather than current user's.
+        // eslint-disable-next-line no-case-declarations
+        const isMessageUnreaded = data.layout === 'message' && currentMessageChat.ID !== currentChat.chatID;
+
+        if (isMessageUnreaded) {
+          dispatch(unreadedMessages({ chat: currentMessageChat }));
+        }
+
         dispatch(messageReceived(data));
         break;
       case USERS_LIST:
