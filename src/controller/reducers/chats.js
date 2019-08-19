@@ -29,21 +29,27 @@ const chats = (state = {}, action) => {
       };
     case MESSAGE_RECEIVED:
       // eslint-disable-next-line no-case-declarations
-      const localState = JSON.parse(JSON.stringify(state));
+      const localState = JSON.parse(JSON.stringify(state)); // creating sn object without reference
+      // eslint-disable-next-line no-case-declarations
+      const stateKeys = Object.keys(localState);
+      // eslint-disable-next-line no-case-declarations
+      const chatsToUpdate = stateKeys.map(chat => (
+        {
+          [chat]: localState[chat].map(channel => {
+            const updatedChannel = channel;
+
+            if (action.chats.some(chatToInsert => chatToInsert.ID === updatedChannel.ID)) {
+              updatedChannel.messages.push(action.message);
+            }
+
+            return updatedChannel;
+          })
+        }
+      ))[0];
 
       return {
         ...localState,
-        ...Object.keys(localState).map(chat => (
-          {
-            [chat]: localState[chat].map(channel => {
-              if (action.chats.some(chatToInsert => chatToInsert.ID === channel.ID)) {
-                channel.messages.push(action.message);
-              }
-
-              return channel;
-            })
-          }
-        ))[0]
+        ...chatsToUpdate
       };
     case NEW_CHAT_CREATED:
       return {
