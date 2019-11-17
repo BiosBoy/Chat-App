@@ -33,6 +33,12 @@ class Login extends React.PureComponent<IProps, IState> {
   }
 
   _handlerCheck = () => {
+    const { isFetch } = this.state;
+
+    if (isFetch) {
+      return;
+    }
+
     this.setState(prevState => ({
       isWithCredits: !prevState.isWithCredits
     }));
@@ -40,6 +46,10 @@ class Login extends React.PureComponent<IProps, IState> {
 
   _handlerSubmit = e => {
     e.preventDefault();
+
+    if (!this._checkFilledForm()) {
+      return;
+    }
 
     this.setState({
       isFetch: true
@@ -55,14 +65,14 @@ class Login extends React.PureComponent<IProps, IState> {
   }
 
   _renderEmailInput = () => {
-    const { emailValue } = this.state;
+    const { isFetch, emailValue } = this.state;
 
     return (
       <div className={styles.container}>
         <label className={`${styles.label} ${styles.labelEmail}`} htmlFor='email' />
         <input
           id='#email'
-          className={styles.formInput}
+          className={`${styles.formInput} ${isFetch && styles.formInputDisabled}`}
           onChange={this._handleChange}
           value={emailValue}
           type='email'
@@ -73,14 +83,14 @@ class Login extends React.PureComponent<IProps, IState> {
   }
 
   _renderPasswordInput = () => {
-    const { passwordValue } = this.state;
+    const { isFetch, passwordValue } = this.state;
 
     return (
       <div className={styles.container}>
         <label className={`${styles.label} ${styles.labelPassword}`} htmlFor='password' />
         <input
           id='#password'
-          className={styles.formInput}
+          className={`${styles.formInput} ${isFetch && styles.formInputDisabled}`}
           onChange={this._handleChange}
           value={passwordValue}
           type='password'
@@ -91,18 +101,18 @@ class Login extends React.PureComponent<IProps, IState> {
   }
 
   _renderRememberMeField = () => {
-    const { isWithCredits } = this.state;
+    const { isFetch, isWithCredits } = this.state;
 
     return (
       <div className={`${styles.container} ${styles.rememberContainer}`}>
         <input
           onChange={this._handlerCheck}
           id='checkbox'
-          className={styles.checkbox}
+          className={`${styles.checkbox} ${isFetch && styles.disabledCursor}`}
           type='checkbox'
           checked={isWithCredits}
         />
-        <label htmlFor='checkbox' className={styles.labelText}>
+        <label htmlFor='checkbox' className={`${styles.labelText} ${isFetch && styles.disabledCursor}`}>
           Remember Me
         </label>
       </div>

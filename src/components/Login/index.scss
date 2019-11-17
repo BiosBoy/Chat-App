@@ -56,12 +56,26 @@
 
   @extend .formElementWrap;
 
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px #fff inset, 0 3px 8px #776262;
+  }
+
   position: relative;
+  transition: background .2s linear;
   padding-left: 56px;
   border: 0 solid #a2a0a0;
   box-shadow: 0 3px 8px #776262;
   color: #776262;
   font: inherit;
+}
+
+.formInputDisabled {
+  background: #dcdcdc;
+  pointer-events: none;
+
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px #dcdcdc inset, 0 3px 8px #776262;
+  }
 }
 
 .label {
@@ -153,12 +167,12 @@
   background: #d6c9b1;
   color: #fff;
   font: inherit;
-  cursor: pointer;
   transition: background .2s linear;
 }
 
 .formButtonActive {
   background: #d0a85d;
+  cursor: pointer;
 }
 
 .fetchSpinner {
@@ -166,4 +180,8 @@
   top: -2px;
   width: 35px;
   height: 35px;
+}
+
+.disabledCursor {
+  cursor: default;
 }
