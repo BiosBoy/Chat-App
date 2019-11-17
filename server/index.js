@@ -15,9 +15,6 @@ const { PORT, INDEX, STATIC } = require('./constants');
 // Server Configuration
 // ----------------------
 const server = express()
-  .use(bodyParser.urlencoded({ extended: true }))
-  .use(bodyParser.json())
-  .use(cookieParser())
   .use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', cors(req));
     res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -26,6 +23,9 @@ const server = express()
     res.setHeader('Cache-Control', 'public, max-age=31557600');
     next();
   })
+  .use(bodyParser.urlencoded({ extended: true }))
+  .use(bodyParser.json())
+  .use(cookieParser())
   .use(session({
     secret: 'give-five',
     resave: true,

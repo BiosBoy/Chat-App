@@ -68,18 +68,27 @@ class Login extends React.PureComponent<IProps, IState> {
       }
     };
 
-    const response = await fetch(AUTH_END_POINT, { ...options });
+    const response = await fetch(AUTH_END_POINT, options);
     const payload = await response.json();
 
     this._setFetchStatus();
-
-    console.log(payload, 'payload');
+    this._setSession(payload.sessionID);
   }
 
   _setFetchStatus = () => {
     this.setState(prevState => ({
       isFetch: !prevState.isFetch
     }));
+  }
+
+  _setSession = sessionID => {
+    const { isWithCredits } = this.state;
+
+    if (!isWithCredits || !sessionID) {
+      return;
+    }
+
+    sessionStorage.setItem('chatSessionID', sessionID);
   }
 
   _checkFilledForm = () => {
