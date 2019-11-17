@@ -12,6 +12,7 @@ import PopUp from './PopUp';
 import DebugInfo from './DebugInfo';
 import Spinner from './Spinner';
 import LoadingPlaceholder from './LoadingPlaceholder';
+import Login from './Login';
 
 export {
   AddMessage,
@@ -27,5 +28,6 @@ export {
   LiveMessageTyping,
   Sidebar,
   Main,
-  AreaIndicators
+  AreaIndicators,
+  Login
 };

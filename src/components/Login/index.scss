@@ -1,0 +1,105 @@
+.flexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formWrap {
+  opacity: 1;
+
+  @extend .flexCenter;
+}
+
+.form {
+
+  @extend .flexCenter;
+
+  position: relative;
+  flex-direction: column;
+  width: 300px;
+}
+
+.fromElementWrap {
+  margin: 10px;
+  padding: 10px;
+  max-width: 300px;
+  width: 100%;
+  height: 50px;
+  border-radius: 5px;
+  outline: none;
+}
+
+.container {
+
+  @extend .flexCenter;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.formInput {
+
+  @extend .fromElementWrap;
+
+  position: relative;
+  padding-left: 56px;
+  border: 0 solid #a2a0a0;
+  box-shadow: 0 3px 8px #776262;
+  color: #776262;
+  font: inherit;
+}
+
+.label {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 26px;
+  height: 26px;
+  transform: translateY(-50%);
+
+  &::after {
+    content: "";
+    position: absolute;
+    right: -10px;
+    width: 1px;
+    height: 100%;
+    border-right: 1px solid #d0a85d;
+  }
+}
+
+.labelEmail {
+  background: url('../../../assets/account.svg');
+  background-size: cover;
+}
+
+.labelPassword {
+  background: url('../../../assets/password.svg');
+  background-size: cover;
+}
+
+.formButton {
+
+  @extend .fromElementWrap;
+  @extend .flexCenter;
+
+  border: none;
+  background: #d6c9b1;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+  transition: background .2s linear;
+}
+
+.formButtonActive {
+  background: #d0a85d;
+}
+
+.fetchSpinner {
+  position: relative;
+  top: -2px;
+  width: 35px;
+  height: 35px;
+}
