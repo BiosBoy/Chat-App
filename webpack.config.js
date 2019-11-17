@@ -53,7 +53,7 @@ const rules = [
   },
   // STYLES
   {
-    test: /.scss$/,
+    test: /(\.scss)$/,
     use: [
       __PROD__ ? MiniCssExtractPlugin.loader : 'style-loader',
       {
@@ -69,7 +69,7 @@ const rules = [
     ]
   },
   {
-    test: /.css$/,
+    test: /(\.css)$/,
     use: [
       __PROD__ ? MiniCssExtractPlugin.loader : 'style-loader',
       {
