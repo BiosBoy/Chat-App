@@ -80,6 +80,53 @@
   background-size: cover;
 }
 
+.rememberContainer {
+
+  @extend .flexCenter;
+
+  box-sizing: border-box;
+  justify-content: flex-start;
+  padding-left: 15px;
+}
+
+.checkbox {
+  position: relative;
+  margin: 10px;
+  composes: customCheckbox;
+  cursor: pointer;
+  outline: none;
+  transition: all .2s linear;
+}
+
+.customCheckbox {
+  padding-right: 5px;
+  padding-left: 5px;
+  width: 18px;
+  height: 18px;
+  overflow: hidden;
+  border: 2px double #d0a85d;
+  border-radius: 5px;
+  background-color: #d6c9b1;
+  color: #fff;
+  white-space: nowrap;
+  -webkit-appearance: button;
+
+  &:checked {
+    &::after {
+      content: '✓';
+      position: absolute;
+      top: 0;
+      left: 2px;
+    }
+  }
+}
+
+.labelText {
+  color: #776262;
+  font: inherit;
+  font-size: 12px;
+}
+
 .formButton {
 
   @extend .fromElementWrap;

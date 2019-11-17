@@ -81,6 +81,17 @@ class Login extends React.PureComponent<IProps, IState> {
     );
   }
 
+  _renderRememberMeField = () => {
+    return (
+      <div className={`${styles.container} ${styles.rememberContainer}`}>
+        <input id='checkbox' className={styles.checkbox} type='checkbox' />
+        <label htmlFor='checkbox' className={styles.labelText}>
+          Remember Me
+        </label>
+      </div>
+    );
+  }
+
   _renderSubmitButton = () => {
     const { isFetch } = this.state;
     const isFormFilled = this._checkFilledForm();
@@ -108,6 +119,7 @@ class Login extends React.PureComponent<IProps, IState> {
         <form className={styles.form}>
           {this._renderEmailInput()}
           {this._renderPasswordInput()}
+          {this._renderRememberMeField()}
           {this._renderSubmitButton()}
         </form>
       </div>
