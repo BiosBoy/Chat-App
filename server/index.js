@@ -1,6 +1,7 @@
 
 const debug = require('debug')('app:server');
 const express = require('express');
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MemoryStore = require('memorystore')(session);
@@ -14,6 +15,9 @@ const { PORT, INDEX, STATIC } = require('./constants');
 // Server Configuration
 // ----------------------
 const server = express()
+  .use(bodyParser.urlencoded({ extended: true }))
+  .use(bodyParser.json())
+  .use(cookieParser())
   .use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', cors(req));
     res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -37,7 +41,6 @@ const server = express()
       checkPeriod: 86400000 // prune expired entries every 24h
     })
   }))
-  .use(cookieParser())
   .use(express.static(STATIC))
   .use(endpoints)
   .use('*', (req, res) => res.sendFile(INDEX))

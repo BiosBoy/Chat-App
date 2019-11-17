@@ -18,7 +18,7 @@ import { postponeDebugTimers } from '../../utils/debug';
 import normalizeTypingUsers from '../../utils/normalizeTypingUsers';
 
 import { INITIAL_DATA, ADD_MESSAGE, USERS_LIST, ERROR_RECEIVED, SOMEONE_TYPING, NEW_CHAT_CREATED, FAVORITE_CHANNEL_SETTED } from '../../constants/actionsTypes';
-import { WSS_END_POINT } from '../../constants/sockets';
+import { WSS_END_POINT } from '../../constants/API';
 
 const setupSocket = ({ getState, dispatch }, username) => {
   const socket = new WebSocket(WSS_END_POINT);

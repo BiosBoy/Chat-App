@@ -5,6 +5,8 @@ import { IProps, IState, TInputsValues } from './interfaces';
 import globalStyles from '../../styles/index.scss';
 import styles from './index.scss';
 
+import { AUTH_END_POINT } from '../../constants/API';
+
 const LOGIN_MESSAGES = {
   notLogged: 'You\'re not logged :( Please make a sign in.'
 };
@@ -51,9 +53,33 @@ class Login extends React.PureComponent<IProps, IState> {
       return;
     }
 
-    this.setState({
-      isFetch: true
-    });
+    const { isWithCredits, passwordValue, emailValue } = this.state;
+
+    this._setFetchStatus();
+    this._loginAttempt({ email: emailValue, password: passwordValue, isRemember: isWithCredits });
+  }
+
+  _loginAttempt = async requestPayload => {
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(requestPayload),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    const response = await fetch(AUTH_END_POINT, { ...options });
+    const payload = await response.json();
+
+    this._setFetchStatus();
+
+    console.log(payload, 'payload');
+  }
+
+  _setFetchStatus = () => {
+    this.setState(prevState => ({
+      isFetch: !prevState.isFetch
+    }));
   }
 
   _checkFilledForm = () => {

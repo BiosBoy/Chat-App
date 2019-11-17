@@ -1,4 +1,4 @@
-import { WSS_END_POINT } from './sockets';
+import { WSS_END_POINT } from './API';
 import {
   INITIAL_DATA,
   ADD_MESSAGE,
