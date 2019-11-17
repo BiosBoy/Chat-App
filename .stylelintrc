@@ -2,7 +2,8 @@
     "extends": "stylelint-config-standard",
     "plugins": [
         "stylelint-no-unsupported-browser-features",
-        "stylelint-order"
+        "stylelint-order",
+        "stylelint-scss"
     ],
     "ignoreFiles": ["**/*.js","**/*.jsx","**/*.ts","**/*.tsx","**/*.html"],
     "rules": {
@@ -18,7 +19,7 @@
           "always"
         ],
         "at-rule-no-unknown": [true, {
-          "ignoreAtRules": ["function", "if", "each", "include", "mixin"]
+          "ignoreAtRules": ["function", "if", "each", "include", "mixin", "extend", "@extend"]
         }],
         "at-rule-empty-line-before": [
           "always",
