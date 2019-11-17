@@ -134,6 +134,7 @@
   @extend .fromElementWrap;
   @extend .flexCenter;
 
+  user-select: none;
   border: none;
   background: #d6c9b1;
   color: #fff;

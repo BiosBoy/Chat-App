@@ -13,6 +13,7 @@ class Login extends React.PureComponent<IProps, IState> {
 
     this.state = {
       isFetch: false,
+      isWithCredits: false,
       emailValue: '',
       passwordValue: ''
     };
@@ -27,6 +28,12 @@ class Login extends React.PureComponent<IProps, IState> {
     this.setState({
       [normalizedKey]: value
     });
+  }
+
+  _handlerCheck = () => {
+    this.setState(prevState => ({
+      isWithCredits: !prevState.isWithCredits
+    }));
   }
 
   _handlerSubmit = e => {
@@ -82,9 +89,17 @@ class Login extends React.PureComponent<IProps, IState> {
   }
 
   _renderRememberMeField = () => {
+    const { isWithCredits } = this.state;
+
     return (
       <div className={`${styles.container} ${styles.rememberContainer}`}>
-        <input id='checkbox' className={styles.checkbox} type='checkbox' />
+        <input
+          onChange={this._handlerCheck}
+          id='checkbox'
+          className={styles.checkbox}
+          type='checkbox'
+          checked={isWithCredits}
+        />
         <label htmlFor='checkbox' className={styles.labelText}>
           Remember Me
         </label>
@@ -96,10 +111,6 @@ class Login extends React.PureComponent<IProps, IState> {
     const { isFetch } = this.state;
     const isFormFilled = this._checkFilledForm();
 
-    const animationSpinner = () => {
-      return <span className={`${globalStyles.spinner} ${styles.fetchSpinner}`} />;
-    };
-
     return (
       <div className={styles.container}>
         <button
@@ -107,7 +118,7 @@ class Login extends React.PureComponent<IProps, IState> {
           className={`${styles.formButton} ${isFormFilled && styles.formButtonActive}`}
           type='submit'
         >
-          {isFetch ? animationSpinner() : 'Log in'}
+          {isFetch ? <span className={`${globalStyles.spinner} ${styles.fetchSpinner}`} /> : 'Log in'}
         </button>
       </div>
     );
