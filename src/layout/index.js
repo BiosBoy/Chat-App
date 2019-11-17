@@ -5,22 +5,23 @@ import PropTypes from 'prop-types';
 
 import Sidebar from '../containers/Sidebar';
 import Main from '../containers/Main';
+import PopUp from '../components/PopUp';
+import Login from '../components/Login';
 
-import {
-  CONNECTED,
-  DISCONNECTED
-} from '../constants/connectionStatuses';
+import { CONNECTED, DISCONNECTED } from '../constants/connectionStatuses';
 
 import '../App.css';
 
 class AppLayout extends React.Component {
   static propTypes = {
+    isAuth: PropTypes.bool,
     connectionStatus: PropTypes.string,
     disableBlurOverlay: PropTypes.bool
   }
 
   static defaultProps = {
     connectionStatus: '',
+    isAuth: false,
     disableBlurOverlay: false
   }
 
@@ -36,7 +37,21 @@ class AppLayout extends React.Component {
     return connectionClassesLayout;
   }
 
-  render() {
+  _renderEnhancers = () => {
+    const { isAuth } = this.props;
+
+    if (isAuth) {
+      return null;
+    }
+
+    return (
+      <PopUp type='login'>
+        <Login messageType='notLogged' />
+      </PopUp>
+    );
+  }
+
+  _renderMainApp = () => {
     return (
       <div id='container' className={`mainOverlay ${this._connectionLayoutChecker()}`}>
         <Sidebar />
@@ -44,11 +59,24 @@ class AppLayout extends React.Component {
       </div>
     );
   }
+
+  render() {
+    return (
+      <React.Fragment>
+        {this._renderEnhancers()}
+        {this._renderMainApp()}
+      </React.Fragment>
+    );
+  }
 }
 
 const mapStateToProps = state => ({
   connectionStatus: state.currentUser.connectionStatus,
-  disableBlurOverlay: state.common.disableBlurOverlay
+  disableBlurOverlay: state.common.disableBlurOverlay,
+  isAuth: state.currentUser.isAuth
 });
 
-export default connect(mapStateToProps, null)(AppLayout);
+export default connect(
+  mapStateToProps,
+  null
+)(AppLayout);

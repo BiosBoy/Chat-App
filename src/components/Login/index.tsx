@@ -1,11 +1,13 @@
 import React from 'react';
 
-import { IProps, IState } from './interfaces';
+import { IProps, IState, TInputsValues } from './interfaces';
 
 import globalStyles from '../../styles/index.scss';
 import styles from './index.scss';
 
-type TInputsValues = 'passwordValue' | 'emailValue';
+const LOGIN_MESSAGES = {
+  notLogged: 'You\'re not logged :( Please make a sign in.'
+};
 
 class Login extends React.PureComponent<IProps, IState> {
   constructor(props: any) {
@@ -125,8 +127,13 @@ class Login extends React.PureComponent<IProps, IState> {
   }
 
   render() {
+    const { messageType } = this.props;
+
     return (
       <div className={styles.formWrap}>
+        <div className={styles.loginHeadline}>
+          <span className={styles.headlineText}>{LOGIN_MESSAGES[messageType]}</span>
+        </div>
         <form className={styles.form}>
           {this._renderEmailInput()}
           {this._renderPasswordInput()}

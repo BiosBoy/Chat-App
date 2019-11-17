@@ -3,7 +3,7 @@ import React from 'react';
 import AppLayout from './layout';
 import DebugInfo from './containers/DebugInfo';
 
-class App extends React.Component {
+class App extends React.PureComponent {
   render() {
     return (
       <div className='mainWrap'>

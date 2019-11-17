@@ -1,4 +1,6 @@
-export interface IProps {}
+export interface IProps {
+  messageType: string
+}
 
 export interface IState {
   isFetch: boolean
@@ -6,3 +8,5 @@ export interface IState {
   emailValue: string
   passwordValue: string
 }
+
+export type TInputsValues = 'passwordValue' | 'emailValue';

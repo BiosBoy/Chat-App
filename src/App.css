@@ -6,6 +6,11 @@
   font-family: Arial, sans-serif;
 }
 
+::placeholder {
+  opacity: .8;
+  font-size: 14px;
+}
+
 #root {
   position: relative;
   top: 50vh;
@@ -440,6 +445,13 @@
   word-break: break-word;
 }
 
+.popUpContainer.login {
+  z-index: 10000;
+  max-width: 420px;
+  max-height: 350px;
+  transition: all .2s linear;
+}
+
 .debugContainer {
   position: relative;
   display: flex;
@@ -730,10 +742,10 @@
 }
 
 .unrededMessageWrap {
-  color: #fff;
-  background: #d0a85d;
   padding: 3px 12px;
   border-radius: 11px;
+  background: #d0a85d;
+  color: #fff;
 }
 
 @keyframes popupAppear {
@@ -859,4 +871,8 @@
   .usersRoomCount {
     display: none;
   } */
+
+  .popUpContainer.login {
+    max-width: 325px;
+  }
 }

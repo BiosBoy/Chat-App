@@ -1,5 +1,6 @@
 const initialState = {
   currentUser: {
+    isAuth: false,
     name: '',
     uuid: null,
     connectionStatus: 'notConnected'
