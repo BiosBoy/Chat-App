@@ -12,12 +12,14 @@ const LOGIN_MESSAGES = {
 };
 
 class Login extends React.PureComponent<IProps, IState> {
-  constructor(props: any) {
+  constructor(props: IProps) {
     super(props);
 
     this.state = {
       isFetch: false,
       isWithCredits: false,
+      error: null,
+      message: null,
       emailValue: '',
       passwordValue: ''
     };
@@ -72,7 +74,15 @@ class Login extends React.PureComponent<IProps, IState> {
     const payload = await response.json();
 
     this._setFetchStatus();
+    this._setLoginStatus(payload);
     this._setSession(payload.sessionID);
+  }
+
+  _setLoginStatus = payload => {
+    this.setState({
+      error: payload.error,
+      message: payload.message
+    })
   }
 
   _setFetchStatus = () => {
@@ -171,6 +181,18 @@ class Login extends React.PureComponent<IProps, IState> {
     );
   }
 
+  _renderError = () => {
+    const { error, message } = this.state
+
+    if (!error) {
+      return null;
+    }
+
+    return (
+      <span className={styles.error}>{message}</span>
+    )
+  }
+
   render() {
     const { messageType } = this.props;
 
@@ -184,6 +206,7 @@ class Login extends React.PureComponent<IProps, IState> {
           {this._renderPasswordInput()}
           {this._renderRememberMeField()}
           {this._renderSubmitButton()}
+          {this._renderError()}
         </form>
       </div>
     );
