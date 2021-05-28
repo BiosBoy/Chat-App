@@ -1,6 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { IProps, IState, TInputsValues } from './interfaces';
+
+import { userLoggedIn } from '../../controller/actions/users';
 
 import globalStyles from '../../styles/index.scss';
 import styles from './index.scss';
@@ -79,10 +82,18 @@ class Login extends React.PureComponent<IProps, IState> {
   }
 
   _setLoginStatus = payload => {
-    this.setState({
-      error: payload.error,
-      message: payload.message
-    })
+    const { userLoggedIn: _userLoggedIn } = this.props;
+
+    if (payload.error) {
+      this.setState({
+        error: payload.error,
+        message: payload.message
+      });
+
+      return;
+    }
+
+    _userLoggedIn();
   }
 
   _setFetchStatus = () => {
@@ -182,7 +193,7 @@ class Login extends React.PureComponent<IProps, IState> {
   }
 
   _renderError = () => {
-    const { error, message } = this.state
+    const { error, message } = this.state;
 
     if (!error) {
       return null;
@@ -190,7 +201,7 @@ class Login extends React.PureComponent<IProps, IState> {
 
     return (
       <span className={styles.error}>{message}</span>
-    )
+    );
   }
 
   render() {
@@ -213,4 +224,8 @@ class Login extends React.PureComponent<IProps, IState> {
   }
 }
 
-export default Login;
+const mapDispatchToState = ({
+  userLoggedIn
+});
+
+export default connect(null, mapDispatchToState)(Login);

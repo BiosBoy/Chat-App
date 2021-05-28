@@ -1,7 +1,8 @@
 const USERS_DATA_MOCKS = [
   {
-    email: 'asdas@sdfsdf.com',
-    password: '1242_21sf'
+    email: 'test@test.com',
+    name: 'test',
+    password: 'testpass'
   }
 ];
 

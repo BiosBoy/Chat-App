@@ -1,4 +1,5 @@
 export interface IProps {
+  userLoggedIn: () => void
   messageType: string
 }
 
