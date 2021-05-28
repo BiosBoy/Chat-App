@@ -3,17 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 class Unit extends React.PureComponent {
-  static defaultProps = {
-    currentChat: {},
-    isCurrentUser: false,
-    currentUser: {},
-    chats: [],
-    unreadedMessages: [],
-    createNewDirectChat: () => {},
-    chatSelected: () => {},
-    unreadedMessagesRead: () => {}
-  }
-
   static propTypes = {
     isCurrentUser: PropTypes.bool,
     currentUser: PropTypes.object,
@@ -36,6 +25,17 @@ class Unit extends React.PureComponent {
       isConnected: PropTypes.bool.isRequired
     }).isRequired,
     unreadedMessagesRead: PropTypes.func
+  }
+
+  static defaultProps = {
+    currentChat: {},
+    isCurrentUser: false,
+    currentUser: {},
+    chats: [],
+    unreadedMessages: [],
+    createNewDirectChat: () => {},
+    chatSelected: () => {},
+    unreadedMessagesRead: () => {}
   }
 
   constructor(props) {

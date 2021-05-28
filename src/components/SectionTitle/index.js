@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class SectionTitle extends React.PureComponent {
-  static defaultProps = {
-    title: '',
-    children: []
-  }
-
   static propTypes = {
     title: PropTypes.string,
     children: PropTypes.node
+  }
+
+  static defaultProps = {
+    title: '',
+    children: []
   }
 
   render() {

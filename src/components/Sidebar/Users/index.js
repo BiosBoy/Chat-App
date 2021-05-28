@@ -5,14 +5,6 @@ import Unit from '../../../containers/Unit';
 import Placeholder from '../../LoadingPlaceholder';
 
 class UsersList extends React.PureComponent {
-  static defaultProps = {
-    currentUser: {
-      uuid: null,
-      name: ''
-    },
-    users: []
-  }
-
   static propTypes = {
     currentUser: PropTypes.shape({
       uuid: PropTypes.number,
@@ -28,6 +20,14 @@ class UsersList extends React.PureComponent {
         })
       ).isRequired
     })
+  }
+
+  static defaultProps = {
+    currentUser: {
+      uuid: null,
+      name: ''
+    },
+    users: []
   }
 
   _sortUserByTimestamp = (sortA, sortB) => {

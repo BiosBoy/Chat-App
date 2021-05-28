@@ -12,6 +12,7 @@ class AddMessage extends React.PureComponent {
     dispatchMessage: PropTypes.func.isRequired,
     currentChat: PropTypes.object.isRequired,
     currentUser: PropTypes.shape({
+      connectionStatus: PropTypes.string,
       uuid: PropTypes.number,
       name: PropTypes.string
     }).isRequired

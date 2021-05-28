@@ -24,12 +24,12 @@ const ZONES_TRANSLATE_SHIFT = {
 };
 
 class Sidebar extends React.PureComponent {
-  static defaultProps = {
-    showSidebar: false
-  }
-
   static propTypes = {
     showSidebar: PropTypes.bool
+  }
+
+  static defaultProps = {
+    showSidebar: false
   }
 
   constructor(props) {
