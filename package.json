@@ -37,7 +37,8 @@
     ]
   },
   "scripts": {
-    "start": "better-npm-run start",
+    "start:server": "better-npm-run start:server",
+    "start:ui": "better-npm-run start:ui",
     "start:dev": "better-npm-run start:dev",
     "start:prod": "better-npm-run start:prod",
     "start:test": "better-npm-run start:test",
@@ -58,15 +59,22 @@
         "DEBUG": "app:*"
       }
     },
-    "start": {
-      "command": "node server/index.js",
+    "start:server": {
+      "command": "pm2 restart ./server/index.js --no-daemon",
+      "env": {
+        "NODE_ENV": "development",
+        "DEBUG": "app:*"
+      }
+    },
+    "start:ui": {
+      "command": "node webpack/server.ts",
       "env": {
         "NODE_ENV": "development",
         "DEBUG": "app:*"
       }
     },
     "start:dev": {
-      "command": "node webpack/server.ts & node server/index.js",
+      "command": "pm2 restart server/index.js & node webpack/server.ts",
       "env": {
         "NODE_ENV": "development",
         "DEBUG": "app:*"
