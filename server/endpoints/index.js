@@ -1,26 +1,17 @@
 const express = require('express');
 const endpointsAPI = express.Router();
 
-const USERS_DATA_MOCKS = [
-  {
-    email: 'asdas@sdfsdf.com',
-    password: '1242_21sf'
-  }
-];
+const USERS_DATA_MOCKS = require('../db/index');
 
 endpointsAPI
   .get('/fetch', (req, res) => res.send(JSON.stringify('Hello World!')))
   .post('/login', (req, res) => {
-    console.log('Login Attempt:', req.body, req.sessionID);
+    const isUserFounded = USERS_DATA_MOCKS.some(user => {
+      const { email, name, password } = user;
+      const isEmailMatch = /.*@.*\.\w+/i.test(req.body.email);
+      const isUserMatch = isEmailMatch ? email === req.body.email : name === req.body.email;
 
-    let isUserFounded = false;
-
-    USERS_DATA_MOCKS.forEach(user => {
-      const { email, password } = user;
-
-      if (email === req.body.email && password === req.body.password) {
-        isUserFounded = true;
-      }
+      return isUserMatch && password === req.body.password;
     });
 
     if (!isUserFounded) {
