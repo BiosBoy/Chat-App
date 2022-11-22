@@ -448,7 +448,7 @@
 .popUpContainer.login {
   z-index: 10000;
   max-width: 420px;
-  max-height: 350px;
+  max-height: 370px;
   transition: all .2s linear;
 }
 

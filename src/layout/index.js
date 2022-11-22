@@ -73,7 +73,7 @@ class AppLayout extends React.Component {
 const mapStateToProps = state => ({
   connectionStatus: state.currentUser.connectionStatus,
   disableBlurOverlay: state.common.disableBlurOverlay,
-  isAuth: state.currentUser.isAuth
+  isAuth: state.currentUser.isLogged
 });
 
 export default connect(
