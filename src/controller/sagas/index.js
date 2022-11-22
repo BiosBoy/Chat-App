@@ -22,6 +22,8 @@ function sendTyping(socket) {
       cookie: getCookie('cookieUUID')
     };
 
+    console.log(socket, actionPayload, 'TYPING');
+
     socket.send(JSON.stringify(actionPayload));
   };
 }
