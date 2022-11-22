@@ -4,6 +4,7 @@ export interface IProps {
 }
 
 export interface IState {
+  isClosed?: boolean
   isFetch: boolean
   isWithCredits: boolean
   error: boolean
@@ -12,4 +13,4 @@ export interface IState {
   passwordValue: string
 }
 
-export type TInputsValues = 'passwordValue' | 'emailValue';
+export type TInputsValues = 'passwordValue' | 'emailValue'

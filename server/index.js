@@ -9,7 +9,7 @@ const MemoryStore = require('memorystore')(session);
 const webSocketsServer = require('./websockets');
 const endpoints = require('./endpoints');
 const cors = require('./utils/cors');
-const { PORT, INDEX, STATIC } = require('./constants');
+const { PORT, STATIC } = require('./constants');
 
 // ----------------------
 // Server Configuration
@@ -43,7 +43,7 @@ const server = express()
   }))
   .use(express.static(STATIC))
   .use(endpoints)
-  .use('*', (req, res) => res.sendFile(INDEX))
+  // .use('*', (req, res) => res.sendFile(INDEX))
   .listen(PORT);
 
 // ----------------------
@@ -51,4 +51,4 @@ const server = express()
 // ----------------------
 webSocketsServer(server);
 
-debug('Express App Server is Started! Port: ', process.env.PORT || 80);
+debug('Express App Server is Started! Port: ', PORT);

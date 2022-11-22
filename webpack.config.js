@@ -59,7 +59,6 @@ const rules = [
       {
         loader: 'css-loader',
         options: {
-          importLoaders: 2,
           modules: true,
           localIdentName: '[local]___[hash:base64:5]'
         }

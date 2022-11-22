@@ -37,8 +37,7 @@
     ]
   },
   "scripts": {
-    "start:server": "better-npm-run start:server",
-    "start:ui": "better-npm-run start:ui",
+    "start": "better-npm-run start",
     "start:dev": "better-npm-run start:dev",
     "start:prod": "better-npm-run start:prod",
     "start:test": "better-npm-run start:test",
@@ -59,23 +58,17 @@
         "DEBUG": "app:*"
       }
     },
-    "start:server": {
-      "command": "pm2 restart ./server/index.js --no-daemon",
-      "env": {
-        "NODE_ENV": "development",
-        "DEBUG": "app:*"
-      }
-    },
-    "start:ui": {
-      "command": "node webpack/server.ts",
+    "start": {
+      "command": "node server/index.js",
       "env": {
         "NODE_ENV": "development",
         "DEBUG": "app:*"
       }
     },
     "start:dev": {
-      "command": "pm2 restart server/index.js & node webpack/server.ts",
+      "command": "node webpack/server.ts & node server/index.js",
       "env": {
+        "__DEV__": "true",
         "NODE_ENV": "development",
         "DEBUG": "app:*"
       }
@@ -175,7 +168,6 @@
     "lint-staged": "^8.1.0",
     "memorystore": "^1.6.1",
     "mini-css-extract-plugin": "^0.5.0",
-    "node-sass": "^4.13.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "path": "^0.12.7",
     "postcss-cssnext": "^3.1.0",
@@ -199,6 +191,7 @@
     "redux-saga": "^0.16.2",
     "redux-saga-watch-actions": "^0.2.0",
     "regenerator-runtime": "^0.13.1",
+    "sass": "^1.56.1",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "stylelint": "^9.9.0",

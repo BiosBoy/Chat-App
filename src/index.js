@@ -27,15 +27,6 @@ const renderError = error => {
 // This code is excluded from production bundle
 if (__DEV__) {
   window.store = store;
-
-  const getCookie = async() => {
-    await fetch('http://localhost:80', {
-      method: 'get',
-      credentials: 'include'
-    });
-  };
-
-  getCookie();
   // ========================================================
   // DEVELOPMENT STAGE! HOT MODULE REPLACE ACTIVATION!
   // ========================================================

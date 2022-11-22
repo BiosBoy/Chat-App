@@ -6,6 +6,7 @@ const sessionDecorators = require('./sessionDecorators');
 const eventHandlers = require('./eventHandlers');
 
 const { REMOVE_USER } = require('./constants');
+const { PORT } = require('../constants');
 
 const webSocketsServer = expressServerConfiguration => {
   const wss = new WebSocket.Server({ server: expressServerConfiguration });
@@ -55,7 +56,7 @@ const webSocketsServer = expressServerConfiguration => {
     });
   });
 
-  debug('Chat App Server is Started! Port: ', process.env.PORT || 80);
+  debug('Chat App Server is Started! Port: ', PORT);
 };
 
 module.exports = webSocketsServer;

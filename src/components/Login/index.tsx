@@ -1,67 +1,72 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from 'react'
+import { connect } from 'react-redux'
 
-import { IProps, IState, TInputsValues } from './interfaces';
+import { IProps, IState, TInputsValues } from './interfaces'
 
-import { userLoggedIn } from '../../controller/actions/users';
+import { userLoggedIn } from '../../controller/actions/users'
 
-import globalStyles from '../../styles/index.scss';
-import styles from './index.scss';
+import globalStyles from '../../styles/index.scss'
+import styles from './index.scss'
 
-import { AUTH_END_POINT } from '../../constants/API';
+import { JOIN_END_POINT } from '../../constants/API'
 
 const LOGIN_MESSAGES = {
-  notLogged: 'You\'re not logged :( Please make a sign in.'
-};
+  notLogged: 'Please identify yourself :)'
+}
 
 class Login extends React.PureComponent<IProps, IState> {
   constructor(props: IProps) {
-    super(props);
+    super(props)
 
     this.state = {
+      isClosed: false,
       isFetch: false,
-      isWithCredits: false,
+      isWithCredits: true,
       error: null,
       message: null,
       emailValue: '',
       passwordValue: ''
-    };
+    }
   }
 
   _handleChange = ({ target }) => {
-    const { value, id } = target;
-    const normalizedID = (id && id.substr(1, id.length)) || '';
-    const normalizedKey = `${normalizedID}Value` as TInputsValues;
+    const { value, id } = target
+    const normalizedID = (id && id.substr(1, id.length)) || ''
+    const normalizedKey = `${normalizedID}Value` as TInputsValues
 
     // @ts-ignore
     this.setState({
       [normalizedKey]: value
-    });
+    })
   }
 
   _handlerCheck = () => {
-    const { isFetch } = this.state;
+    const { isFetch } = this.state
 
     if (isFetch) {
-      return;
+      return
     }
 
     this.setState(prevState => ({
       isWithCredits: !prevState.isWithCredits
-    }));
+    }))
   }
 
   _handlerSubmit = e => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (!this._checkFilledForm()) {
-      return;
+      return
     }
 
-    const { isWithCredits, passwordValue, emailValue } = this.state;
+    const { isWithCredits, passwordValue, emailValue } = this.state
 
-    this._setFetchStatus();
-    this._loginAttempt({ email: emailValue, password: passwordValue, isRemember: isWithCredits });
+    this._setFetchStatus()
+    this._loginAttempt({ email: emailValue, password: passwordValue, isRemember: isWithCredits })
+  }
+
+  _handleClose = () => {
+    this.props.userLoggedIn()
   }
 
   _loginAttempt = async requestPayload => {
@@ -71,144 +76,156 @@ class Login extends React.PureComponent<IProps, IState> {
       headers: {
         'Content-Type': 'application/json'
       }
-    };
+    }
 
-    const response = await fetch(AUTH_END_POINT, options);
-    const payload = await response.json();
+    const response = await fetch(JOIN_END_POINT, options)
+    const payload = await response.json()
 
-    this._setFetchStatus();
-    this._setLoginStatus(payload);
-    this._setSession(payload.sessionID);
+    this._setFetchStatus()
+    this._setLoginStatus(payload)
+    this._setSession(payload.sessionID)
   }
 
   _setLoginStatus = payload => {
-    const { userLoggedIn: _userLoggedIn } = this.props;
+    const { userLoggedIn: _userLoggedIn } = this.props
 
     if (payload.error) {
       this.setState({
         error: payload.error,
         message: payload.message
-      });
+      })
 
-      return;
+      return
     }
 
-    _userLoggedIn();
+    _userLoggedIn()
   }
 
   _setFetchStatus = () => {
     this.setState(prevState => ({
       isFetch: !prevState.isFetch
-    }));
+    }))
   }
 
   _setSession = sessionID => {
-    const { isWithCredits } = this.state;
+    const { isWithCredits } = this.state
 
     if (!isWithCredits || !sessionID) {
-      return;
+      return
     }
 
-    sessionStorage.setItem('chatSessionID', sessionID);
+    sessionStorage.setItem('chatSessionID', sessionID)
   }
 
   _checkFilledForm = () => {
-    const { emailValue, passwordValue } = this.state;
+    const { emailValue, passwordValue } = this.state
 
-    const isFormFilled = emailValue && emailValue.length !== 0 && (passwordValue && passwordValue.length !== 0);
+    const isFormFilled = emailValue && emailValue.length !== 0 && passwordValue && passwordValue.length !== 0
 
-    return isFormFilled;
+    return isFormFilled
   }
 
   _renderEmailInput = () => {
-    const { isFetch, emailValue } = this.state;
+    const { isFetch, emailValue } = this.state
 
     return (
       <div className={styles.container}>
-        <label className={`${styles.label} ${styles.labelEmail}`} htmlFor='email' />
+        <label className={`${styles.label} ${styles.labelEmail}`} htmlFor="email" />
         <input
-          id='#email'
+          id="#email"
           className={`${styles.formInput} ${isFetch && styles.formInputDisabled}`}
           onChange={this._handleChange}
           value={emailValue}
-          type='email'
-          placeholder='your email'
+          type="email"
+          placeholder="your email"
         />
       </div>
-    );
+    )
   }
 
   _renderPasswordInput = () => {
-    const { isFetch, passwordValue } = this.state;
+    const { isFetch, passwordValue } = this.state
 
     return (
       <div className={styles.container}>
-        <label className={`${styles.label} ${styles.labelPassword}`} htmlFor='password' />
+        <label className={`${styles.label} ${styles.labelPassword}`} htmlFor="password" />
         <input
-          id='#password'
+          id="#password"
           className={`${styles.formInput} ${isFetch && styles.formInputDisabled}`}
           onChange={this._handleChange}
           value={passwordValue}
-          type='password'
-          placeholder='your password'
+          type="password"
+          placeholder="your password"
         />
       </div>
-    );
+    )
   }
 
   _renderRememberMeField = () => {
-    const { isFetch, isWithCredits } = this.state;
+    const { isFetch, isWithCredits } = this.state
 
     return (
       <div className={`${styles.container} ${styles.rememberContainer}`}>
         <input
           onChange={this._handlerCheck}
-          id='checkbox'
+          id="checkbox"
           className={`${styles.checkbox} ${isFetch && styles.disabledCursor}`}
-          type='checkbox'
+          type="checkbox"
           checked={isWithCredits}
         />
-        <label htmlFor='checkbox' className={`${styles.labelText} ${isFetch && styles.disabledCursor}`}>
+        <label htmlFor="checkbox" className={`${styles.labelText} ${isFetch && styles.disabledCursor}`}>
           Remember Me
         </label>
       </div>
-    );
+    )
   }
 
   _renderSubmitButton = () => {
-    const { isFetch } = this.state;
-    const isFormFilled = this._checkFilledForm();
+    const { isFetch } = this.state
+    const isFormFilled = this._checkFilledForm()
 
     return (
       <div className={styles.container}>
         <button
           onClick={this._handlerSubmit}
           className={`${styles.formButton} ${isFormFilled && styles.formButtonActive}`}
-          type='submit'
+          type="submit"
         >
-          {isFetch ? <span className={`${globalStyles.spinner} ${styles.fetchSpinner}`} /> : 'Log in'}
+          {isFetch ? <span className={`${globalStyles.spinner} ${styles.fetchSpinner}`} /> : 'Join chat'}
         </button>
       </div>
-    );
+    )
+  }
+
+  _renderCloseButton = () => {
+    return (
+      <button onClick={this._handleClose} className={styles.closeButton} type="submit">
+        <span>X</span>
+      </button>
+    )
   }
 
   _renderError = () => {
-    const { error, message } = this.state;
+    const { error, message } = this.state
 
     if (!error) {
-      return null;
+      return null
     }
 
-    return (
-      <span className={styles.error}>{message}</span>
-    );
+    return <span className={styles.error}>{message}</span>
   }
 
   render() {
-    const { messageType } = this.props;
+    const { isClosed } = this.state
+    const { messageType } = this.props
+
+    if (isClosed) {
+      return null
+    }
 
     return (
       <div className={styles.formWrap}>
+        {this._renderCloseButton()}
         <div className={styles.loginHeadline}>
           <span className={styles.headlineText}>{LOGIN_MESSAGES[messageType]}</span>
         </div>
@@ -220,12 +237,12 @@ class Login extends React.PureComponent<IProps, IState> {
           {this._renderError()}
         </form>
       </div>
-    );
+    )
   }
 }
 
-const mapDispatchToState = ({
+const mapDispatchToState = {
   userLoggedIn
-});
+}
 
-export default connect(null, mapDispatchToState)(Login);
+export default connect(null, mapDispatchToState)(Login)

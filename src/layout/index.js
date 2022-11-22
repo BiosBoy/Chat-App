@@ -38,9 +38,9 @@ class AppLayout extends React.Component {
   }
 
   _renderEnhancers = () => {
-    const { isAuth } = this.props;
+    const { isAuth, connectionStatus } = this.props;
 
-    if (isAuth) {
+    if (isAuth || connectionStatus !== 'connected') {
       return null;
     }
 

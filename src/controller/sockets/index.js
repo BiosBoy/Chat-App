@@ -22,6 +22,9 @@ import { WSS_END_POINT } from '../../constants/API';
 
 const setupSocket = ({ getState, dispatch }, username) => {
   const socket = new WebSocket(WSS_END_POINT);
+
+  console.log(socket, 'TSS');
+
   const { startPostponeTimer, clearPostponeTimer } = postponeDebugTimers(dispatch);
 
   dispatch(userInitializationStart());
