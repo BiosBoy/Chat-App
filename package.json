@@ -38,7 +38,7 @@
   },
   "scripts": {
     "start": "better-npm-run start",
-    "start_new": "NODE_ENV=production node webpack/server.ts & node server/index.js",
+    "start_new": "DEBUG=app:* NODE_ENV=production node webpack/server.ts & node server/index.js",
     "start:dev": "better-npm-run start:dev",
     "start:prod": "better-npm-run start:prod",
     "start:test": "better-npm-run start:test",

@@ -51,4 +51,5 @@ const server = express()
 // ----------------------
 webSocketsServer(server);
 
+console.log('Express App Server is Started! Port 1: ', PORT);
 debug('Express App Server is Started! Port: ', PORT);
