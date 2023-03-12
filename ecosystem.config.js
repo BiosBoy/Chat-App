@@ -10,7 +10,7 @@ module.exports = {
       max_memory_restart: '300M',
       ignore_watch: ['node_modules', 'assets', 'public'],
       env: {
-        PORT: '5137'
+        PORT: '3002'
       }
     }
   ]
