@@ -1,15 +1,17 @@
 module.exports = {
-  apps: [{
-    script: './server/index.js',
-    watch: true,
-    wait_ready: true,
-    no_daemon: true,
-    ignore_watch: ['node_modules', 'client/img'],
-    watch_options: {
-      followSymlinks: false
+  apps: [
+    {
+      name: 'chat_app',
+      script: 'yarn start_new',
+      instances: 1,
+      max_restarts: 5,
+      restart_delay: 4000,
+      autorestart: true,
+      max_memory_restart: '300M',
+      ignore_watch: ['node_modules', 'assets', 'public'],
+      env: {
+        PORT: '5137'
+      }
     }
-  }],
-  deploy: {
-    production: {}
-  }
+  ]
 };
