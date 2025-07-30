@@ -1,149 +1,193 @@
-// import global vars for a whole app
-require('./globals');
-
-const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+
+// CSS Optimization Plugins
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
+// JS Optimization Plugins
+const TerserPlugin = require('terser-webpack-plugin');
+
+// HTML Optimization Plugins`
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
+
+// Helpers
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const debug = require('debug')('app:webpack');
+const debug = require('debug')('app:webpack::config');
+
+const globals = require('./globals');
 
 // ------------------------------------
 // RULES INJECTION!
 // ------------------------------------
-const rules = [
+const fileLoadersRules = [
   // PRELOAD CHECKING
-  {
-    enforce: 'pre',
-    test: /\.(js|jsx)?$/,
-    exclude: /(node_modules|bower_components)/,
-    loader: 'eslint-loader',
-    options: {
-      quiet: true
-    }
-  },
-  {
-    enforce: 'pre',
-    test: /\.(ts|tsx)?$/,
-    exclude: /(node_modules|bower_components)/,
-    loader: 'tslint-loader',
-    options: {
-      quiet: true,
-      tsConfigFile: './tsconfig.json'
-    }
-  },
+  // if you would like to lint files on each hot module reload
+  // {
+  //   enforce: 'pre',
+  //   test: /\.(js|jsx)?$/,
+  //   exclude: /(node_modules|bower_components)/,
+  //   use: {
+  //     loader: 'eslint-loader',
+  //     options: {
+  //       quiet: true
+  //     }
+  //   }
+  // },
+  // {
+  //   enforce: 'pre',
+  //   test: /\.(ts|tsx)?$/,
+  //   exclude: /(node_modules|bower_components)/,
+  //   use: {
+  //     loader: 'tslint-loader',
+  //     options: {
+  //       quiet: true,
+  //       tsConfigFile: './tsconfig.json'
+  //     }
+  //   }
+  // },
   // JAVASCRIPT/JSON
   {
     test: /\.html$/,
-    use: {
-      loader: 'html-loader'
-    }
+    use: ['html-loader']
   },
   {
     test: /\.(js|jsx|ts|tsx)?$/,
-    exclude: /(node_modules|bower_components)/,
-    loader: 'babel-loader'
-  },
-  {
-    type: 'javascript/auto',
-    test: /\.json$/,
-    loader: 'json-loader'
+    exclude: [/(node_modules|bower_components)/, /\.d\.ts$/],
+    use: [
+      {
+        loader: 'ts-loader',
+        options: {
+          compilerOptions: {
+            target: __DEV__ ? 'ES2019' : 'ES5'
+          }
+        }
+      }
+    ]
   },
   // STYLES
   {
-    test: /(\.scss)$/,
+    test: /\.css$/,
     use: [
-      __PROD__ ? MiniCssExtractPlugin.loader : 'style-loader',
       {
-        loader: 'css-loader',
-        options: {
-          modules: true,
-          localIdentName: '[local]___[hash:base64:5]'
-        }
+        loader: MiniCssExtractPlugin.loader
       },
-      'postcss-loader',
-      'sass-loader'
+      {
+        loader: 'css-loader'
+      },
+      {
+        loader: 'postcss-loader'
+      }
     ]
   },
   {
-    test: /(\.css)$/,
+    test: /.scss$/,
     use: [
-      __PROD__ ? MiniCssExtractPlugin.loader : 'style-loader',
+      {
+        loader: MiniCssExtractPlugin.loader
+      },
+      {
+        loader: 'css-modules-typescript-loader'
+      },
       {
         loader: 'css-loader',
         options: {
-          modules: false
+          url: {
+            filter: (url) => url.includes('~@')
+          },
+          modules: {
+            localIdentName: '[local]___[hash:base64:5]'
+          }
         }
       },
-      'postcss-loader',
-      'sass-loader'
+      {
+        loader: 'postcss-loader'
+      },
+      {
+        loader: 'sass-loader',
+        options: {
+          sassOptions: {
+            data: `
+              @import "mediaTypes.scss";
+              @import "constants.scss";
+              @import "colors.scss";
+            `,
+            includePaths: [path.resolve(__dirname, './src/styles')]
+          }
+        }
+      }
     ]
   },
   // FILE/IMAGES
   {
-    test: /\.woff(\?.*)?$/,
-    loader: 'url-loader?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff'
+    test: /\.(jpe?g|png|webp|gif|woff|woff2|eot|otf|ttf|svg)(\?[a-z0-9=.]+)?$/,
+    type: 'asset/resource'
   },
   {
-    test: /\.woff2(\?.*)?$/,
-    loader: 'url-loader?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff2'
-  },
-  {
-    test: /\.otf(\?.*)?$/,
-    loader: 'file-loader?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=font/opentype'
-  },
-  {
-    test: /\.ttf(\?.*)?$/,
-    loader: 'url-loader?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/octet-stream'
-  },
-  {
-    test: /\.eot(\?.*)?$/,
-    loader: 'file-loader?prefix=fonts/&name=[path][name].[ext]'
-  },
-  {
-    test: /\.svg(\?.*)?$/,
-    loader: 'url-loader?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=image/svg+xml'
-  },
-  {
-    test: /\.(png|jpg)$/,
-    loader: 'url-loader?limit=8192'
+    test: /\.pdf/,
+    type: 'asset/resource'
   }
 ];
 
 // ------------------------------------
 // BUNDLES OPTIMIZATION
 // ------------------------------------
-const optimization = {
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      minChunks: 2
-    },
-    minimizer: [
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          warnings: false,
-          compress: {
-            unused: true,
-            dead_code: true
-          }
-        },
-        sourceMap: true
-      }),
-      new OptimizeCSSAssetsPlugin({})
-    ]
+const compOptimization = {
+  splitChunks: {
+    chunks: 'all',
+    minChunks: 2
   },
-  performance: {
-    hints: false
-  }
+  minimize: __PROD__, // webpack grab it only for production!
+  minimizer: [
+    new TerserPlugin({
+      test: /\.(js|jsx|ts|tsx)?$/i,
+      exclude: [/\.d\.ts$/],
+      parallel: true,
+      extractComments: false,
+      terserOptions: {
+        module: true,
+        output: {
+          ecma: '5',
+          comments: false,
+          beautify: false
+        },
+        compress: {
+          ecma: '5',
+          toplevel: true,
+          dead_code: true
+        }
+      }
+    }),
+    new OptimizeCSSAssetsPlugin({})
+  ]
 };
 
 // ------------------------------------
 // STAGE PLUGINS INJECTION! [DEVELOPMENT, PRODUCTION, TESTING]
 // ------------------------------------
-const stagePlugins = {
+const plugins = [
+  new webpack.DefinePlugin({
+    __DEV__,
+    __PROD__,
+    __TEST__,
+    ...globals
+  }),
+  new MiniCssExtractPlugin({
+    filename: __DEV__ ? '[name].css' : 'css/[name].[fullhash].css',
+    chunkFilename: __DEV__ ? '[id].css' : 'css/[name].[fullhash].css'
+  }),
+  new webpack.SourceMapDevToolPlugin({
+    test: /\.(js|jsx|ts|tsx|json|css)$/,
+    filename: '[file].map[query]',
+    exclude: ['vendor.js', '**/*.d.ts'],
+  })
+];
+
+// ------------------------------------
+// Extra Plugins By Running Mode
+// ------------------------------------
+const extraPluginsByModes = {
   test: [new BundleAnalyzerPlugin()],
   development: [
     new HtmlWebpackPlugin({
@@ -153,22 +197,17 @@ const stagePlugins = {
       minify: false,
       chunksSortMode: 'auto'
     }),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.HotModuleReplacementPlugin()
   ],
   production: [
-    new MiniCssExtractPlugin({
-      filename: '[name].[hash].css',
-      chunkFilename: '[name].[hash].css'
-    }),
     new HtmlWebpackPlugin({
       template: path.resolve('./src/index.html'),
       filename: 'index.html',
       inject: 'body',
-      minify: {
-        collapseWhitespace: true
-      },
       chunksSortMode: 'auto'
+    }),
+    new WebpackManifestPlugin({
+      fileName: 'assets-manifest.json'
     })
   ]
 };
@@ -187,6 +226,10 @@ const stageConfig = {
   },
   development: {
     devtool: 'source-map',
+    devServer: {
+      contentBase: './src',
+      hot: true
+    },
     stats: {
       chunks: true,
       chunkModules: true,
@@ -203,72 +246,88 @@ const stageConfig = {
   }
 };
 
+// ------------------------------------
+// Entry Points
+// ------------------------------------
+const entryPoints = {
+  test: [path.resolve(__dirname, 'src/index.js'), 'webpack-hot-middleware/client?path=/__webpack_hmr'],
+  development: [path.resolve(__dirname, 'src/index.js'), 'webpack-hot-middleware/client?path=/__webpack_hmr'],
+  production: path.resolve(__dirname, 'src/index.js')
+};
+
+// ------------------------------------
+// Bundle externals
+// ------------------------------------
+const externalBundles = {
+  react: 'React',
+  'react-dom': 'ReactDOM',
+  'react-dom/server': 'ReactDOMServer'
+};
+
+// ------------------------------------
+// Bundle Output
+// ------------------------------------
+const outputBundles = {
+  filename: 'js/[name].[fullhash].js',
+  chunkFilename: 'js/[name].[fullhash].js',
+  assetModuleFilename: 'assets/[name].[hash][ext]',
+  path: path.resolve(__dirname, 'public'),
+  publicPath: '/'
+};
+
 const createConfig = () => {
-  debug('Creating configuration.');
-  debug(`Enabling devtools for '${__NODE_ENV__} Mode!'`);
+  debug('\x1b[36m', '=== Prepearing Webpack to work... ===');
+  debug('\x1b[35m', `✔ mode: ${__NODE_ENV__}`);
 
   const webpackConfig = {
-    mode: __DEV__ ? 'development' : 'production',
+    mode: __PROD__ ? 'production' : 'development',
     name: 'client',
     target: 'web',
+    optimization: compOptimization,
+    performance: {
+      hints: false
+    },
     devtool: stageConfig[__NODE_ENV__].devtool,
     stats: stageConfig[__NODE_ENV__].stats,
-    module: {
-      rules: [...rules]
+    entry: {
+      app: entryPoints[__NODE_ENV__]
     },
-    ...optimization,
+    externals: externalBundles,
+    output: outputBundles,
+    module: {
+      rules: fileLoadersRules
+    },
+    plugins: [...plugins, ...extraPluginsByModes[__NODE_ENV__]],
     resolve: {
       modules: ['node_modules'],
-      extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
+      roots: [__dirname],
+      extensions: [
+        '.ts',
+        '.tsx',
+        '.js',
+        '.jsx',
+        '.json',
+        '.eot',
+        '.png',
+        '.jpg',
+        '.jpeg',
+        '.webp',
+        '.woff',
+        '.svg',
+        '.woff2',
+        '.ttf',
+        '.scss',
+        '.css'
+      ],
+      alias: {
+        '@styles': path.resolve(__dirname, './src/styles'),
+        '@assets': path.resolve(__dirname, './assets')
+      }
     }
   };
 
-  // ------------------------------------
-  // Entry Points
-  // ------------------------------------
-  const appEnterPrefixPlugins = ['babel-polyfill'];
-  const appPath = path.resolve(__dirname, 'src/index.js');
-  const appEntryPoint = [...appEnterPrefixPlugins, appPath];
+  debug('\x1b[36m', '=== Webpack is configured successfuly! ===');
 
-  webpackConfig.entry = {
-    app: __DEV__ ? appEntryPoint.concat('webpack-hot-middleware/client?path=/__webpack_hmr') : appEntryPoint
-  };
-
-  // ------------------------------------
-  // Bundle externals
-  // ------------------------------------
-  webpackConfig.externals = {
-    react: 'React',
-    'react-dom': 'ReactDOM'
-  };
-
-  // ------------------------------------
-  // Bundle Output
-  // ------------------------------------
-  webpackConfig.output = {
-    filename: '[name].[hash].js',
-    chunkFilename: '[name].[hash].js',
-    path: path.resolve(__dirname, 'public'),
-    publicPath: '/'
-  };
-
-  // ------------------------------------
-  // Plugins
-  // ------------------------------------
-  debug(`Enable plugins for '${__NODE_ENV__} Mode!'`);
-  webpackConfig.plugins = [
-    new webpack.DefinePlugin({
-      __DEV__,
-      __PROD__,
-      __TEST__
-    }),
-    ...stagePlugins[__NODE_ENV__]
-  ];
-
-  // ------------------------------------
-  // Finishing the Webpack configuration!
-  // ------------------------------------
-  debug(`Webpack Bundles is Ready for '${__NODE_ENV__} Mode!'`);
   return webpackConfig;
 };
 

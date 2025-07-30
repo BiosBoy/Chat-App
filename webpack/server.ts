@@ -16,8 +16,8 @@ const bundler = webpack(webpackConfig)
 // ========================================================
 const devMiddlewareOptions = {
   publicPath: webpackConfig.output.publicPath,
-  hot: __DEV__ ? true : false
-}
+  headers: { 'Access-Control-Allow-Origin': '*' }
+};
 // ========================================================
 // Server Configuration
 // ========================================================

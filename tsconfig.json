@@ -30,6 +30,7 @@
     "node_modules",
     "**/*.test.ts",
     "server",
+    "**/*.d.ts",
     "public"
   ]
 }
